@@ -1,3 +1,3 @@
 <?php
 
-echo "<h1>View</h1>";
+echo "Yo";
