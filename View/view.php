@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 /**
  * Created by PhpStorm.
  * User: adrien
@@ -7,3 +8,7 @@
  */
 
 echo "Same name";
+=======
+
+echo "<h1>View</h1>";
+>>>>>>> origin/master
