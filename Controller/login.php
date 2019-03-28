@@ -62,3 +62,9 @@ function login(){
         echo"<br>";
     }*/
 }
+
+function logout(){
+    session_start();
+    session_destroy();
+    header('Location: ../View/index.php?etat=disconnect');
+}
