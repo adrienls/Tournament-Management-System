@@ -19,7 +19,3 @@ function connectDB($host, $dbName, $user, $password){
     }
 
 }
-function redirect($link) {
-    header("Location: ".$link);
-    exit();
-}
