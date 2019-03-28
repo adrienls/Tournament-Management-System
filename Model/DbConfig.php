@@ -13,8 +13,7 @@ class DbConfig{
     private $password;
     private $dbConnexion = NULL;
 
-    public function __construct($host, $dbName, $user, $password)
-    {
+    public function __construct($host="localhost", $dbName="Tournament-Management-System", $user="testUser", $password="testPassword") {
         $this->host = $host;
         $this->dbName = $dbName;
         $this->user = $user;
@@ -40,6 +39,5 @@ class DbConfig{
         catch (PDOException $e) {
             echo 'Connexion échouée : ' . $e->getMessage();
         }
-
     }
 }
