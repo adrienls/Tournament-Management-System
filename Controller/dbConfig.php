@@ -5,6 +5,7 @@
  * Date: 22/03/19
  * Time: 16:42
  */
+
 function connectDB($host, $dbName, $user, $password){
     $dsn = 'mysql:host='.$host.';dbname='.$dbName;
     try {
@@ -16,6 +17,7 @@ function connectDB($host, $dbName, $user, $password){
         echo 'Connexion échouée : ' . $e->getMessage();
         return NULL;
     }
+
 }
 function redirect($link) {
     header("Location: ".$link);
