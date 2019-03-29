@@ -56,11 +56,11 @@ function login(){
         $_SESSION['id'] = $dbpassword['id'];
         redirect("../View/Admin/adminView.php");
     }
-    /*
+
     else{
-        redirect("../View/login.php?error=bad_logine");
+        redirect("../View/Admin/login.php?error=bad_login");
         echo"<br>";
-    }*/
+    }
 }
 
 function logout(){
