@@ -24,7 +24,7 @@ function newTeam($tournament_id) {
     $logo = $_POST['logo'];
 
     //Verification of all fields
-    if(empty($name) || empty($logo)){
+    if(empty($name) || empty($_FILES['logo']['name'])){
         redirect("../View/Admin/newTeam.php?error=field_missing");
     }
 
@@ -39,22 +39,13 @@ function newTeam($tournament_id) {
     }
 
     //Logo path verification
-    if(!filter_var($logo,FILTER_VALIDATE_URL)){
+    $file = $_FILES['logo']['tmp_name'];
+    $fileDestination = '../Images/'.time().'.txt';
+    $fileSize = $_FILES['logo']['size'];
+    if($fileSize > 100000) {
         redirect("../View/Admin/newTeam.php?error=logo_invalid");
     }
-    If( isset($_FILES['nomFichier']) && !empty($_FILES['nomFichier']['name'])) {
-        $leFichierInit = $_FILES['nomFichier']['name'];
-        $leFichier = $_FILES['nomFichier']['tmp_name'];
-        $destFichier = 'tmp/'.time().'.txt';
-        $leFichierTaille = $_FILES['nomFichier']['size'];
-        $leFichierType = $_FILES['nomFichier']['type'];
-
-        move_uploaded_file( $leFichier,$destFichier );
-        echo "<br><br><br>Le fichier ".$leFichierInit." a été enregistré sous ".$destFichier." et est un fichier du type ".$leFichierType." et a une taille de : ".$leFichierTaille."octets<br>";
-    }
-    else {
-        header('Location: TP5.php?fail=no_file');
-    }
+    move_uploaded_file($file,$fileDestination);
 
     //VERIFICATION TAILLE + DIMENSIONS
 
