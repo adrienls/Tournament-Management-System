@@ -14,7 +14,7 @@ if(isset($_GET['func'])) {
 
 function newTeam($tournament_id) {
 
-    //Connection do database
+    //Connection to database
     $dbConfig = new DbConfig();
     $dbConfig->connectDB();
     $connection = $dbConfig->getDbConnexion();
