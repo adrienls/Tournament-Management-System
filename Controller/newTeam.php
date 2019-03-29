@@ -42,6 +42,19 @@ function newTeam($tournament_id) {
     if(!filter_var($logo,FILTER_VALIDATE_URL)){
         redirect("../View/Admin/newTeam.php?error=logo_invalid");
     }
+    If( isset($_FILES['nomFichier']) && !empty($_FILES['nomFichier']['name'])) {
+        $leFichierInit = $_FILES['nomFichier']['name'];
+        $leFichier = $_FILES['nomFichier']['tmp_name'];
+        $destFichier = 'tmp/'.time().'.txt';
+        $leFichierTaille = $_FILES['nomFichier']['size'];
+        $leFichierType = $_FILES['nomFichier']['type'];
+
+        move_uploaded_file( $leFichier,$destFichier );
+        echo "<br><br><br>Le fichier ".$leFichierInit." a été enregistré sous ".$destFichier." et est un fichier du type ".$leFichierType." et a une taille de : ".$leFichierTaille."octets<br>";
+    }
+    else {
+        header('Location: TP5.php?fail=no_file');
+    }
 
     //VERIFICATION TAILLE + DIMENSIONS
 
