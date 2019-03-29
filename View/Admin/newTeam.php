@@ -20,6 +20,6 @@ if(isset($_SESSION['username'])){
     </form>";
 }
 else {
-    require_once "../../Controller/redirect.php";
+    require_once "../../Controller/GlobalFunctions.php";
     redirect("../index.php");
 }

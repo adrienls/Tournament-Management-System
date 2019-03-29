@@ -1,5 +1,5 @@
 
-<form action="../../Controller/login.php?func=login" method="post">
+<form action="../../Controller/Login.php?func=login" method="post">
     Login : <input type="text" name="login" />
     <br>
     Password : <input type="password" name="password" />

@@ -1,14 +1,12 @@
 <?php
 
-require_once "../../Controller/redirect.php";
+require_once "../../Controller/GlobalFunctions.php";
 
 session_start();
 
 if(isset($_SESSION['username'])){
     if ($_SESSION['username']=="admin") {
-        echo "
-        <h2>New Admin</h2>
-        <form action=\"../../Controller/newAdmin.php?func=newAdmin\" method='post'>
+        echo " method='post'>
             Username : <input type='text' name='username'/>
             <br>
             Password : <input type='password' name='password'/>

@@ -9,6 +9,7 @@
 class Team{
     private $name;
     private $logoPath;
+    private $nbVisit;
 
     public function __construct($name, $logoPath) {
         $this->name = $name;
@@ -18,6 +19,6 @@ class Team{
     public function setName($name) {$this->name = $name;}
     public function getLogoPath() {return $this->logoPath;}
     public function setLogoPath($logoPath) {$this->logoPath = $logoPath;}
-
-
+    public function getNbVisit() {return $this->nbVisit;}
+    public function setNbVisit($nbVisit) {$this->nbVisit = $nbVisit;}
 }

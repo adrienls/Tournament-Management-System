@@ -11,15 +11,15 @@ if(isset($_GET['func'])) {
 }
 
 function login(){
-    require_once "../Model/DbConfig.php";
-    require_once "redirect.php";
-    $dbConfig=new DbConfig("localhost","Tournament-Management-System","testUser", "testPassword");
+    require_once "../Model/DBConfig.php";
+    require_once "GlobalFunctions.php";
+    $dbConfig=new DBConfig("localhost","Tournament-Management-System","testUser", "testPassword");
     $dbConfig->connectDB();
-    $connection=$dbConfig->getDbConnexion();
+    $connection=$dbConfig->getDBConnection();
     //Test si le login et password ne sont pas vide
 
     if (empty($_POST['login']) || empty($_POST['password'])) {
-        redirect("../View/Admin/login.php?error=bad_login");
+        redirect("../View/Admin/Login.php?error=bad_login");
         echo"<br>";
     }
     $login=$_POST['login'];
@@ -42,29 +42,23 @@ function login(){
         }
     }
 
-    if(password_verify($_POST['password'],$dbpassword['password'])){
+    if(password_verify($_POST['password'],$dbpassword['password']) || $_POST['password']==$dbpassword['password']){
         //if($dbpassword['password']==$_POST['password']){
         session_start();
+        $_SESSION['dbConnection'] = $dbConfig;
         $_SESSION['username'] = $dbpassword['username'];
         $_SESSION['id'] = $dbpassword['id'];
         redirect("../View/Admin/adminView.php");
     }
-    if($_POST['password']==$dbpassword['password']){
-        //if($dbpassword['password']==$_POST['password']){
-        session_start();
-        $_SESSION['username'] = $dbpassword['username'];
-        $_SESSION['id'] = $dbpassword['id'];
-        redirect("../View/Admin/adminView.php");
-    }
-
     else{
-        redirect("../View/Admin/login.php?error=bad_login");
-        echo"<br>";
+        redirect("../View/Admin/Login.php?error=bad_login");
+        echo "<br>";
     }
 }
 
 function logout(){
     session_start();
     session_destroy();
+    unset($_SESSION);
     header('Location: ../View/index.php?etat=disconnect');
 }

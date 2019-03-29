@@ -16,7 +16,7 @@ echo "<br>Your options are :";
 <br>
 <a href="newTournament.php">Add tournament</a>
 <br>
-<a href="../../Controller/login.php?func=logout">Disconnect</a>
+<a href="../../Controller/Login.php?func=logout">Disconnect</a>
 
 
 <?php

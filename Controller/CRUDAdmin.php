@@ -1,18 +1,15 @@
 <?php
 
-require_once "redirect.php";
-require_once "../Model/dbConfig.php";
+require_once "GlobalFunctions.php";
+require_once "../Model/DBConfig.php";
 
 if(isset($_GET['func'])) {
     $_GET['func']();
 }
 
-function newAdmin() {
-
+function createAdmin() {
     //Connection to database
-    $dbConfig = new DbConfig();
-    $dbConfig->connectDB();
-    $connection = $dbConfig->getDbConnexion();
+    $connection = connection();
 
     //Fields recovery
     $username = $_POST['username'];
@@ -20,7 +17,7 @@ function newAdmin() {
 
     //Verification of all fields
     if(empty($username) || empty($password)) {
-        redirect("../View/Admin/newAdmin.php?error=field_missing");
+        redirect("../View/Admin/CRUDAdmin.php?error=field_missing");
     }
 
     //Username verification
@@ -29,7 +26,7 @@ function newAdmin() {
     $admins = $queryAdmins->fetchAll();
     foreach ($admins as $admin) {
         if($username == $admin['username']){
-            redirect("../View/Admin/newAdmin.php?error=name_used");
+            redirect("../View/Admin/CRUDAdmin.php?error=name_used");
         }
     }
 
@@ -40,4 +37,12 @@ function newAdmin() {
     $insert->bindParam(':password', $password_encrypted);
     $insert->execute();
     redirect("../View/Admin/superAdmin.php");
+}
+
+function updateAdmin(){
+
+}
+
+function deleteAdmin(){
+
 }

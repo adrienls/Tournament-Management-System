@@ -1,7 +1,7 @@
 <?php
 
-require_once "redirect.php";
-require_once "../Model/dbConfig.php";
+require_once "GlobalFunctions.php";
+require_once "../Model/DBConfig.php";
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -12,12 +12,10 @@ if(isset($_GET['func'])) {
     }
 }
 
-function newTeam($tournament_id) {
+function createTeam($tournament_id) {
 
     //Connection to database
-    $dbConfig = new DbConfig();
-    $dbConfig->connectDB();
-    $connection = $dbConfig->getDbConnexion();
+    $connection = connection();
 
     //Fields recovery
     $name = $_POST['name'];
