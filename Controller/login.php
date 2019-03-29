@@ -19,7 +19,7 @@ function login(){
     //Test si le login et password ne sont pas vide
 
     if (empty($_POST['login']) || empty($_POST['password'])) {
-        redirect("../View/login.php?error=bad_login");
+        redirect("../View/Admin/login.php?error=bad_login");
         echo"<br>";
     }
     $login=$_POST['login'];
@@ -47,14 +47,14 @@ function login(){
         session_start();
         $_SESSION['username'] = $dbpassword['username'];
         $_SESSION['id'] = $dbpassword['id'];
-        redirect("../View/adminView.php");
+        redirect("../View/Admin/adminView.php");
     }
     if($_POST['password']==$dbpassword['password']){
         //if($dbpassword['password']==$_POST['password']){
         session_start();
         $_SESSION['username'] = $dbpassword['username'];
         $_SESSION['id'] = $dbpassword['id'];
-        redirect("../View/adminView.php");
+        redirect("../View/Admin/adminView.php");
     }
     /*
     else{

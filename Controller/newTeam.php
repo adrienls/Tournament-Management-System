@@ -25,7 +25,7 @@ function newTeam($tournament_id) {
 
     //Verification of all fields
     if(empty($name) || empty($logo)){
-        redirect("../View/newTeam.php?error=field_missing");
+        redirect("../View/Admin/newTeam.php?error=field_missing");
     }
 
     //Name verification
@@ -34,13 +34,13 @@ function newTeam($tournament_id) {
     $dbTeams = $queryTeams->fetchAll();
     foreach ($dbTeams as $team) {
         if($name == $team['name']){
-            redirect("../View/newTeam.php?error=name_used");
+            redirect("../View/Admin/newTeam.php?error=name_used");
         }
     }
 
     //Logo path verification
     if(!filter_var($logo,FILTER_VALIDATE_URL)){
-        redirect("../View/newTeam.php?error=logo_invalid");
+        redirect("../View/Admin/newTeam.php?error=logo_invalid");
     }
 
     //VERIFICATION TAILLE + DIMENSIONS
@@ -51,5 +51,5 @@ function newTeam($tournament_id) {
     $insert->bindParam(':tournament_id', $tournament_id);
     $insert->bindParam(':path_logo', $logo);
     $insert->execute();
-    redirect("../View/adminView.php");
+    redirect("../View/Admin/adminView.php");
 }

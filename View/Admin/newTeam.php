@@ -4,7 +4,7 @@ $tournament_id = 1;
 if(isset($_SESSION['username'])){
     echo "
     <h2>New Team</h2>
-    <form action=\"../Controller/newTeam.php?func=newTeam&&id=".$tournament_id."\" method='post'>
+    <form action=\"../../Controller/newTeam.php?func=newTeam&&id=".$tournament_id."\" method='post'>
         Name : <input type='text' name='name'/>
         <br>
         Logo : <input type='text' name='logo'/>
@@ -20,6 +20,6 @@ if(isset($_SESSION['username'])){
     </form>";
 }
 else {
-    require_once "../Controller/redirect.php";
-    redirect("index.php");
+    require_once "../../Controller/redirect.php";
+    redirect("../index.php");
 }
