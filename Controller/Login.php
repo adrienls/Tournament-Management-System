@@ -1,5 +1,8 @@
 <?php
 
+require_once "GlobalFunctions.php";
+
+
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
         $_GET['func']($_GET['id']);

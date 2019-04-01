@@ -4,7 +4,7 @@ $tournament_id = 1;
 if(isset($_SESSION['username'])){
     echo "
     <h2>New Team</h2>
-    <form action=\"../../Controller/newTeam.php?func=newTeam&&id=".$tournament_id."\" method='post' enctype='multipart/form-data'>
+    <form action=\"../../Controller/CRUDTeam.php?func=createTeam&&id=".$tournament_id."\" method='post' enctype='multipart/form-data'>
         Name : <input type='text' name='name'/>
         <br>
         Logo : <input type='file' name='logo' size='100000'/>
