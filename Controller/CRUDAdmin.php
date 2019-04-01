@@ -2,7 +2,6 @@
 
 require_once "GlobalFunctions.php";
 
-
 if(isset($_GET['func'])) {
     $_GET['func']();
 }

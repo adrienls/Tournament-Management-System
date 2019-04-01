@@ -1,5 +1,4 @@
 <?php
-
 require_once "GlobalFunctions.php";
 
 if(isset($_GET['func'])) {
@@ -12,8 +11,6 @@ if(isset($_GET['func'])) {
 }
 
 function createTeam($tournament_id) {
-
-    //Connection to database
     $connection = connectDB();
 
     //Fields recovery
