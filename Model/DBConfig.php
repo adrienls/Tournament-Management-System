@@ -14,6 +14,7 @@ class DBConfig{
     private $dbConnection = NULL;
 
     public function __construct($host="localhost", $dbName="Tournament-Management-System", $user="testUser", $password="testPassword") {
+    //public function __construct($host="localhost", $dbName="Tournament-Management-System", $user="adrien", $password="password") {
         $this->host = $host;
         $this->dbName = $dbName;
         $this->user = $user;
