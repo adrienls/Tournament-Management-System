@@ -1,7 +1,6 @@
 <?php
 
 require_once "GlobalFunctions.php";
-require_once "../Model/DBConfig.php";
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -15,7 +14,7 @@ if(isset($_GET['func'])) {
 function createTeam($tournament_id) {
 
     //Connection to database
-    $connection = connection();
+    $connection = connectDB();
 
     //Fields recovery
     $name = $_POST['name'];

@@ -1,7 +1,6 @@
 <?php
 
 require_once "GlobalFunctions.php";
-require_once "../Model/DBConfig.php";
 
 if(isset($_GET['func'])) {
     $_GET['func']();
@@ -9,7 +8,7 @@ if(isset($_GET['func'])) {
 
 function createAdmin() {
     //Connection to database
-    $connection = connection();
+    $connection = connectDB();
 
     //Fields recovery
     $username = $_POST['username'];
