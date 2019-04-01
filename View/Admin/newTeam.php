@@ -1,10 +1,12 @@
 <?php
+
 session_start();
 $tournament_id = 1;
+
 if(isset($_SESSION['username'])){
-    echo "
-    <h2>New Team</h2>
+    echo "<h2>New Team</h2>
     <form action=\"../../Controller/CRUDTeam.php?func=createTeam&&id=".$tournament_id."\" method='post' enctype='multipart/form-data'>
+        <h2>New Team</h2>
         Name : <input type='text' name='name'/>
         <br>
         Logo : <input type='file' name='logo' size='100000'/>
@@ -14,12 +16,10 @@ if(isset($_SESSION['username'])){
             if($_GET['error'] == "name_used") {echo "<br><b style='color:red;'>Name already used !</b><br>";}
             if($_GET['error'] == "logo_invalid") {echo "<br><b style='color:red;'>Logo is too big !</b><br>";}
         }
-        echo "
-        <br>
-        <input type='submit' value='Submit'/>
+        echo "<br><input type='submit' value='Submit'/>
     </form>";
 }
 else {
     require_once "../../Controller/GlobalFunctions.php";
-    redirect("../index.php");
+    redirect("../index.php?error=access_denied");
 }

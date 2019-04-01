@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arthu
- * Date: 01/04/2019
- * Time: 16:00
- */
 
 require_once "GlobalFunctions.php";
-//require_once "../Model/DBConfig.php";
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -18,9 +11,8 @@ if(isset($_GET['func'])) {
     }
 }
 
-
 function createTournament() {
-    echo "hihi";
+
     $connection = connectDB();
 
     $tournamentName = $_POST['tournamentName'];
@@ -41,11 +33,11 @@ function createTournament() {
     }
 
     //Informations sending
-    $insert = $connection->prepare("INSERT INTO Tournament (id, name, nb_team) VALUES (NULL, :names, :nb_team)");
-    $insert->bindParam(':names', $tournamentName);
+    $insert = $connection->prepare("INSERT INTO Tournament (id, name, nb_team) VALUES (NULL, :name, :nb_team)");
+    $insert->bindParam(':name', $tournamentName);
     $insert->bindParam(':nb_team', $nbTeam);
     $insert->execute();
-    redirect("../View/Admin/adminView.php?ajout=ok");
+    redirect("../View/Admin/adminView.php?success=new");
 
 }
 
@@ -53,36 +45,61 @@ function editTournamentView($id) {
 
     $connection = connectDB();
 
-    $querryTournament = $connection->prepare("SELECT * FROM Tournament WHERE id='$id'");
-    $querryTournament->execute();
-    $Tournaments = $querryTournament->fetch();
+    $queryTournament = $connection->prepare("SELECT * FROM Tournament WHERE id='$id'");
+    $queryTournament->execute();
+    $tournament = $queryTournament->fetch();
 
-    echo "Name : <input type='text' name='Tournamentname' value='".$Tournaments['name']."'/>
+    echo "Name : <input type='text' name='tournament_name' value='".$tournament['name']."'/>
     <br>
-    Number of team : Number of team in the tournament : <input type='number' step=\"1\" min=\"0\" name='nb_team' value='".$Tournaments['nb_team']."'/>
-    <br>
-    <br><br>";
-    if(!empty($_GET["note"])){        echo "<span style=\"color:red;\">Note invalide ! </span><br>";}
-    if(!empty($_GET["error"])){        echo "<span style=\"color:red;\">Il manque une info! </span><br>";}
+    Number of team : <input type='number' step=\"1\" min=\"0\" name='nb_team' value='".$tournament['nb_team']."'/>
+    <br>";
 
 }
-function editTournament(){
+
+function editTournament($id){
+
     $connection = connectDB();
 
-    session_start();
-    $tournament_id = $_SESSION['id'];
+    $tournament_name = $_POST['tournament_name'];
+    $nb_team = $_POST['nb_team'];
 
-
-    if(empty($_POST['name']) || empty($_POST['nb_team'])){
-        //redirect("editTournament.php?id=$tournament_id&error=bad_info");
+    if(empty($tournament_name) || empty($nb_team)){
+        redirect("../View/Admin/editTournament.php?error=field_missing");
     }
 
-    //Verification de la note
-    if($_POST['nb_team'] < 0){
-        redirect("editetudiant.php?id=$tournament_id&note=bad_note");
+    //Verification of the number of teams
+    if($nb_team < 0){
+        redirect("../View/Admin/editTournament.php?error=number_invalid");
     }
 
-    $querryTournament = $connection->prepare("UPDATE Tournament SET name='".$_POST['name']."', nb_team='".$_POST['nb_team']."' WHERE id='$tournament_id'");
-    $querryTournament->execute();
-    redirect("viewAdmin.php?modif=ok");
+    //Informations sending
+    $insert = $connection->prepare("UPDATE Tournament SET name='$tournament_name', nb_team='$nb_team' WHERE id='$id'");
+    $insert->execute();
+    redirect("../View/Admin/adminView.php?success=update");
+}
+
+function deleteTournament($id){
+    $connection = connectDB();
+    $delete = $connection->prepare("DELETE FROM Tournament WHERE id='$id'");
+    $delete->execute();
+    redirect("../View/Admin/adminView.php?success=delete");
+}
+
+function viewTournament(){
+
+    $connection = connectDB();
+
+    //Tournaments Recovery
+    $queryTournaments = $connection->prepare("SELECT * FROM Tournament ");
+    $queryTournaments->execute();
+    $tournaments = $queryTournaments->fetchAll();
+
+    //Display
+    echo "<table><tr><th>Name</th><th>NbTeams</th></tr>";
+    foreach($tournaments as $tournament) {
+        echo "<tr><td>".$tournament['name']."</td><td>".$tournament['nb_team']."</td><td><a href=\"editTournament.php?id=".$tournament['id']."\">Edit</a></td><td><a href=\"../../Controller/CRUDTournament.php?func=deleteTournament&&id=".$tournament['id']."\">Delete</a></td></tr>";
+    }
+    echo "</table>";
+
+    $connection = NULL;
 }

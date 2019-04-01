@@ -1,23 +1,25 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arthu
- * Date: 01/04/2019
- * Time: 19:32
- */
-include "../../Controller/CRUDTournament.php";
+
+require_once "../../Controller/CRUDTournament.php";
+
 session_start();
+
 if(isset($_SESSION['username'])) {
     if(isset($_GET['id'])) {
         $id = $_GET['id'];
-        echo "<h1>Modifier Etudiant</h1>
+        echo "<h1>Update Tournament</h1>
         <form action=\"../../Controller/CRUDTournament.php?func=editTournament&&id=".$id."\" method=\"post\" >";
-        editTournamentView($id);
-        echo "<input type='submit' value='Valider'/>
+            editTournamentView($id);
+            if(isset($_GET['error'])){
+                if($_GET['error'] == "field_missing") {echo "<br><b style='color:red;'>Fill all the fields !</b><br>";}
+                if($_GET['error'] == "number_invalid") {echo "<br><b style='color:red;'>Enter a valid number of teams (>0) !</b><br>";}
+            }
+            echo "<br>
+            <input type='submit' value='Submit'/>
         </form>";
     }
 }
 else {
-    header("Location: ../index.php?error=bad_login");
-    exit();
+    require_once "../../Controller/GlobalFunctions.php";
+    redirect("../index.php?error=access_denied");
 }

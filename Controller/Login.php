@@ -2,13 +2,11 @@
 
 require_once "GlobalFunctions.php";
 
-
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
         $_GET['func']($_GET['id']);
     }
     else {
-        //echo "Yes! C'est bon! <br>";
         $_GET['func']();
     }
 }
@@ -51,5 +49,5 @@ function logout(){
     session_start();
     session_destroy();
     unset($_SESSION);
-    redirect('Location: ../View/index.php?etat=disconnect');
+    redirect("../View/index.php");
 }

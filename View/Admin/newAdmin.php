@@ -6,7 +6,8 @@ session_start();
 
 if(isset($_SESSION['username'])){
     if ($_SESSION['username']=="admin") {
-        echo "<form action=\"../../Controller/CRUDAdmin.php?func=createAdmin\" method='post'>
+        echo "<h2>New Admin</h2>
+        <form action=\"../../Controller/CRUDAdmin.php?func=createAdmin\" method='post'>
             Username : <input type='text' name='username'/>
             <br>
             Password : <input type='password' name='password'/>
@@ -21,9 +22,9 @@ if(isset($_SESSION['username'])){
         </form>";
     }
     else {
-        redirect("adminView.php");
+        redirect("adminView.php?error=access_denied");
     }
 }
 else {
-    redirect("../index.php");
+    redirect("../index.php?error=access_denied");
 }
