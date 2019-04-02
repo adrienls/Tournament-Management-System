@@ -15,7 +15,6 @@ function createTeam($tournament_id) {
 
     //Fields recovery
     $name = $_POST['name'];
-    $logo = $_POST['logo'];
 
     //Verification of all fields
     if(empty($name) || empty($_FILES['logo']['name'])){
@@ -47,7 +46,7 @@ function createTeam($tournament_id) {
     $insert = $connection->prepare("INSERT INTO Team (id, name, tournament_id, nb_visit, path_logo) VALUES (NULL, :name, :tournament_id, 0, :path_logo)");
     $insert->bindParam(':name', $name);
     $insert->bindParam(':tournament_id', $tournament_id);
-    $insert->bindParam(':path_logo', $logo);
+    $insert->bindParam(':path_logo', $fileDestination);
     $insert->execute();
     redirect("../View/Admin/adminView.php");
 }

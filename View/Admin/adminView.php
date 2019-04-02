@@ -1,39 +1,27 @@
 <?php
-//include "controller.php";
-require_once "../../Controller/CRUDAdmin.php";
+
+require_once "../../Controller/GlobalFunctions.php";
+require_once "../../Controller/CRUDTournament.php";
+
 session_start();
 
 if(!isset($_SESSION['username'])){
-    session_destroy();
-    header('Location: ../index.php?error=bad_login');
-    exit();
+    redirect("../index.php?error=bad_login");
 }
 
-// test le superAdmin!!
-  elseif($_SESSION['username']==="admin"){
-      echo "<a href=\"superAdmin.php\">Admin management page </a>";
+//SuperAdmin test
+else {
+    echo "<h2>Welcome ".$_SESSION['username']."</h2>";
+    if($_SESSION['username']==="admin") {
+        echo "<a href=\"superAdmin.php\">Admin Management</a><br><br>";
+    }
+    echo "<a href=\"newTournament.php\">New Tournament</a><br><br>";
+    viewTournament();
+    if(isset($_GET['success'])){
+        if($_GET['success'] == "new") {echo "<br><b style='color:green;'>Tournament created !</b><br>";}
+        if($_GET['success'] == "update") {echo "<br><b style='color:green;'>Tournament updated !</b><br>";}
+        if($_GET['success'] == "delete") {echo "<br><b style='color:green;'>Tournament erased !</b><br>";}
+    }
+    echo "<br><a href=\"../../Controller/Login.php?func=logout\">Disconnect</a>";
 }
-
-else{
-    echo "Welcome ".$_SESSION['username'].";<br><br>";
-}
-viewTournament();
-echo "<br><br>Your options are :";
-
-
-?>
-<br>
-<a href="newTournament.php">Add tournament</a>
-<br>
-<a href="../../Controller/Login.php?func=logout">Disconnect</a>
-
-
-<?php
-
-    if(!empty($_GET["ajout"])){        echo "<br><span style=\"color:green;\">Ajout bien validé! </span><br>";}
-    if(!empty($_GET["delete"])){        echo "<br><span style=\"color:green;\">Suppression validé! </span><br>";}
-    if(!empty($_GET["modif"])){        echo "<br><span style=\"color:green;\">Changement validé! </span><br>";}
-
-
-
 ?>

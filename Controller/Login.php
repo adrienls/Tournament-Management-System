@@ -49,5 +49,5 @@ function logout(){
     session_start();
     session_destroy();
     unset($_SESSION);
-    redirect('Location: ../View/index.php?etat=disconnect');
+    redirect("../View/index.php");
 }

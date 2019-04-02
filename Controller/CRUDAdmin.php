@@ -3,15 +3,17 @@
 require_once "GlobalFunctions.php";
 
 if(isset($_GET['func'])) {
-    $_GET['func']();
+    if(isset($_GET['id'])){
+        $_GET['func']($_GET['id']);
+    }
+    else {
+        $_GET['func']();
+    }
 }
 
 function createAdmin() {
     //Connection to database
     $connection = connectDB();
-
-    redirect("../View/Admin/newAdmin.php?error=field_missing");
-
 
     //Fields recovery
     $username = $_POST['username'];
@@ -38,33 +40,67 @@ function createAdmin() {
     $insert->bindParam(':username', $username);
     $insert->bindParam(':password', $password_encrypted);
     $insert->execute();
-    redirect("../View/Admin/superAdmin.php");
+    redirect("../View/Admin/superAdmin.php?success=new");
 }
 
-function updateAdmin(){
-
-}
-
-function deleteAdmin(){
-
-}
-
-function viewTournament(){
+function updateAdmin($id){
 
     $connection = connectDB();
 
-    //Recuperation des etudiants
-    $id = $_SESSION['id'];
-    $querryTournaments = $connection->prepare("SELECT * FROM Tournament ");
-    $querryTournaments->execute();
-    $tournaments = $querryTournaments->fetchAll();
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    //Affichage
-    echo "<table><tr><th>Id</th><th>Name</th><th>Number of team</th></tr>";
-    foreach($tournaments as $tournament) {
-        echo "<tr><td>".$tournament['id']."</td><td>".$tournament['name']."</td><td>".$tournament['nb_team']."</td><td><a href=\"editTournament.php?id=".$tournament['id']."\">Edit</a></td><td><a href=\"CRUDAdmin.php?func=deleteEtudiant&&id=".$tournament['id']."\">Delete</a></td></tr>";
+    if(empty($username) || empty($password)){
+        redirect("../View/Admin/editAdmin.php?error=field_missing");
+    }
+
+    //Informations sending
+    $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
+    $insert = $connection->prepare("UPDATE Admin SET username='$username', password='$password_encrypted' WHERE id='$id'");
+    $insert->execute();
+    redirect("../View/Admin/superAdmin.php?success=update");
+
+}
+
+function updateAdminView($id){
+
+    $connection = connectDB();
+
+    $queryAdmins = $connection->prepare("SELECT * FROM Admin WHERE id='$id'");
+    $queryAdmins->execute();
+    $admin = $queryAdmins->fetch();
+
+    echo "Username : <input type='text' name='username' value='".$admin['username']."'/>
+    <br>
+    Password : <input type='password' name='password'/>
+    <br>";
+
+}
+
+function deleteAdmin($id){
+    $connection = connectDB();
+    $delete = $connection->prepare("DELETE FROM Admin WHERE id='$id'");
+    $delete->execute();
+    redirect("../View/Admin/superAdmin.php?success=delete");
+}
+
+function viewAdmin(){
+
+    $connection = connectDB();
+
+    //Teams recovery
+    $queryAdmins = $connection->prepare("SELECT * FROM Admin ");
+    $queryAdmins->execute();
+    $admins = $queryAdmins->fetchAll();
+
+    //Display
+    echo "<table><tr><th>Username</th></tr>";
+    foreach($admins as $admin) {
+        if ($admin['username'] != "admin") {
+            echo "<tr><td>".$admin['username']."</td><td><a href=\"editAdmin.php?id=".$admin['id']."\">Edit</a></td><td><a href=\"../../Controller/CRUDAdmin.php?func=deleteAdmin&&id=".$admin['id']."\">Delete</a></td></tr>";
+        }
     }
     echo "</table>";
 
-    $conn = NULL;
+    $connection = NULL;
 }
