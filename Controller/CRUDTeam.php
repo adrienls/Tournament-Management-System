@@ -21,7 +21,7 @@ function createTeam($tournament_id) {
 
     //Verification of all fields
     if(empty($name) || empty($_FILES['logo']['name'])){
-        redirect("../View/Admin/newTeam.php?error=field_missing");
+        redirect("../View/Admin/newTeam.php?id=".$tournament_id."&error=field_missing");
     }
 
     //Name verification
@@ -30,7 +30,7 @@ function createTeam($tournament_id) {
     $dbTeams = $queryTeams->fetchAll();
     foreach ($dbTeams as $team) {
         if($name == $team['name']){
-            redirect("../View/Admin/newTeam.php?error=name_used");
+            redirect("../View/Admin/newTeam.php?id=".$tournament_id."&error=name_used");
         }
     }
 
