@@ -95,9 +95,35 @@ function viewTournament(){
     $tournaments = $queryTournaments->fetchAll();
 
     //Display
-    echo "<table><tr><th>Name</th><th>NbTeams</th></tr>";
+    echo "<table><tr><th>Name</th><th>NbTeams max</th></tr>";
     foreach($tournaments as $tournament) {
-        echo "<tr><td>".$tournament['name']."</td><td>".$tournament['nb_team']."</td><td><a href=\"editTournament.php?id=".$tournament['id']."\">Edit</a></td><td><a href=\"../../Controller/CRUDTournament.php?func=deleteTournament&&id=".$tournament['id']."\">Delete</a></td></tr>";
+        echo "<tr>
+            <td><a href=\"./tournamentManagement.php?id=".$tournament['id']."\">".$tournament['name']."</td>
+            <td>".$tournament['nb_team']."</td>
+            <td><a href=\"editTournament.php?id=".$tournament['id']."\">Edit</a></td>
+            <td><a href=\"../../Controller/CRUDTournament.php?func=deleteTournament&&id=".$tournament['id']."\">Delete</a></td>
+            </tr>";
+    }
+    echo "</table>";
+
+    $connection = NULL;
+}
+function viewTeam($id){
+
+    $connection = connectDB();
+    //Tournaments Recovery
+    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id=$id");
+    $queryTeams->execute();
+    $teams = $queryTeams->fetchAll();
+    //Display
+    echo "<table><tr><tr>Name&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</tr><tr>Nb of visit &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</tr></th>Logo </tr></th>";
+    foreach($teams as $team) {
+        echo "<tr>
+            <td>".$team['name']."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+            <td>".$team['nb_visit']."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
+            <td><a href=\"editTeam.php?id=".$team['id']."\">Edit</a></td>
+            <td><a href=\"../../Controller/CRUDTeam.php?func=deleteTeam&&id=".$team['id']."\">Delete</a></td>
+            </tr>";
     }
     echo "</table>";
 

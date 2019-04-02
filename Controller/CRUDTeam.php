@@ -51,5 +51,16 @@ function createTeam($tournament_id) {
     $insert->bindParam(':tournament_id', $tournament_id);
     $insert->bindParam(':path_logo', $fileDestination);
     $insert->execute();
-    redirect("../View/Admin/adminView.php");
+    redirect("../View/Admin/tournamentManagement.php?id=".$tournament_id."");
+}
+
+function deleteTeam($team_id) {
+
+    $connection = connectDB();
+    $queryIdTournament = $connection->prepare("SELECT tournament_id FROM Team WHERE id='$team_id'");
+    $queryIdTournament->execute();
+    $tournament_id = $queryIdTournament->fetchColumn();
+    $delete = $connection->prepare("DELETE FROM Team WHERE id='$team_id'");
+    $delete->execute();
+    redirect("../View/Admin/tournamentManagement.php?id=".$tournament_id."&success=delete");
 }
