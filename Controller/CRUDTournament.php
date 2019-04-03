@@ -79,12 +79,33 @@ function editTournament($id){
 }
 
 function deleteTournament($id){
+
     $connection = connectDB();
+
+    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id'");
     $delete = $connection->prepare("DELETE FROM Tournament WHERE id='$id'");
+    $queryTeams->execute();
+    $teams = $queryTeams->fetchAll();
+    foreach ($teams as $team) {
+        deleteTeam($team['id']);
+    }
     $delete->execute();
     redirect("../View/Admin/adminView.php?success=delete");
 }
+function deleteTeam($team_id) {
 
+    $connection = connectDB();
+    $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$team_id'");
+    $queryIdPathTournament->execute();
+    $infoTeam= $queryIdPathTournament->fetch();
+
+    $pathLogo= $infoTeam['path_logo'];
+    if(file_exists($pathLogo))
+        unlink($pathLogo);
+
+    $delete = $connection->prepare("DELETE FROM Team WHERE id='$team_id'");
+    $delete->execute();
+}
 function viewTournament(){
 
     $connection = connectDB();
@@ -95,11 +116,17 @@ function viewTournament(){
     $tournaments = $queryTournaments->fetchAll();
 
     //Display
-    echo "<table><tr><th>Name</th><th>NbTeams</th></tr>";
+    echo "<table><tr><th>Name</th><th>NbTeamsMax</th></tr>";
     foreach($tournaments as $tournament) {
-        echo "<tr><td>".$tournament['name']."</td><td>".$tournament['nb_team']."</td><td><a href=\"editTournament.php?id=".$tournament['id']."\">Edit</a></td><td><a href=\"../../Controller/CRUDTournament.php?func=deleteTournament&&id=".$tournament['id']."\">Delete</a></td></tr>";
+        echo "<tr>
+            <td><a href=\"./tournamentManagement.php?id=".$tournament['id']."&&name=".$tournament['name']."\">".$tournament['name']."</td>
+            <td>".$tournament['nb_team']."</td>
+            <td><a href=\"editTournament.php?id=".$tournament['id']."\">Edit</a></td>
+            <td><a href=\"../../Controller/CRUDTournament.php?func=deleteTournament&&id=".$tournament['id']."\">Delete</a></td>
+            </tr>";
     }
     echo "</table>";
 
     $connection = NULL;
 }
+

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="2d3f801a-78d9-4ab9-afd4-65d203f9cac6" name="localhost" url="http://localhost/Tournament-Management-System">
+      <webServer id="d17c0d3c-4c28-4543-ad15-9d8538021df3" name="WSL" url="http://localhost/Tournament-Management-System/">
         <fileTransfer port="0" accessType="LOCAL" />
       </webServer>
     </option>

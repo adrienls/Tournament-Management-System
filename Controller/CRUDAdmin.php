@@ -97,7 +97,11 @@ function viewAdmin(){
     echo "<table><tr><th>Username</th></tr>";
     foreach($admins as $admin) {
         if ($admin['username'] != "admin") {
-            echo "<tr><td>".$admin['username']."</td><td><a href=\"editAdmin.php?id=".$admin['id']."\">Edit</a></td><td><a href=\"../../Controller/CRUDAdmin.php?func=deleteAdmin&&id=".$admin['id']."\">Delete</a></td></tr>";
+            echo "<tr>
+            <td>".$admin['username']."</td>
+            <td><a href=\"editAdmin.php?id=".$admin['id']."\">Edit</a></td>
+            <td><a href=\"../../Controller/CRUDAdmin.php?func=deleteAdmin&&id=".$admin['id']."\">Delete</a></td>
+            </tr>";
         }
     }
     echo "</table>";
