@@ -24,7 +24,7 @@ if(isset($_SESSION['username'])){
     }
     else{
         require_once "../../Controller/GlobalFunctions.php";
-        //redirect("./tournamentManagement.php?id=".$tournament_id."&error=max_number_of_team");
+        redirect("./tournamentManagement.php?id=".$tournament_id."&error=max_number_of_team");
     }
 
 }

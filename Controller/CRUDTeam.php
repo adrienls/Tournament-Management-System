@@ -60,7 +60,7 @@ function createTeam($tournament_id) {
     $fileDestination = '../Images/'.time().'.txt';
     $fileSize = $_FILES['logo']['size'];
     if($fileSize > 100000) {
-        redirect("../View/Admin/newTeam.php?error=logo_invalid");
+        redirect("../View/Admin/newTeam.php?id=".$tournament_id."&error=logo_invalid");
     }
     move_uploaded_file($file,$fileDestination);
 
