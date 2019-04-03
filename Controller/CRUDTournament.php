@@ -80,8 +80,6 @@ function editTournament($id){
 
 function deleteTournament($id){
 
-    require_once "CRUDAdmin.php";
-
     $connection = connectDB();
 
     $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id'");
@@ -94,7 +92,20 @@ function deleteTournament($id){
     $delete->execute();
     redirect("../View/Admin/adminView.php?success=delete");
 }
+function deleteTeam($team_id) {
 
+    $connection = connectDB();
+    $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$team_id'");
+    $queryIdPathTournament->execute();
+    $infoTeam= $queryIdPathTournament->fetch();
+
+    $pathLogo= $infoTeam['path_logo'];
+    if(file_exists($pathLogo))
+        unlink($pathLogo);
+
+    $delete = $connection->prepare("DELETE FROM Team WHERE id='$team_id'");
+    $delete->execute();
+}
 function viewTournament(){
 
     $connection = connectDB();
