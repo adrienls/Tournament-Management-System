@@ -95,10 +95,10 @@ function viewTournament(){
     $tournaments = $queryTournaments->fetchAll();
 
     //Display
-    echo "<table><tr><th>Name</th><th>NbTeams max</th></tr>";
+    echo "<table><tr><th>Name</th><th>NbTeamsMax</th></tr>";
     foreach($tournaments as $tournament) {
         echo "<tr>
-            <td><a href=\"./tournamentManagement.php?id=".$tournament['id']."\">".$tournament['name']."</td>
+            <td><a href=\"./tournamentManagement.php?id=".$tournament['id']."&&name=".$tournament['name']."\">".$tournament['name']."</td>
             <td>".$tournament['nb_team']."</td>
             <td><a href=\"editTournament.php?id=".$tournament['id']."\">Edit</a></td>
             <td><a href=\"../../Controller/CRUDTournament.php?func=deleteTournament&&id=".$tournament['id']."\">Delete</a></td>

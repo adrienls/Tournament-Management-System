@@ -8,7 +8,7 @@ if(isset($_SESSION['username'])){
     $tournament_id = $_GET["id"];
     if(testNumberMaxTeam($tournament_id)){
         echo "<h2>New Team</h2>
-        <form action=\"../../Controller/CRUDTeam.php?func=createTeam&&id=".$tournament_id."\" method='post' enctype='multipart/form-data'>
+        <form action=\"../../Controller/CRUDTeam.php?func=createTeam&&id=".$tournament_id."&&name=".$_GET['name']."\" method='post' enctype='multipart/form-data'>
             Name : <input type='text' name='name'/>
             <br>
             Logo : <input type='file' name='logo' size='100000'/>
@@ -23,7 +23,7 @@ if(isset($_SESSION['username'])){
     }
     else{
         require_once "../../Controller/GlobalFunctions.php";
-        redirect("./tournamentManagement.php?id=".$tournament_id."&error=max_number_of_team");
+        redirect("./tournamentManagement.php?id=".$tournament_id."&&name=".$_GET['name']."&&error=max_number_of_team");
     }
 
 }
