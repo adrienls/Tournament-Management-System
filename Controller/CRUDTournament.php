@@ -79,8 +79,18 @@ function editTournament($id){
 }
 
 function deleteTournament($id){
+
+    require_once "CRUDAdmin.php";
+
     $connection = connectDB();
+
+    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id'");
     $delete = $connection->prepare("DELETE FROM Tournament WHERE id='$id'");
+    $queryTeams->execute();
+    $teams = $queryTeams->fetchAll();
+    foreach ($teams as $team) {
+        deleteTeam($team['id']);
+    }
     $delete->execute();
     redirect("../View/Admin/adminView.php?success=delete");
 }
