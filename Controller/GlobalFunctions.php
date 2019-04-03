@@ -5,8 +5,8 @@ function redirect($link) {
     exit();
 }
 
-function connectDB($host="localhost", $dbName="Tournament-Management-System", $user="testUser", $password="testPassword"){
-//function connectDB($host="localhost", $dbName="Tournament-Management-System", $user="adrien", $password="password"){
+//function connectDB($host="localhost", $dbName="Tournament-Management-System", $user="testUser", $password="testPassword"){
+function connectDB($host="localhost", $dbName="Tournament-Management-System", $user="adrien", $password="password"){
     $dsn = 'mysql:host='.$host.';dbname='.$dbName;
     try {
         $dbConnection = new PDO($dsn, $user, $password);
