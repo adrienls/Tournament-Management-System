@@ -108,24 +108,4 @@ function viewTournament(){
 
     $connection = NULL;
 }
-function viewTeam($id){
 
-    $connection = connectDB();
-    //Tournaments Recovery
-    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id=$id");
-    $queryTeams->execute();
-    $teams = $queryTeams->fetchAll();
-    //Display
-    echo "<table><tr><tr>Name&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</tr><tr>Nb of visit &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</tr></th>Logo </tr></th>";
-    foreach($teams as $team) {
-        echo "<tr>
-            <td>".$team['name']."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
-            <td>".$team['nb_visit']."&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>
-            <td><a href=\"editTeam.php?id=".$team['id']."\">Edit</a></td>
-            <td><a href=\"../../Controller/CRUDTeam.php?func=deleteTeam&&id=".$team['id']."\">Delete</a></td>
-            </tr>";
-    }
-    echo "</table>";
-
-    $connection = NULL;
-}
