@@ -83,9 +83,15 @@ function createTeam($tournament_id) {
 function deleteTeam($team_id) {
 
     $connection = connectDB();
-    $queryIdTournament = $connection->prepare("SELECT tournament_id FROM Team WHERE id='$team_id'");
-    $queryIdTournament->execute();
-    $tournament_id = $queryIdTournament->fetchColumn();
+    $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$team_id'");
+    $queryIdPathTournament->execute();
+    $infoTeam= $queryIdPathTournament->fetch();
+
+    $tournament_id = $infoTeam['tournament_id'];
+    $pathLogo= $infoTeam['path_logo'];
+
+    if(file_exists($pathLogo))
+        unlink( $pathLogo ) ;
     $delete = $connection->prepare("DELETE FROM Team WHERE id='$team_id'");
     $delete->execute();
     redirect("../View/Admin/tournamentManagement.php?id=".$tournament_id."&name=".$_GET['name']."&success=delete");
@@ -102,9 +108,13 @@ function editTeam($id_team){
     }
 
     //Verification of the unique name of team
-    $queryIdTournament = $connection->prepare("SELECT tournament_id FROM Team WHERE id='$id_team'");
-    $queryIdTournament->execute();
-    $id_tournament = $queryIdTournament->fetchColumn();
+    $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$id_team'");
+    $queryIdPathTournament->execute();
+    $infoTeam= $queryIdPathTournament->fetch();
+
+    $id_tournament = $infoTeam['tournament_id'];
+    $pathLogo= $infoTeam['path_logo'];
+
     $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id_tournament'");
     $queryTeams->execute();
     $dbTeams = $queryTeams->fetchAll();
@@ -115,11 +125,15 @@ function editTeam($id_team){
     }
 
     $file = $_FILES['logo']['tmp_name'];
-    $fileDestination = '../Images/'.time().'.txt';
+    $nameNewFile=$_FILES['logo']['name'];
+    $extension=strrchr($nameNewFile,".");
+    $fileDestination = '../Images/'.time().$extension;
     $fileSize = $_FILES['logo']['size'];
     if($fileSize > 100000) {
         redirect("../View/Admin/newTeam.php?id=".$id_team."&name=".$_GET['name']."&error=logo_invalid");
     }
+    if(file_exists($pathLogo))
+        unlink( $pathLogo ) ;
     move_uploaded_file($file,$fileDestination);
 
     //Informations sending
