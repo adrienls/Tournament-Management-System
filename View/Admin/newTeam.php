@@ -6,7 +6,6 @@ session_start();
 if(isset($_SESSION['username'])){
     require_once "../../Controller/CRUDTeam.php";
     $tournament_id = $_GET["id"];
-    var_dump(testNumberMaxTeam($tournament_id));
     if(testNumberMaxTeam($tournament_id)){
         echo "<h2>New Team</h2>
         <form action=\"../../Controller/CRUDTeam.php?func=createTeam&&id=".$tournament_id."\" method='post' enctype='multipart/form-data'>

@@ -57,7 +57,9 @@ function createTeam($tournament_id) {
 
     //Logo path verification
     $file = $_FILES['logo']['tmp_name'];
-    $fileDestination = '../Images/'.time().'.txt';
+    $nameNewFile=$_FILES['logo']['name'];
+    $extension=strrchr($nameNewFile,".");
+    $fileDestination = '../Images/'.time().$extension;
     $fileSize = $_FILES['logo']['size'];
     if($fileSize > 100000) {
         redirect("../View/Admin/newTeam.php?id=".$tournament_id."&error=logo_invalid");
@@ -73,6 +75,7 @@ function createTeam($tournament_id) {
     $insert->bindParam(':path_logo', $fileDestination);
     $insert->execute();
     redirect("../View/Admin/tournamentManagement.php?id=".$tournament_id."");
+
 }
 
 function deleteTeam($team_id) {
