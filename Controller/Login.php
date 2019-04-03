@@ -38,7 +38,7 @@ function login(){
         session_start();
         $_SESSION['username'] = $adminTable['username'];
         $_SESSION['id'] = $adminTable['id'];
-        //redirect("../View/Admin/adminView.php");
+        redirect("../View/Admin/adminView.php");
     }
     else{
         //if the input password doesn't match the hash print out an error
