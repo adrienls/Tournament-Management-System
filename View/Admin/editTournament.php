@@ -13,6 +13,8 @@ if(isset($_SESSION['username'])) {
             if(isset($_GET['error'])){
                 if($_GET['error'] == "field_missing") {echo "<br><b style='color:red;'>Fill all the fields !</b><br>";}
                 if($_GET['error'] == "number_invalid") {echo "<br><b style='color:red;'>Enter a valid number of teams (>0) !</b><br>";}
+                if($_GET['error'] == "number_use") {echo "<br><b style='color:red;'>Enter a valid number of team !</b><br>";}
+
             }
             echo "<br>
             <input type='submit' value='Submit'/>

@@ -64,12 +64,21 @@ function editTournament($id){
     $nb_team = $_POST['nb_team'];
 
     if(empty($tournament_name) || empty($nb_team)){
-        redirect("../View/Admin/editTournament.php?error=field_missing");
+        redirect("../View/Admin/editTournament.php?id=".$id."&error=field_missing");
     }
 
+    $queryNbTeam = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id'");
+    $queryNbTeam->execute();
+    $oldNbTeam = $queryNbTeam->rowCount();
+
+    var_dump($nb_team);
+    var_dump($oldNbTeam);
     //Verification of the number of teams
-    if($nb_team < 0){
-        redirect("../View/Admin/editTournament.php?error=number_invalid");
+    if($nb_team < 0 ){
+        redirect("../View/Admin/editTournament.php?id=".$id."&error=number_invalid");
+    }
+    if($nb_team<$oldNbTeam) {
+        redirect("../View/Admin/editTournament.php?id=".$id ."&error=number_use");
     }
 
     //Informations sending
