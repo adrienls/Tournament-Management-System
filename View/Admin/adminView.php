@@ -13,7 +13,7 @@ if(!isset($_SESSION['username'])){
 else {
     echo "<h2>Welcome ".$_SESSION['username']."</h2>";
     if($_SESSION['username']==="admin") {
-        echo "<a href=\"superAdmin.php\">Admin Management</a><br><br>";
+        echo ">Admin Management</a><br><br>";
     }
     echo "<a href=\"newTournament.php\">New Tournament</a><br><br>";
     viewTournament();
