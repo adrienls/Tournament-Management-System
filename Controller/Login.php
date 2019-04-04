@@ -1,14 +1,8 @@
 <?php
-
 require_once "GlobalFunctions.php";
 
 if(isset($_GET['func'])) {
-    if(isset($_GET['id'])){
-        $_GET['func']($_GET['id']);
-    }
-    else {
-        $_GET['func']();
-    }
+    $_GET['func']();
 }
 
 function login(){
@@ -16,32 +10,39 @@ function login(){
 
     //Makes sure the login and the password fields are not empty
     if (empty($_POST['login']) || empty($_POST['password'])) {
-        redirect("../View/Admin/Login.php?error=bad_login");
+        redirect("../View/Admin/login.php?error=bad_login");
     }
-    $login=$_POST['login'];
-    $dbLogin = $connection->prepare("SELECT username FROM Admin");
-    $dbLogin->execute();
-    $dbLogin = $dbLogin->fetchAll();
 
-    $dbPassword = NULL;
-    foreach ($dbLogin as $log){
-        echo $log['username'];
-        if($log['username']==$login){
-            $dbPassword = $connection->prepare("SELECT * FROM Admin WHERE username='$login'");
-            $dbPassword->execute();
-            $dbPassword = $dbPassword->fetch();
+    $login = $_POST['login'];
+    $userList = $connection->prepare("SELECT username FROM Admin");
+    $userList->execute();
+    $userList = $userList->fetchAll();
+
+    $adminTable = NULL;
+    foreach ($userList as $username){
+        //checks if the username input corresponds to an existing user in the admin table
+        if ($username['username'] == $login){
+            $adminTable = $connection->prepare("SELECT * FROM Admin WHERE username='$login'");
+            $adminTable->execute();
+            $adminTable = $adminTable->fetch();
+            //get all the info from the admin table corresponding to this username
         }
     }
+    if ($adminTable == NULL){
+        //if no username corresponds print out an error
+        redirect("../View/Admin/login.php?error=bad_login");
+    }
 
-    if(password_verify($_POST['password'], $dbPassword['password']) || $_POST['password']==$dbPassword['password']){
-        //if($dbPassword['password']==$_POST['password']){
+    //verify the password hash is corresponding to the input password
+    if(password_verify($_POST['password'], $adminTable['password'])){
         session_start();
-        $_SESSION['username'] = $dbPassword['username'];
-        $_SESSION['id'] = $dbPassword['id'];
+        $_SESSION['username'] = $adminTable['username'];
+        $_SESSION['id'] = $adminTable['id'];
         redirect("../View/Admin/adminView.php");
     }
     else{
-        redirect("../View/Admin/Login.php?error=bad_login");
+        //if the input password doesn't match the hash print out an error
+        redirect("../View/Admin/login.php?error=bad_login");
     }
 }
 
