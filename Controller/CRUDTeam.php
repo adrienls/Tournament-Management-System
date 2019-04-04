@@ -79,7 +79,6 @@ function createTeam($tournament_id) {
 
 function deleteTeam($team_id) {
 
-
     $connection = connectDB();
     $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$team_id'");
     $queryIdPathTournament->execute();
@@ -108,7 +107,7 @@ function editTeam($id_team){
     //Verification of the unique name of team
     $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$id_team'");
     $queryIdPathTournament->execute();
-    $infoTeam= $queryIdPathTournament->fetch();
+    $infoTeam = $queryIdPathTournament->fetch();
 
     $id_tournament = $infoTeam['tournament_id'];
     $pathLogo= $infoTeam['path_logo'];
@@ -131,7 +130,7 @@ function editTeam($id_team){
         redirect("../View/Admin/newTeam.php?id=".$id_team."&name=".$_GET['name']."&error=logo_invalid");
     }
     if(file_exists($pathLogo))
-        unlink( $pathLogo ) ;
+        unlink($pathLogo);
     move_uploaded_file($file,$fileDestination);
 
     //Informations sending
@@ -148,11 +147,10 @@ function editTeamView($id_team){
     $queryInfos = $connection->prepare("SELECT * FROM Team WHERE id='$id_team'");
     $queryInfos->execute();
     $info = $queryInfos->fetch();
-    var_dump($info['path_logo']);
 
     echo "Name : <input type='text' name='name' value='".$info['name']."'/>
     <br>
-    Logo : <input type='file' name='logo' size='100000' value='".$info['path_logo']."'/>
+    Logo : <input type='file' name='logo' size='100000'/>
     <br>";
 
 }
