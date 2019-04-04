@@ -1,5 +1,5 @@
 <?php
-require_once "GlobalFunctions.php";
+require_once "controller-GlobalFunctions.php";
 
 if(isset($_GET['func'])) {
     $_GET['func']();
@@ -10,7 +10,7 @@ function login(){
 
     //Makes sure the login and the password fields are not empty
     if (empty($_POST['login']) || empty($_POST['password'])) {
-        redirect("../View/Admin/login.php?error=bad_login");
+        redirect("../View/Admin/view-controller-Login.php?error=bad_login");
     }
 
     $login = $_POST['login'];
@@ -30,7 +30,7 @@ function login(){
     }
     if ($adminTable == NULL){
         //if no username corresponds print out an error
-        redirect("../View/Admin/login.php?error=bad_login");
+        redirect("../View/Admin/view-controller-Login.php?error=bad_login");
     }
 
     //verify the password hash is corresponding to the input password
@@ -38,11 +38,11 @@ function login(){
         session_start();
         $_SESSION['username'] = $adminTable['username'];
         $_SESSION['id'] = $adminTable['id'];
-        redirect("../View/Admin/adminView.php");
+        redirect("../View/Admin/view-IndexAdmin.php");
     }
     else{
         //if the input password doesn't match the hash print out an error
-        redirect("../View/Admin/login.php?error=bad_login");
+        redirect("../View/Admin/view-controller-Login.php?error=bad_login");
     }
 }
 

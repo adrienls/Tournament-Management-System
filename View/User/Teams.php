@@ -14,7 +14,7 @@
 <!-- Top container -->
 <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
     <span class="w3-bar-item w3-left"><button class="w3-button w3-dark-grey" onclick="location.href='../index.php'">Tournament Management System</button></span>
-    <span class="w3-bar-item w3-right"><button class="w3-button w3-dark-grey" onclick="location.href='../Admin/login.php'">Connection <i class="fa fa-arrow-right"></i></button></span>
+    <span class="w3-bar-item w3-right"><button class="w3-button w3-dark-grey" onclick="location.href='../Admin/view-Login.php'">Connection <i class="fa fa-arrow-right"></i></button></span>
 </div>
 
 <!-- Sidebar/menu -->

@@ -1,6 +1,6 @@
 <?php
 
-require_once "../../Controller/GlobalFunctions.php";
+require_once "../../Controller/controller-GlobalFunctions.php";
 
 session_start();
 
@@ -21,7 +21,7 @@ if(isset($_SESSION['username'])){
         </form>";
     }
     else {
-        redirect("adminView.php?error=access_denied");
+        redirect("view-IndexAdmin.php?error=access_denied");
     }
 }
 else {

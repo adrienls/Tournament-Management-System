@@ -1,6 +1,6 @@
 <?php
 
-require_once "GlobalFunctions.php";
+require_once "controller-GlobalFunctions.php";
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -19,7 +19,7 @@ function createTournament() {
     $nbTeam = $_POST['nbTeam'];
 
     if(empty($tournamentName) || $nbTeam==0){
-        redirect("../View/Admin/newTournament.php?error=field_missing_or_nb_invalid");
+        redirect("../View/Admin/view-CreateTournament.php?error=field_missing_or_nb_invalid");
     }
 
     //Name verification
@@ -28,7 +28,7 @@ function createTournament() {
     $dbTournament = $queryTournament->fetchAll();
     foreach ($dbTournament as $tournament) {
         if($tournamentName == $tournament['name']){
-            redirect("../View/Admin/newTournament.php?error=name_used");
+            redirect("../View/Admin/view-CreateTournament.php?error=name_used");
         }
     }
 
@@ -37,7 +37,7 @@ function createTournament() {
     $insert->bindParam(':name', $tournamentName);
     $insert->bindParam(':nb_team', $nbTeam);
     $insert->execute();
-    redirect("../View/Admin/adminView.php?success=new");
+    redirect("../View/Admin/view-IndexAdmin.php?success=new");
 
 }
 
@@ -64,7 +64,7 @@ function editTournament($id){
     $nb_team = $_POST['nb_team'];
 
     if(empty($tournament_name) || empty($nb_team)){
-        redirect("../View/Admin/editTournament.php?id=".$id."&error=field_missing");
+        redirect("../View/Admin/view-UpdateTournament.php?error=field_missing");
     }
 
     $queryNbTeam = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id'");
@@ -74,9 +74,9 @@ function editTournament($id){
     var_dump($nb_team);
     var_dump($oldNbTeam);
     //Verification of the number of teams
-    if($nb_team < 0 ){
-        redirect("../View/Admin/editTournament.php?id=".$id."&error=number_invalid");
-    }
+    if($nb_team < 0){
+        redirect("../View/Admin/view-UpdateTournament.php?error=number_invalid");
+
     if($nb_team<$oldNbTeam) {
         redirect("../View/Admin/editTournament.php?id=".$id ."&error=number_use");
     }
@@ -84,10 +84,12 @@ function editTournament($id){
     //Informations sending
     $insert = $connection->prepare("UPDATE Tournament SET name='$tournament_name', nb_team='$nb_team' WHERE id='$id'");
     $insert->execute();
-    redirect("../View/Admin/adminView.php?success=update");
+    redirect("../View/Admin/view-IndexAdmin.php?success=update");
 }
 
 function deleteTournament($id){
+
+    require_once "controller-CRUDTeam.php";
 
     $connection = connectDB();
 
@@ -99,7 +101,7 @@ function deleteTournament($id){
         deleteTeam($team['id']);
     }
     $delete->execute();
-    redirect("../View/Admin/adminView.php?success=delete");
+    redirect("../View/Admin/view-IndexAdmin.php?success=delete");
 }
 
 function deleteTeam($team_id) {
@@ -129,10 +131,10 @@ function viewTournament(){
     echo "<table><tr><th>Name</th><th>NbTeamsMax</th></tr>";
     foreach($tournaments as $tournament) {
         echo "<tr>
-            <td><a href=\"./tournamentManagement.php?id=".$tournament['id']."&&name=".$tournament['name']."\">".$tournament['name']."</td>
+            <td><a href=\"./view-IndexTournament.php?id=".$tournament['id']."&&name=".$tournament['name']."\">".$tournament['name']."</td>
             <td>".$tournament['nb_team']."</td>
-            <td><a href=\"editTournament.php?id=".$tournament['id']."\">Edit</a></td>
-            <td><a href=\"../../Controller/CRUDTournament.php?func=deleteTournament&&id=".$tournament['id']."\">Delete</a></td>
+            <td><a href=\"view-UpdateTournament.php?id=".$tournament['id']."\">Edit</a></td>
+            <td><a href=\"../../Controller/controller-CRUDTournament.php?func=deleteTournament&&id=".$tournament['id']."\">Delete</a></td>
             </tr>";
     }
     echo "</table>";

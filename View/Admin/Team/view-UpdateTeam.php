@@ -6,7 +6,7 @@
  * Time: 00:08
  */
 
-require_once "../../Controller/CRUDTeam.php";
+require_once "../../Controller/controller-CRUDTeam.php";
 
 session_start();
 
@@ -14,7 +14,7 @@ if(isset($_SESSION['username'])) {
     if(isset($_GET['id'])) {
         $id_team = $_GET['id'];
         echo "<h1>Update Team</h1>
-        <form action=\"../../Controller/CRUDTeam.php?func=editTeam&&id=".$id_team."&&name=".$_GET['name']."\" method=\"post\" enctype=\"multipart/form-data\" >";
+        <form action=\"../../Controller/controller-CRUDTeam.php?func=editTeam&id=".$id_team."&name=".$_GET['name']."\" method=\"post\" enctype='multipart/form-data'>";
         editTeamView($id_team);
         if(isset($_GET['error'])){
             if($_GET['error'] == "need_name") {echo "<br><b style='color:red;'>Fill at least the name !</b><br>";}
@@ -27,6 +27,6 @@ if(isset($_SESSION['username'])) {
     }
 }
 else {
-    require_once "../../Controller/GlobalFunctions.php";
+    require_once "../../Controller/controller-GlobalFunctions.php";
     redirect("../index.php?error=access_denied");
 }
