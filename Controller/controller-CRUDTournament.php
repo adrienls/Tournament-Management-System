@@ -95,6 +95,20 @@ function deleteTournament($id){
     redirect("../View/Admin/view-IndexAdmin.php?success=delete");
 }
 
+function deleteTeam($team_id) {
+    $connection = connectDB();
+    $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$team_id'");
+    $queryIdPathTournament->execute();
+    $infoTeam= $queryIdPathTournament->fetch();
+
+    $pathLogo= $infoTeam['path_logo'];
+    if(file_exists($pathLogo))
+        unlink($pathLogo);
+
+    $delete = $connection->prepare("DELETE FROM Team WHERE id='$team_id'");
+    $delete->execute();
+}
+
 function viewTournament(){
 
     $connection = connectDB();
