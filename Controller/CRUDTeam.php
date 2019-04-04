@@ -82,6 +82,7 @@ function createTeam($tournament_id) {
 
 function deleteTeam($team_id) {
 
+
     $connection = connectDB();
     $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$team_id'");
     $queryIdPathTournament->execute();
