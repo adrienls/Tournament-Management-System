@@ -1,6 +1,6 @@
 <?php
 
-require_once "../../Controller/CRUDAdmin.php";
+require_once "../../Controller/controller-CRUDAdmin.php";
 
 session_start();
 
@@ -16,7 +16,7 @@ if(isset($_SESSION['username'])){
         echo ">Back</a>";
     }
     else {
-        redirect("adminView.php?error=access_denied");
+        redirect("view-IndexAdmin.php?error=access_denied");
     }
 }
 
