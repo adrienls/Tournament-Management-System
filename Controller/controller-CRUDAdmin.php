@@ -21,7 +21,7 @@ function createAdmin() {
 
     //Verification of all fields
     if(empty($username) || empty($password)) {
-        redirect("../View/Admin/view-CreateAdmin.php?error=field_missing");
+        redirect("../View/SuperAdmin/view-CreateAdmin.php?error=field_missing");
     }
 
     //Username verification
@@ -30,7 +30,7 @@ function createAdmin() {
     $admins = $queryAdmins->fetchAll();
     foreach ($admins as $admin) {
         if($username == $admin['username']){
-            redirect("../View/Admin/view-CreateAdmin.php?error=name_used");
+            redirect("../View/SuperAdmin/view-CreateAdmin.php?error=name_used");
         }
     }
 
@@ -40,7 +40,7 @@ function createAdmin() {
     $insert->bindParam(':username', $username);
     $insert->bindParam(':password', $password_encrypted);
     $insert->execute();
-    redirect("../View/Admin/view-IndexSuperAdmin.php?success=new");
+    redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=new");
 }
 
 function updateAdmin($id){
@@ -51,14 +51,14 @@ function updateAdmin($id){
     $password = $_POST['password'];
 
     if(empty($username) || empty($password)){
-        redirect("../View/Admin/view-UpdateAdmin.php?error=field_missing");
+        redirect("../View/SuperAdmin/view-UpdateAdmin.php?error=field_missing");
     }
 
     //Informations sending
     $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
     $insert = $connection->prepare("UPDATE Admin SET username='$username', password='$password_encrypted' WHERE id='$id'");
     $insert->execute();
-    redirect("../View/Admin/view-IndexSuperAdmin.php?success=update");
+    redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=update");
 
 }
 
@@ -83,7 +83,7 @@ function deleteAdmin($id){
     $delete->execute();
 
     $connection = NULL;
-    redirect("../View/Admin/view-IndexSuperAdmin.php?success=delete");
+    redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=delete");
 }
 
 function getAdminList(){

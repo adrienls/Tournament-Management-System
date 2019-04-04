@@ -41,7 +41,7 @@ function createTeam($tournament_id) {
 
     //Verification of all fields
     if(empty($name) || empty($_FILES['logo']['name'])){
-        redirect("../View/Admin/view-CreateTeam.php?id=".$tournament_id."&name=".$_GET['name']."&error=field_missing");
+        redirect("../View/Admin/Team/view-CreateTeam.php?id=".$tournament_id."&name=".$_GET['name']."&error=field_missing");
     }
 
     //Name verification
@@ -50,7 +50,7 @@ function createTeam($tournament_id) {
     $dbTeams = $queryTeams->fetchAll();
     foreach ($dbTeams as $team) {
         if($name == $team['name']){
-            redirect("../View/Admin/view-CreateTeam.php?id=".$tournament_id."&name=".$_GET['name']."&error=name_used");
+            redirect("../View/Admin/Team/view-CreateTeam.php?id=".$tournament_id."&name=".$_GET['name']."&error=name_used");
         }
     }
 
@@ -61,7 +61,7 @@ function createTeam($tournament_id) {
     $fileDestination = '../Images/'.time().$extension;
     $fileSize = $_FILES['logo']['size'];
     if($fileSize > 100000) {
-        redirect("../View/Admin/view-CreateTeam.php?id=".$tournament_id."&name=".$_GET['name']."&error=logo_invalid");
+        redirect("../View/Admin/Team/view-CreateTeam.php?id=".$tournament_id."&name=".$_GET['name']."&error=logo_invalid");
     }
     move_uploaded_file($file,$fileDestination);
 
@@ -73,7 +73,7 @@ function createTeam($tournament_id) {
     $insert->bindParam(':tournament_id', $tournament_id);
     $insert->bindParam(':path_logo', $fileDestination);
     $insert->execute();
-    redirect("../View/Admin/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."");
+    redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."");
 
 }
 
@@ -91,7 +91,7 @@ function deleteTeam($team_id) {
         unlink( $pathLogo ) ;
     $delete = $connection->prepare("DELETE FROM Team WHERE id='$team_id'");
     $delete->execute();
-    redirect("../View/Admin/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."&success=delete");
+    redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."&success=delete");
 }
 
 function editTeam($id_team){
@@ -101,7 +101,7 @@ function editTeam($id_team){
     $team_name = $_POST['name'];
 
     if(empty($team_name)){
-        redirect("../View/Admin/view-UpdateTeam.php?id=".$id_team."&name=".$_GET['name']."&error=need_name");
+        redirect("../View/Admin/Team/view-UpdateTeam.php?id=".$id_team."&name=".$_GET['name']."&error=need_name");
     }
 
     //Verification of the unique name of team
@@ -117,7 +117,7 @@ function editTeam($id_team){
     $dbTeams = $queryTeams->fetchAll();
     foreach ($dbTeams as $team) {
         if($team_name == $team['name']){
-            redirect("../View/Admin/view-UpdateTeam.php?id=".$id_team."&name=".$_GET['name']."&error=name_used");
+            redirect("../View/Admin/Team/view-UpdateTeam.php?id=".$id_team."&name=".$_GET['name']."&error=name_used");
         }
     }
 
@@ -127,7 +127,7 @@ function editTeam($id_team){
     $fileDestination = '../Images/'.time().$extension;
     $fileSize = $_FILES['logo']['size'];
     if($fileSize > 100000) {
-        redirect("../View/Admin/view-CreateTeam.php?id=".$id_team."&name=".$_GET['name']."&error=logo_invalid");
+        redirect("../View/Admin/Team/view-CreateTeam.php?id=".$id_team."&name=".$_GET['name']."&error=logo_invalid");
     }
     if(file_exists($pathLogo))
         unlink($pathLogo);
@@ -136,7 +136,7 @@ function editTeam($id_team){
     //Informations sending
     $insert = $connection->prepare("UPDATE Team SET name='$team_name', path_logo='$fileDestination' WHERE id='$id_team'");
     $insert->execute();
-    redirect("../View/Admin/view-IndexTournament.php?id=".$id_tournament."&name=".$_GET['name']."&success=update");
+    redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$id_tournament."&name=".$_GET['name']."&success=update");
 
 }
 
