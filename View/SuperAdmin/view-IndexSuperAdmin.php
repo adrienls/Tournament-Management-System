@@ -6,7 +6,7 @@ session_start();
 
 if(isset($_SESSION['username'])){
     if($_SESSION['username']==="admin") {
-        echo ">New Admin</a><br><br>";
+        echo ">New Admin</a><br/><br/>";
         viewAdmin();
         if(isset($_GET['success'])){
             if($_GET['success'] == "new") {echo "<br><b style='color:green;'>Admin created !</b><br>";}

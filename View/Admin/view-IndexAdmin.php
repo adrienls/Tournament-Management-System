@@ -37,6 +37,6 @@ else {
         if($_GET['success'] == "update") {echo "<br><b style='color:green;'>Tournament updated !</b><br>";}
         if($_GET['success'] == "delete") {echo "<br><b style='color:green;'>Tournament erased !</b><br>";}
     }
-    echo ">Disconnect</a>";
+    echo "<a>Disconnect</a>";
 }
 ?>
