@@ -2,6 +2,10 @@
 
 require_once "../../Controller/controller-GlobalFunctions.php";
 require_once "../../Controller/controller-CRUDTournament.php";
+require_once "../../Controller/controller-CRUDAdmin.php";
+require_once "../../Model/AdminList.php";
+//use AdminList;
+
 
 session_start();
 
@@ -13,11 +17,16 @@ if(!isset($_SESSION['username'])){
 else {
     echo "<h2>Welcome ".$_SESSION['username']."</h2>";
     if($_SESSION['username']==="admin") {
-        echo ">Admin Management</a><br/><br/>";
+        echo '<a href="../SuperAdmin/view-IndexSuperAdmin.php">Admin Management</a><br/><br/>';
     }
-    echo ">New Tournament</a><br/><br/>";
+    echo '<a href="Tournament/view-CreateTournament.php">New Tournament</a><br/><br/>';
 
-    $admins = getAdminList();
+    //$admins = $this->getAdminList();
+
+    // test pour le trait qui est ok
+    $a=new test;
+    $admins= $a->test();
+
 
     //Display
     echo "<table><tr><th>Username</th></tr>";
@@ -37,6 +46,6 @@ else {
         if($_GET['success'] == "update") {echo "<br><b style='color:green;'>Tournament updated !</b><br>";}
         if($_GET['success'] == "delete") {echo "<br><b style='color:green;'>Tournament erased !</b><br>";}
     }
-    echo "<a>Disconnect</a>";
+    echo '<a href="../../Controller/controller-Login.php?func=logout">Disconnect</a>';
 }
 ?>

@@ -34,3 +34,10 @@ trait AdminList{
         redirect("../View/Admin/view-IndexSuperAdmin.php?success=update");
     }
 }
+class test{
+    use AdminList;
+    public function test()
+    {
+        return $this->getAdminList();
+    }
+}

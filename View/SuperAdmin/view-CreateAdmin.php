@@ -6,7 +6,7 @@ session_start();
 
 if(isset($_SESSION['username'])){
     if ($_SESSION['username']=="admin") {
-        echo " method='post'>
+        echo "<form action='../../Controller/controller-CRUDAdmin.php?func=createAdmin' method='post'>
             Username : <input type='text' name='username'/>
             <br>
             Password : <input type='password' name='password'/>

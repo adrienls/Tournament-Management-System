@@ -1,7 +1,7 @@
 <?php
 
 require_once "controller-GlobalFunctions.php";
-use AdminList;
+//use AdminList;
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
         $_GET['func']($_GET['id']);
@@ -48,12 +48,13 @@ function updateAdmin($id){
     $password = $_POST['password'];
 
     if(empty($username) || empty($password)){
-        redirect("../View/SuperAdmin/view-UpdateAdmin.php?error=field_missing");
+        redirect("../View/SuperAdmin/view-UpdateAdmin.php?id=$id&error=field_missing");
     }
 
     //Informations sending
     $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
 
+    // Il faut appeller la fonction updateadmin du model !!! a finir
 }
 
 function updateAdminView($id){

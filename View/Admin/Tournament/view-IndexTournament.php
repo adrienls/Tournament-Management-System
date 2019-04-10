@@ -9,11 +9,11 @@
 session_start();
 
 if(!isset($_SESSION['username'])){
-    redirect("../index.php?error=bad_login");
+    redirect("../../index.php?error=bad_login");
 }
 
 else {
-    require_once "../../Controller/controller-CRUDTeam.php";
+    require_once "../../../Controller/controller-CRUDTeam.php";
     echo "<h2>".$_GET['name']." Management</h2>";
 
     echo "<a href=\"view-CreateTeam.php?id=".$_GET["id"]."&&name=".$_GET['name']."\">New Team</a><br><br>";
