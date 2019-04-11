@@ -1,6 +1,8 @@
 <?php
 
 require_once "controller-GlobalFunctions.php";
+require_once "../Model/model-DB.php";
+
 //use AdminList;
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -44,7 +46,6 @@ function createAdmin() {
 }
 
 function updateAdmin($id){
-    require_once "../Model/model-DB.php";
     $username = $_POST['username'];
     $password = $_POST['password'];
 
@@ -60,8 +61,6 @@ function updateAdmin($id){
 }
 
 function updateAdminView($id){
-    require_once "../../Model/model-DB.php";
-
     $connection = connectDB();
 
     $queryAdmins = $connection->prepare("SELECT * FROM Admin WHERE id='$id'");
