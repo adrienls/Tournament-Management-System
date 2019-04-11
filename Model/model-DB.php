@@ -65,3 +65,13 @@ function modelUpdateAdmin($username, $password, $id){
     $connection = NULL;
     redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=update");
 }
+function modelUpdateAdminView($id){
+    $connection = connectDB();
+
+    $queryAdmins = $connection->prepare("SELECT * FROM Admin WHERE id='$id'");
+    $queryAdmins->execute();
+    $admin = $queryAdmins->fetch();
+
+    $connection = NULL;
+    return $admin;
+}
