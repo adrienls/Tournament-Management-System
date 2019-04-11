@@ -6,33 +6,32 @@ if(isset($_GET['func'])) {
 }
 
 function login(){
-    require_once "../Model/Login.php";
-    $connection = connectDB();
+    require_once "../Model/model-DB.php";
 
     //Makes sure the login and the password fields are not empty
     if (empty($_POST['login']) || empty($_POST['password'])) {
-        redirect("../View/Admin/view-Login.php?error=bad_login");
+        redirect("../View/Admin/view-model-DB.php?error=bad_login");
     }
 
     $login = $_POST['login'];
-/*    $userList = $connection->prepare("SELECT username FROM Admin");
+/*
+    $userList = $connection->prepare("SELECT username FROM Admin");
     $userList->execute();
     $userList = $userList->fetchAll();
 */
-    $classLogin=new login;
-    $userList=$classLogin->getUsernameList();
+    $userList = getUsernameList();
 
     $adminTable = NULL;
     foreach ($userList as $username){
         //checks if the username input corresponds to an existing user in the admin table
         if ($username['username'] == $login){
-            $adminTable = $classLogin->getAdminTable($login);
+            $adminTable = getAdminTable($login);
             //get all the info from the admin table corresponding to this username
         }
     }
     if ($adminTable == NULL){
         //if no username corresponds print out an error
-        redirect("../View/Admin/view-Login.php?error=bad_login");
+        redirect("../View/Admin/view-model-DB.php?error=bad_login");
     }
 
     //verify the password hash is corresponding to the input password
@@ -44,7 +43,7 @@ function login(){
     }
     else{
         //if the input password doesn't match the hash print out an error
-        redirect("../View/Admin/view-Login.php?error=bad_login");
+        redirect("../View/Admin/view-model-DB.php?error=bad_login");
     }
 }
 

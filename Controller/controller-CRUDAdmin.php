@@ -44,7 +44,7 @@ function createAdmin() {
 }
 
 function updateAdmin($id){
-    require_once "../Model/AdminList.php";
+    require_once "../Model/model-DB.php";
     $username = $_POST['username'];
     $password = $_POST['password'];
 
@@ -56,9 +56,7 @@ function updateAdmin($id){
     $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
 
     // Il faut appeller la fonction updateadmin du model !!! a finir
-    $classAdminList=new AdminList;
-    $classAdminList->updateAdmin($username,$password_encrypted,$id);
-    //updateAdmin;
+    modelUpdateAdmin($username,$password_encrypted,$id);
 }
 
 function updateAdminView($id){
