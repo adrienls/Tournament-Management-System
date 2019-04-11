@@ -25,9 +25,7 @@ function createAdmin() {
     }
 
     //Username verification
-    $queryAdmins = $connection->prepare("SELECT * FROM Admin");
-    $queryAdmins->execute();
-    $admins = $queryAdmins->fetchAll();
+    $admins = getAdminList();
     foreach ($admins as $admin) {
         if($username == $admin['username']){
             redirect("../View/SuperAdmin/view-CreateAdmin.php?error=name_used");
@@ -61,13 +59,7 @@ function updateAdmin($id){
 
 function updateAdminView($id){
     require_once "../../Model/model-DB.php";
-
-    $connection = connectDB();
-
-    $queryAdmins = $connection->prepare("SELECT * FROM Admin WHERE id='$id'");
-    $queryAdmins->execute();
-    $admin = $queryAdmins->fetch();
-    $connection = NULL;
+    $admin=modelUpdateAdminView($id);
 
     echo "Username : <input type='text' name='username' value='".$admin['username']."'/>
     <br>
