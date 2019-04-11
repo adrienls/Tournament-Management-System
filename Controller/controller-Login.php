@@ -6,6 +6,7 @@ if(isset($_GET['func'])) {
 }
 
 function login(){
+    require_once "../Model/Login.php";
     $connection = connectDB();
 
     //Makes sure the login and the password fields are not empty
@@ -14,17 +15,18 @@ function login(){
     }
 
     $login = $_POST['login'];
-    $userList = $connection->prepare("SELECT username FROM Admin");
+/*    $userList = $connection->prepare("SELECT username FROM Admin");
     $userList->execute();
     $userList = $userList->fetchAll();
+*/
+    $classLogin=new login;
+    $userList=$classLogin->getUsernameList();
 
     $adminTable = NULL;
     foreach ($userList as $username){
         //checks if the username input corresponds to an existing user in the admin table
         if ($username['username'] == $login){
-            $adminTable = $connection->prepare("SELECT * FROM Admin WHERE username='$login'");
-            $adminTable->execute();
-            $adminTable = $adminTable->fetch();
+            $adminTable = $classLogin->getAdminTable($login);
             //get all the info from the admin table corresponding to this username
         }
     }
