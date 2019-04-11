@@ -1,6 +1,8 @@
 <?php
 
 require_once "controller-GlobalFunctions.php";
+require_once "../Model/model-DB.php";
+
 //use AdminList;
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -25,7 +27,9 @@ function createAdmin() {
     }
 
     //Username verification
-    $admins = getAdminList();
+    $queryAdmins = $connection->prepare("SELECT * FROM Admin");
+    $queryAdmins->execute();
+    $admins = $queryAdmins->fetchAll();
     foreach ($admins as $admin) {
         if($username == $admin['username']){
             redirect("../View/SuperAdmin/view-CreateAdmin.php?error=name_used");
@@ -42,7 +46,6 @@ function createAdmin() {
 }
 
 function updateAdmin($id){
-    require_once "../Model/model-DB.php";
     $username = $_POST['username'];
     $password = $_POST['password'];
 
@@ -58,8 +61,12 @@ function updateAdmin($id){
 }
 
 function updateAdminView($id){
-    require_once "../../Model/model-DB.php";
-    $admin=modelUpdateAdminView($id);
+    $connection = connectDB();
+
+    $queryAdmins = $connection->prepare("SELECT * FROM Admin WHERE id='$id'");
+    $queryAdmins->execute();
+    $admin = $queryAdmins->fetch();
+    $connection = NULL;
 
     echo "Username : <input type='text' name='username' value='".$admin['username']."'/>
     <br>
