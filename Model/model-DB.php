@@ -74,4 +74,5 @@ function modelUpdateAdminView($id){
 
     $connection = NULL;
     return $admin;
+
 }
