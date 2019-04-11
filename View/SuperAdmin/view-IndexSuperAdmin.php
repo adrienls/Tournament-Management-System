@@ -1,7 +1,6 @@
 <?php
-
-require_once "../../Controller/controller-CRUDAdmin.php";
 require_once "../../Model/AdminList.php";
+require_once "../../Controller/controller-CRUDAdmin.php";
 session_start();
 
 if(isset($_SESSION['username'])){
@@ -10,8 +9,8 @@ if(isset($_SESSION['username'])){
         //viewAdmin();
 
         // test pour le trait qui est ok
-        $a=new test;
-        $admins= $a->test();
+        $classAdminList=new AdminList();
+        $admins= $classAdminList->getAdminList();
         //Display
         echo "<table><tr><th>Username</th></tr>";
         foreach($admins as $admin) {

@@ -1,9 +1,9 @@
 <?php
 
+require_once "../../Model/AdminList.php";
 require_once "../../Controller/controller-GlobalFunctions.php";
 require_once "../../Controller/controller-CRUDTournament.php";
 require_once "../../Controller/controller-CRUDAdmin.php";
-require_once "../../Model/AdminList.php";
 //use AdminList;
 
 
@@ -24,8 +24,8 @@ else {
     //$admins = $this->getAdminList();
 
     // test pour le trait qui est ok
-    $a=new test;
-    $admins= $a->test();
+    $classAdminList=new AdminList();
+    $admins= $classAdminList->getAdminList();
 
 
     //Display

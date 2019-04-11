@@ -1,12 +1,13 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: adrien
- * Date: 04/04/19
- * Time: 09:02
+ * User: arthu
+ * Date: 11/04/2019
+ * Time: 15:33
  */
 
-trait AdminList{
+class AdminList
+{
     public function getAdminList(){
         $connection = connectDB();
         //Teams recovery
@@ -31,13 +32,7 @@ trait AdminList{
         $insert->execute();
 
         $connection = NULL;
-        redirect("../View/Admin/view-IndexSuperAdmin.php?success=update");
+        redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=update");
     }
-}
-class test{
-    use AdminList;
-    public function test()
-    {
-        return $this->getAdminList();
-    }
+
 }
