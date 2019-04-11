@@ -60,6 +60,7 @@ function updateAdmin($id){
 }
 
 function updateAdminView($id){
+    require_once "../../Model/model-DB.php";
 
     $connection = connectDB();
 
