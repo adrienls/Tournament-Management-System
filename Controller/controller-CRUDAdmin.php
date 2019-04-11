@@ -12,9 +12,8 @@ if(isset($_GET['func'])) {
 }
 
 function createAdmin() {
+    require_once "../Model/model-DB.php";
     //Connection to database
-    $connection = connectDB();
-
     //Fields recovery
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -34,11 +33,8 @@ function createAdmin() {
 
     //Informations sending
     $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
-    $insert = $connection->prepare("INSERT INTO Admin (id, username, password) VALUES (NULL, :username, :password)");
-    $insert->bindParam(':username', $username);
-    $insert->bindParam(':password', $password_encrypted);
-    $insert->execute();
-    redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=new");
+    insertAdmin($username, $password_encrypted);
+
 }
 
 function updateAdmin($id){
@@ -53,7 +49,6 @@ function updateAdmin($id){
     //Informations sending
     $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
 
-    // Il faut appeller la fonction updateadmin du model !!! a finir
     modelUpdateAdmin($username,$password_encrypted,$id);
 }
 
@@ -65,4 +60,9 @@ function updateAdminView($id){
     <br>
     Password : <input type='password' name='password'/>
     <br>";
+}
+
+function deleteAdmin($id) {
+    require_once "../Model/model-DB.php";
+    modelDeleteAdmin($id);
 }

@@ -41,25 +41,15 @@ function createTournament() {
 
 }
 
-function editTournamentView($id) {
+/*function editTournamentView($id) {
+    require_once "../../../Model/model-DB.php";
+    $tournament = modelEditTournamentView($id);
+    return $tournament;
 
-    $connection = connectDB();
-
-    $queryTournament = $connection->prepare("SELECT * FROM Tournament WHERE id='$id'");
-    $queryTournament->execute();
-    $tournament = $queryTournament->fetch();
-
-    echo "Name : <input type='text' name='tournament_name' value='".$tournament['name']."'/>
-    <br>
-    Number of team : <input type='number' step=\"1\" min=\"0\" name='nb_team' value='".$tournament['nb_team']."'/>
-    <br>";
-
-}
+}*/
 
 function editTournament($id){
-
-    $connection = connectDB();
-
+    require_once "../Model/model-DB.php";
     $tournament_name = $_POST['tournament_name'];
     $nb_team = $_POST['nb_team'];
 
@@ -67,12 +57,10 @@ function editTournament($id){
         redirect("../View/Admin/Tournament/view-UpdateTournament.php?id=".$id ."&error=field_missing");
     }
 
-    $queryNbTeam = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id'");
-    $queryNbTeam->execute();
-    $oldNbTeam = $queryNbTeam->rowCount();
+    $oldNbTeam = oldTournament($id);
 
-    var_dump($nb_team);
-    var_dump($oldNbTeam);
+    //var_dump($nb_team);
+    //var_dump($oldNbTeam);
     //Verification of the number of teams
     if($nb_team < 0) {
         redirect("../View/Admin/Tournament/view-UpdateTournament.php?id=".$id ."&error=number_invalid");
@@ -82,29 +70,22 @@ function editTournament($id){
     }
 
     //Informations sending
-    $insert = $connection->prepare("UPDATE Tournament SET name='$tournament_name', nb_team='$nb_team' WHERE id='$id'");
-    $insert->execute();
-    redirect("../View/Admin/view-IndexAdmin.php?success=update");
+    modelUpdateTournament($tournament_name,$nb_team,$id);
 }
 
 function deleteTournament($id){
+    require_once "../Model/model-DB.php";
 
     require_once "controller-CRUDTeam.php";
 
-    $connection = connectDB();
-
-    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id'");
-    $delete = $connection->prepare("DELETE FROM Tournament WHERE id='$id'");
-    $queryTeams->execute();
-    $teams = $queryTeams->fetchAll();
+    $teams = teamList($id);
     foreach ($teams as $team) {
         deleteTeam($team['id']);
     }
-    $delete->execute();
-    redirect("../View/Admin/view-IndexAdmin.php?success=delete");
+    modelDeleteTournament($id);
 }
 
-function deleteTeam($team_id) {
+/*function deleteTeam($team_id) {
     $connection = connectDB();
     $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$team_id'");
     $queryIdPathTournament->execute();
@@ -116,9 +97,9 @@ function deleteTeam($team_id) {
 
     $delete = $connection->prepare("DELETE FROM Team WHERE id='$team_id'");
     $delete->execute();
-}
+}*/
 
-function viewTournament()
+/*function viewTournament()
 {
 
     $connection = connectDB();
@@ -139,7 +120,6 @@ function viewTournament()
             </tr>";
     }
     echo "</table>";
-
     $connection = NULL;
-}
+}*/
 

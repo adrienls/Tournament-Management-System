@@ -78,19 +78,14 @@ function createTeam($tournament_id) {
 }
 
 function deleteTeam($team_id) {
-
-    $connection = connectDB();
-    $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$team_id'");
-    $queryIdPathTournament->execute();
-    $infoTeam= $queryIdPathTournament->fetch();
+    $infoTeam= modelInfoTeam($team_id);
 
     $tournament_id = $infoTeam['tournament_id'];
     $pathLogo= $infoTeam['path_logo'];
 
     if(file_exists($pathLogo))
         unlink( $pathLogo ) ;
-    $delete = $connection->prepare("DELETE FROM Team WHERE id='$team_id'");
-    $delete->execute();
+    modelDeleteTeam($team_id);
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."&success=delete");
 }
 

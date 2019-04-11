@@ -24,21 +24,19 @@ else {
     //$admins = $this->getAdminList();
 
     // test pour le trait qui est ok
-    $admins= getAdminList();
+    $tournaments= getTournamentList();
 
-
-    //Display
-    echo "<table><tr><th>Username</th></tr>";
-    foreach($admins as $admin) {
-        if ($admin['username'] != "admin") {
-            echo "<tr>
-            <td>".$admin['username']."</td>
-            <td><a href=\"view-UpdateAdmin.php?id=".$admin['id']."\">Edit</a></td>
-            <td><a href=\"../../Controller/CRUDAdmin.php?func=deleteAdmin&&id=".$admin['id']."\">Delete</a></td>
+    echo "<table><tr><th>Name</th><th>NbTeamsMax</th></tr>";
+    foreach ($tournaments as $tournament) {
+        echo "<tr>
+            <td><a href=\"../View/Admin/Tournament/view-IndexTournament.php?id=" . $tournament['id'] . "&&name=" . $tournament['name'] . "\">" . $tournament['name'] . "</td>
+            <td>" . $tournament['nb_team'] . "</td>
+            <td><a href=\"../Admin/Tournament/view-UpdateTournament.php?id=" . $tournament['id'] . "\">Edit</a></td>
+            <td><a href=\"../../Controller/Controller-CRUDTournament.php?func=deleteTournament&&id=" . $tournament['id'] . "\">Delete</a></td>
             </tr>";
-        }
     }
     echo "</table>";
+    //Display
 
     if(isset($_GET['success'])){
         if($_GET['success'] == "new") {echo "<br><b style='color:green;'>Tournament created !</b><br>";}
