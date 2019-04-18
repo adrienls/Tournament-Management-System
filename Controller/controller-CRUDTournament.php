@@ -12,31 +12,21 @@ if(isset($_GET['func'])) {
 }
 
 function createTournament() {
-
-    $connection = connectDB();
-
     $tournamentName = $_POST['tournamentName'];
     $nbTeam = $_POST['nbTeam'];
 
     if(empty($tournamentName) || $nbTeam==0){
         redirect("../View/Admin/Tournament/view-CreateTournament.php?error=field_missing_or_nb_invalid");
     }
-
     //Name verification
-    $queryTournament = $connection->prepare("SELECT * FROM Tournament");
-    $queryTournament->execute();
-    $dbTournament = $queryTournament->fetchAll();
+    $dbTournament = dbGetTournamentList();
     foreach ($dbTournament as $tournament) {
         if($tournamentName == $tournament['name']){
             redirect("../View/Admin/Tournament/view-CreateTournament.php?error=name_used");
         }
     }
-
     //Informations sending
-    $insert = $connection->prepare("INSERT INTO Tournament (id, name, nb_team) VALUES (NULL, :name, :nb_team)");
-    $insert->bindParam(':name', $tournamentName);
-    $insert->bindParam(':nb_team', $nbTeam);
-    $insert->execute();
+    insertTournament($tournamentName, $nbTeam);
     redirect("../View/Admin/Tournament/view-IndexAdmin.php?success=new");
 
 }
@@ -57,7 +47,7 @@ function editTournament($id){
         redirect("../View/Admin/Tournament/view-UpdateTournament.php?id=".$id ."&error=field_missing");
     }
 
-    $oldNbTeam = oldTournament($id);
+    $oldNbTeam = dbGetNumberTournament($id);
 
     //var_dump($nb_team);
     //var_dump($oldNbTeam);
@@ -68,22 +58,21 @@ function editTournament($id){
     if($nb_team<$oldNbTeam) {
         redirect("../View/Admin/Tournament/view-UpdateTournament.php?id=".$id ."&error=number_use");
     }
-
     //Informations sending
-    modelUpdateTournament($tournament_name,$nb_team,$id);
+    dbUpdateTournament($tournament_name,$nb_team,$id);
+    redirect("../View/Admin/view-IndexAdmin.php?success=update");
 }
 
 function deleteTournament($id){
     require_once "../Model/model-DB.php";
-
     require_once "controller-CRUDTeam.php";
 
-    $teams = teamList($id);
+    $teams = dbGetTeamList($id);
     foreach ($teams as $team) {
         deleteTeam($team['id']);
     }
-    modelDeleteTournament($id);
-}
+    dbDeleteTournament($id);
+    redirect("../View/Admin/view-IndexAdmin.php?success=delete");}
 
 /*function deleteTeam($team_id) {
     $connection = connectDB();
@@ -122,4 +111,3 @@ function deleteTournament($id){
     echo "</table>";
     $connection = NULL;
 }*/
-

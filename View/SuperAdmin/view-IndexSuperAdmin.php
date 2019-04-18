@@ -9,7 +9,7 @@ if(isset($_SESSION['username'])){
         //viewAdmin();
 
         // test pour le trait qui est ok
-        $admins= getAdminList();
+        $admins= dbGetAdminList();
         //Display
         echo "<table><tr><th>Username</th></tr>";
         foreach($admins as $admin) {

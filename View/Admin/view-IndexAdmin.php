@@ -24,7 +24,7 @@ else {
     //$admins = $this->getAdminList();
 
     // test pour le trait qui est ok
-    $tournaments= getTournamentList();
+    $tournaments= dbGetTournamentList();
 
     echo "<table><tr><th>Name</th><th>NbTeamsMax</th></tr>";
     foreach ($tournaments as $tournament) {

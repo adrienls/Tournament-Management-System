@@ -10,7 +10,7 @@ if(isset($_SESSION['username'])) {
         $id = $_GET['id'];
         echo "<h1>Update Tournament</h1>
         <form action=\"../../../Controller/controller-CRUDTournament.php?func=editTournament&&id=".$id."\" method=\"post\" >";
-            $tournament=modelEditTournamentView($id);
+            $tournament=dbEditTournamentView($id);
             echo "Name : <input type='text' name='tournament_name' value='".$tournament['name']."'/>
             <br>
             Number of team : <input type='number' step=\"1\" min=\"0\" name='nb_team' value='".$tournament['nb_team']."'/>
@@ -27,6 +27,6 @@ if(isset($_SESSION['username'])) {
     }
 }
 else {
-    require_once "../../Controller/controller-GlobalFunctions.php";
+    require_once "../../../Controller/controller-GlobalFunctions.php";
     redirect("../index.php?error=access_denied");
 }
