@@ -4,11 +4,11 @@ session_start();
 
 
 if(isset($_SESSION['username'])){
-    require_once "../../Controller/controller-CRUDTeam.php";
+    require_once "../../../Controller/controller-CRUDTeam.php";
     $tournament_id = $_GET["id"];
     if(testNumberMaxTeam($tournament_id)){
         echo "<h2>New Team</h2>
-        <form action=\"../../Controller/controller-CRUDTeam.php?func=createTeam&&id=".$tournament_id."&&name=".$_GET['name']."\" method='post' enctype='multipart/form-data'>
+        <form action=\"../../../Controller/controller-CRUDTeam.php?func=createTeam&&id=".$tournament_id."&&name=".$_GET['name']."\" method='post' enctype='multipart/form-data'>
             Name : <input type='text' name='name'/>
             <br>
             Logo : <input type='file' name='logo' size='100000'/>

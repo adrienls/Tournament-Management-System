@@ -12,8 +12,7 @@ if(isset($_GET['func'])) {
 }
 
 function createTournament() {
-
-    $connection = connectDB();
+    require_once "../Model/model-DB.php";
 
     $tournamentName = $_POST['tournamentName'];
     $nbTeam = $_POST['nbTeam'];
@@ -23,9 +22,7 @@ function createTournament() {
     }
 
     //Name verification
-    $queryTournament = $connection->prepare("SELECT * FROM Tournament");
-    $queryTournament->execute();
-    $dbTournament = $queryTournament->fetchAll();
+    $dbTournament = getTournamentList();
     foreach ($dbTournament as $tournament) {
         if($tournamentName == $tournament['name']){
             redirect("../View/Admin/Tournament/view-CreateTournament.php?error=name_used");
@@ -33,11 +30,8 @@ function createTournament() {
     }
 
     //Informations sending
-    $insert = $connection->prepare("INSERT INTO Tournament (id, name, nb_team) VALUES (NULL, :name, :nb_team)");
-    $insert->bindParam(':name', $tournamentName);
-    $insert->bindParam(':nb_team', $nbTeam);
-    $insert->execute();
-    redirect("../View/Admin/Tournament/view-IndexAdmin.php?success=new");
+    insertTournament($tournamentName, $nbTeam);
+    redirect("../View/Admin/view-IndexAdmin.php?success=new");
 
 }
 
@@ -78,7 +72,7 @@ function deleteTournament($id){
 
     require_once "controller-CRUDTeam.php";
 
-    $teams = teamList($id);
+    $teams = getTeamList($id);
     foreach ($teams as $team) {
         deleteTeam($team['id']);
     }

@@ -16,7 +16,7 @@ else {
     require_once "../../../Controller/controller-CRUDTeam.php";
     echo "<h2>".$_GET['name']." Management</h2>";
 
-    echo "<a href=\"view-CreateTeam.php?id=".$_GET["id"]."&&name=".$_GET['name']."\">New Team</a><br><br>";
+    echo "<a href=\"../Team/view-CreateTeam.php?id=".$_GET["id"]."&&name=".$_GET['name']."\">New Team</a><br><br>";
 
     viewTeam($_GET["id"],$_GET['name']);
 
@@ -28,5 +28,5 @@ else {
         if($_GET['success'] == "update") {echo "<br><b style='color:green;'>Team updated !</b><br>";}
         if($_GET['success'] == "delete") {echo "<br><b style='color:green;'>Team erased !</b><br>";}
     }
-    echo ">Back</a>";
+    echo "<a href='../view-IndexAdmin.php'>Back</a>";
 }

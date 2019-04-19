@@ -29,7 +29,7 @@ else {
     echo "<table><tr><th>Name</th><th>NbTeamsMax</th></tr>";
     foreach ($tournaments as $tournament) {
         echo "<tr>
-            <td><a href=\"../View/Admin/Tournament/view-IndexTournament.php?id=" . $tournament['id'] . "&&name=" . $tournament['name'] . "\">" . $tournament['name'] . "</td>
+            <td><a href=\"../Admin/Tournament/view-IndexTournament.php?id=" . $tournament['id'] . "&&name=" . $tournament['name'] . "\">" . $tournament['name'] . "</td>
             <td>" . $tournament['nb_team'] . "</td>
             <td><a href=\"../Admin/Tournament/view-UpdateTournament.php?id=" . $tournament['id'] . "\">Edit</a></td>
             <td><a href=\"../../Controller/Controller-CRUDTournament.php?func=deleteTournament&&id=" . $tournament['id'] . "\">Delete</a></td>

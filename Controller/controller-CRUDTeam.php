@@ -11,12 +11,9 @@ if(isset($_GET['func'])) {
 }
 
 function viewTeam($id,$tournamentName){
-
-    $connection = connectDB();
+    require_once "../../../Model/model-DB.php";
     //Tournaments Recovery
-    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id=$id");
-    $queryTeams->execute();
-    $teams = $queryTeams->fetchAll();
+    $teams = getTeamList($id);
     //Display
     echo "<table><tr><th>Name</th><th>NbOfVisit</th><th>Logo</th></tr>";
     foreach($teams as $team) {
@@ -24,8 +21,8 @@ function viewTeam($id,$tournamentName){
             <td>".$team['name']."</td>
             <td>".$team['nb_visit']."</td>
             <td></td>
-            <td><a href=\"view-UpdateTeam.php?id=".$team['id']."&&name=".$tournamentName."\">Edit</a></td>
-            <td><a href=\"../../Controller/controller-CRUDTeam.php?func=deleteTeam&&id=".$team['id']."&&name=".$tournamentName."\">Delete</a></td>
+            <td><a href=\"../Team/view-UpdateTeam.php?id=".$team['id']."&&name=".$tournamentName."\">Edit</a></td>
+            <td><a href=\"../../../Controller/controller-CRUDTeam.php?func=deleteTeam&&id=".$team['id']."&&name=".$tournamentName."\">Delete</a></td>
             </tr>";
     }
     echo "</table>";
@@ -34,8 +31,7 @@ function viewTeam($id,$tournamentName){
 }
 
 function createTeam($tournament_id) {
-    $connection = connectDB();
-
+    require_once "../Model/model-DB.php";
     //Fields recovery
     $name = $_POST['name'];
 
@@ -45,9 +41,8 @@ function createTeam($tournament_id) {
     }
 
     //Name verification
-    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$tournament_id'");
-    $queryTeams->execute();
-    $dbTeams = $queryTeams->fetchAll();
+
+    $dbTeams = getTeamList($tournament_id);
     foreach ($dbTeams as $team) {
         if($name == $team['name']){
             redirect("../View/Admin/Team/view-CreateTeam.php?id=".$tournament_id."&name=".$_GET['name']."&error=name_used");
@@ -68,16 +63,13 @@ function createTeam($tournament_id) {
     //VERIFICATION TAILLE + DIMENSIONS
 
     //Informations sending
-    $insert = $connection->prepare("INSERT INTO Team (id, name, tournament_id, nb_visit, path_logo) VALUES (NULL, :name, :tournament_id, 0, :path_logo)");
-    $insert->bindParam(':name', $name);
-    $insert->bindParam(':tournament_id', $tournament_id);
-    $insert->bindParam(':path_logo', $fileDestination);
-    $insert->execute();
+    insertTeam($name, $tournament_id, $fileDestination);
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."");
 
 }
 
 function deleteTeam($team_id) {
+    require_once "../Model/model-DB.php";
     $infoTeam= modelInfoTeam($team_id);
 
     $tournament_id = $infoTeam['tournament_id'];
@@ -90,8 +82,7 @@ function deleteTeam($team_id) {
 }
 
 function editTeam($id_team){
-
-    $connection = connectDB();
+    require_once "../Model/model-DB.php";
 
     $team_name = $_POST['name'];
 
@@ -100,16 +91,12 @@ function editTeam($id_team){
     }
 
     //Verification of the unique name of team
-    $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$id_team'");
-    $queryIdPathTournament->execute();
-    $infoTeam = $queryIdPathTournament->fetch();
+    $infoTeam = infoTeam($id_team);
 
     $id_tournament = $infoTeam['tournament_id'];
     $pathLogo= $infoTeam['path_logo'];
 
-    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id_tournament'");
-    $queryTeams->execute();
-    $dbTeams = $queryTeams->fetchAll();
+    $dbTeams = Teams($id_tournament);
     foreach ($dbTeams as $team) {
         if($team_name == $team['name']){
             redirect("../View/Admin/Team/view-UpdateTeam.php?id=".$id_team."&name=".$_GET['name']."&error=name_used");
@@ -129,19 +116,14 @@ function editTeam($id_team){
     move_uploaded_file($file,$fileDestination);
 
     //Informations sending
-    $insert = $connection->prepare("UPDATE Team SET name='$team_name', path_logo='$fileDestination' WHERE id='$id_team'");
-    $insert->execute();
+    modelUpdateTeam($team_name,$fileDestination,$id_team);
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$id_tournament."&name=".$_GET['name']."&success=update");
 
 }
 
 function editTeamView($id_team){
-
-    $connection = connectDB();
-
-    $queryInfos = $connection->prepare("SELECT * FROM Team WHERE id='$id_team'");
-    $queryInfos->execute();
-    $info = $queryInfos->fetch();
+    require_once "../../../Model/model-DB.php";
+    $info = info($id_team);
 
     echo "Name : <input type='text' name='name' value='".$info['name']."'/>
     <br>
@@ -151,15 +133,10 @@ function editTeamView($id_team){
 }
 
 function testNumberMaxTeam($tournament_id){
-    $connection = connectDB();
+    require_once "../../../Model/model-DB.php";
 
-    $queryNbTeamMax = $connection->prepare("SELECT nb_team FROM Tournament WHERE id='$tournament_id'");
-    $queryNbTeamMax->execute();
-    $nbTeamMax = $queryNbTeamMax->fetchColumn();
-
-    $queryNbTeam = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$tournament_id'");
-    $queryNbTeam->execute();
-    $nbTeam = $queryNbTeam->rowCount();
+    $nbTeamMax = nbTeamMax($tournament_id);
+    $nbTeam = nbTeam($tournament_id);
 
     if($nbTeam<$nbTeamMax){
         return 1;

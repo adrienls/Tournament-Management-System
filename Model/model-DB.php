@@ -125,16 +125,7 @@ function modelEditTournamentView($id){
     $connection=NULL;
     return $tournament;
 }
-function teamList($id){
-    $connection = connectDB();
 
-    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id'");
-    $queryTeams->execute();
-    $teams = $queryTeams->fetchAll();
-
-    $connection=NULL;
-    return $teams;
-}
 function modelDeleteTournament($id){
     $connection = connectDB();
 
@@ -156,4 +147,80 @@ function modelDeleteTeam($team_id){
     $connection=connectDB();
     $delete = $connection->prepare("DELETE FROM Team WHERE id='$team_id'");
     $delete->execute();
+}
+function insertTournament($tournamentName, $nbTeam){
+    $connection = connectDB();
+    $insert = $connection->prepare("INSERT INTO Tournament (id, name, nb_team) VALUES (NULL, :name, :nb_team)");
+    $insert->bindParam(':name', $tournamentName);
+    $insert->bindParam(':nb_team', $nbTeam);
+    $insert->execute();
+}
+
+//start for team
+
+function getTeamList($id){
+    $connection = connectDB();
+
+    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id'");
+    $queryTeams->execute();
+    $teams = $queryTeams->fetchAll();
+
+    $connection=NULL;
+    return $teams;
+}
+function insertTeam($name, $tournament_id, $fileDestination){
+    $connection = connectDB();
+
+    $insert = $connection->prepare("INSERT INTO Team (id, name, tournament_id, nb_visit, path_logo) VALUES (NULL, :name, :tournament_id, 0, :path_logo)");
+    $insert->bindParam(':name', $name);
+    $insert->bindParam(':tournament_id', $tournament_id);
+    $insert->bindParam(':path_logo', $fileDestination);
+    $insert->execute();
+
+    $connection=NULL;
+}
+function nbTeamMax($tournament_id){
+    $connection = connectDB();
+    $queryNbTeamMax = $connection->prepare("SELECT nb_team FROM Tournament WHERE id='$tournament_id'");
+    $queryNbTeamMax->execute();
+    $nbTeamMax = $queryNbTeamMax->fetchColumn();
+    $connection = NULL;
+    return $nbTeamMax;
+}
+function nbTeam($tournament_id){
+    $connection = connectDB();
+    $queryNbTeam = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$tournament_id'");
+    $queryNbTeam->execute();
+    $nbTeam = $queryNbTeam->rowCount();
+    $connection = NULL;
+    return $nbTeam;
+}
+function info($id_team){
+    $connection = connectdb();
+    $queryInfos = $connection->prepare("SELECT * FROM Team WHERE id='$id_team'");
+    $queryInfos->execute();
+    $info = $queryInfos->fetch();
+    $connection = NULL;
+    return $info;
+}
+function infoTeam($id_team){
+    $connection = connectDB();
+    $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$id_team'");
+    $queryIdPathTournament->execute();
+    $infoTeam = $queryIdPathTournament->fetch();
+    $connection=NULL;
+    return $infoTeam;
+}
+function Teams($id_tournament){
+    $connection = connectDB();
+    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id_tournament'");
+    $queryTeams->execute();
+    $dbTeams = $queryTeams->fetchAll();
+    $connection = NULL;
+    return $dbTeams;
+}
+function modelUpdateTeam($team_name,$fileDestination, $id_team){
+    $connection = connectDB();
+    $insert = $connection->prepare("UPDATE Team SET name='$team_name', path_logo='$fileDestination' WHERE id='$id_team'");
+    $insert->execute();
 }
