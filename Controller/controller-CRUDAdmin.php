@@ -52,7 +52,7 @@ function updateAdmin($id){
 }
 
 function updateAdminView($id){
-    require_once "../Model/model-DB.php";
+    require_once "../../Model/model-DB.php";
     $admin = dbUpdateAdminView($id);
 
     echo "Username : <input type='text' name='username' value='".$admin['username']."'/>

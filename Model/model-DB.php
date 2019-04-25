@@ -19,7 +19,7 @@ function connectDB($host="localhost", $dbName="Tournament-Management-System", $u
         return NULL;
     }
 }
-function getUsernameList(){
+function dbGetUsernameList(){
     $connection = connectDB();
     //Teams recovery
     $userList = $connection->prepare("SELECT username FROM Admin");
@@ -29,7 +29,7 @@ function getUsernameList(){
     $connection = NULL;
     return $userList;
 }
-function getAdminTable($login){
+function dbGetAdminTable($login){
     $connection = connectDB();
     //Teams recovery
     $adminTable = $connection->prepare("SELECT * FROM Admin WHERE username='$login'");
@@ -39,7 +39,7 @@ function getAdminTable($login){
     $connection = NULL;
     return $adminTable;
 }
-function getAdminList(){
+function dbGetAdminList(){
     $connection = connectDB();
     //Teams recovery
     $queryAdmins = $connection->prepare("SELECT * FROM Admin ");
@@ -49,7 +49,7 @@ function getAdminList(){
     $connection = NULL;
     return $admins;
 }
-function modelDeleteAdmin($id){
+function dbDeleteAdmin($id){
     $connection = connectDB();
     $delete = $connection->prepare("DELETE FROM Admin WHERE id='$id'");
     $delete->execute();
@@ -57,7 +57,7 @@ function modelDeleteAdmin($id){
     $connection = NULL;
     redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=delete");
 }
-function modelUpdateAdmin($username, $password, $id){
+function dbUpdateAdmin($username, $password, $id){
     $connection = connectDB();
     $insert = $connection->prepare("UPDATE Admin SET username='$username', password='$password' WHERE id='$id'");
     $insert->execute();
@@ -65,7 +65,7 @@ function modelUpdateAdmin($username, $password, $id){
     $connection = NULL;
     redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=update");
 }
-function modelUpdateAdminView($id){
+function dbUpdateAdminView($id){
     $connection = connectDB();
 
     $queryAdmins = $connection->prepare("SELECT * FROM Admin WHERE id='$id'");
@@ -88,7 +88,7 @@ function insertAdmin($username, $password_encrypted){
 
 // start for tournament
 
-function getTournamentList(){
+function dbGetTournamentList(){
     $connection = connectDB();
     //Teams recovery
     $queryTournaments = $connection->prepare("SELECT * FROM Tournament ");
@@ -115,7 +115,7 @@ function modelUpdateTournament($tournament_name,$nb_team,$id){
     $connection = NULL;
     redirect("../View/Admin/view-IndexAdmin.php?success=update");
 }
-function modelEditTournamentView($id){
+function dbEditTournamentView($id){
     $connection = connectDB();
 
     $queryTournament = $connection->prepare("SELECT * FROM Tournament WHERE id='$id'");

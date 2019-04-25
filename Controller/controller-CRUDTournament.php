@@ -22,7 +22,7 @@ function createTournament() {
     }
 
     //Name verification
-    $dbTournament = getTournamentList();
+    $dbTournament = dbGetTournamentList();
     foreach ($dbTournament as $tournament) {
         if($tournamentName == $tournament['name']){
             redirect("../View/Admin/Tournament/view-CreateTournament.php?error=name_used");
