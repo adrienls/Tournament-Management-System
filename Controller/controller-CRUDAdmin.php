@@ -24,17 +24,16 @@ function createAdmin() {
     }
 
     //Username verification
-    $admins = getAdminList();
+    $admins = dbGetAdminList();
     foreach ($admins as $admin) {
         if($username == $admin['username']){
             redirect("../View/SuperAdmin/view-CreateAdmin.php?error=name_used");
         }
     }
-
     //Informations sending
     $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
     insertAdmin($username, $password_encrypted);
-
+    redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=new");
 }
 
 function updateAdmin($id){
@@ -45,16 +44,16 @@ function updateAdmin($id){
     if(empty($username) || empty($password)){
         redirect("../View/SuperAdmin/view-UpdateAdmin.php?id=$id&error=field_missing");
     }
-
     //Informations sending
     $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
 
-    modelUpdateAdmin($username,$password_encrypted,$id);
+    dbUpdateAdmin($username, $password_encrypted, $id);
+    redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=update");
 }
 
 function updateAdminView($id){
-    require_once "../../Model/model-DB.php";
-    $admin=modelUpdateAdminView($id);
+    require_once "../Model/model-DB.php";
+    $admin = dbUpdateAdminView($id);
 
     echo "Username : <input type='text' name='username' value='".$admin['username']."'/>
     <br>
@@ -64,5 +63,5 @@ function updateAdminView($id){
 
 function deleteAdmin($id) {
     require_once "../Model/model-DB.php";
-    modelDeleteAdmin($id);
+    dbDeleteAdmin($id);
 }

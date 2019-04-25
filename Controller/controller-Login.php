@@ -19,13 +19,12 @@ function login(){
     $userList->execute();
     $userList = $userList->fetchAll();
 */
-    $userList = getUsernameList();
-
+    $userList = dbGetUsernameList();
     $adminTable = NULL;
     foreach ($userList as $username){
         //checks if the username input corresponds to an existing user in the admin table
         if ($username['username'] == $login){
-            $adminTable = getAdminTable($login);
+            $adminTable = dbGetAdminTable($login);
             //get all the info from the admin table corresponding to this username
         }
     }
