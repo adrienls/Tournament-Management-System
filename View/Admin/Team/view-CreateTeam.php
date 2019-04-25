@@ -5,8 +5,9 @@ session_start();
 
 if(isset($_SESSION['username'])){
     require_once "../../../Controller/controller-CRUDTeam.php";
+    require_once "../../../Controller/controller-CRUDTournament.php";
     $tournament_id = $_GET["id"];
-    if(testNumberMaxTeam($tournament_id)){
+    if(!testNumberMaxTeam($tournament_id)){
         echo "<h2>New Team</h2>
         <form action=\"../../../Controller/controller-CRUDTeam.php?func=createTeam&&id=".$tournament_id."&&name=".$_GET['name']."\" method='post' enctype='multipart/form-data'>
             Name : <input type='text' name='name'/>
@@ -22,7 +23,7 @@ if(isset($_SESSION['username'])){
         </form>";
     }
     else{
-        require_once "../../Controller/controller-GlobalFunctions.php";
+        require_once "../../../Controller/controller-GlobalFunctions.php";
         redirect("./view-IndexTournament.php?id=".$tournament_id."&&name=".$_GET['name']."&&error=max_number_of_team");
     }
 

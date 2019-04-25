@@ -60,8 +60,6 @@ function createTeam($tournament_id) {
     }
     move_uploaded_file($file,$fileDestination);
 
-    //VERIFICATION TAILLE + DIMENSIONS
-
     //Informations sending
     insertTeam($name, $tournament_id, $fileDestination);
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."");
@@ -80,7 +78,6 @@ function deleteTeam($team_id) {
     modelDeleteTeam($team_id);
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."&success=delete");
 }
-
 
 function editTeam($id_team){
     require_once "../Model/model-DB.php";
@@ -131,18 +128,4 @@ function editTeamView($id_team){
     Logo : <input type='file' name='logo' size='100000'/>
     <br>";
 
-}
-
-function testNumberMaxTeam($tournament_id){
-    require_once "../../../Model/model-DB.php";
-
-    $nbTeamMax = nbTeamMax($tournament_id);
-    $nbTeam = nbTeam($tournament_id);
-
-    if($nbTeam<$nbTeamMax){
-        return 1;
-    }
-    else{
-        return 0;
-    }
 }

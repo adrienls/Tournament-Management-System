@@ -19,9 +19,12 @@ function connectDB($host="localhost", $dbName="Tournament-Management-System", $u
         return NULL;
     }
 }
+
+// Admin Model
+
 function dbGetUsernameList(){
     $connection = connectDB();
-    //Teams recovery
+    //Admins recovery
     $userList = $connection->prepare("SELECT username FROM Admin");
     $userList->execute();
     $userList = $userList->fetchAll();
@@ -31,7 +34,7 @@ function dbGetUsernameList(){
 }
 function dbGetAdminTable($login){
     $connection = connectDB();
-    //Teams recovery
+    //Admin recovery
     $adminTable = $connection->prepare("SELECT * FROM Admin WHERE username='$login'");
     $adminTable->execute();
     $adminTable = $adminTable->fetch();
@@ -41,7 +44,7 @@ function dbGetAdminTable($login){
 }
 function dbGetAdminList(){
     $connection = connectDB();
-    //Teams recovery
+    //Admins recovery
     $queryAdmins = $connection->prepare("SELECT * FROM Admin ");
     $queryAdmins->execute();
     $admins = $queryAdmins->fetchAll();
@@ -86,11 +89,11 @@ function insertAdmin($username, $password_encrypted){
 }
 
 
-// start for tournament
+// Tournament Model
 
 function dbGetTournamentList(){
     $connection = connectDB();
-    //Teams recovery
+    //Tournaments recovery
     $queryTournaments = $connection->prepare("SELECT * FROM Tournament ");
     $queryTournaments->execute();
     $tournaments = $queryTournaments->fetchAll();
@@ -125,7 +128,6 @@ function dbEditTournamentView($id){
     $connection=NULL;
     return $tournament;
 }
-
 function modelDeleteTournament($id){
     $connection = connectDB();
 
@@ -156,7 +158,7 @@ function insertTournament($tournamentName, $nbTeam){
     $insert->execute();
 }
 
-//start for team
+// Team Model
 
 
 function getTeamList($id){
@@ -224,4 +226,27 @@ function modelUpdateTeam($team_name,$fileDestination, $id_team){
     $connection = connectDB();
     $insert = $connection->prepare("UPDATE Team SET name='$team_name', path_logo='$fileDestination' WHERE id='$id_team'");
     $insert->execute();
+}
+
+// Day Model
+
+function getDayList($id){
+    $connection = connectDB();
+
+    $queryDays = $connection->prepare("SELECT * FROM Day WHERE tournament_id='$id'");
+    $queryDays->execute();
+    $days = $queryDays->fetchAll();
+
+    $connection=NULL;
+    return $days;
+}
+function insertDay($tournament_id, $day_id) {
+    $connection = connectDB();
+
+    $insert = $connection->prepare("INSERT INTO Day (id, tournament_id, day_id, done) VALUES (NULL, :tournament_id, :day_id, 0)");
+    $insert->bindParam(':tournament_id', $tournament_id);
+    $insert->bindParam(':day_id', $day_id);
+    $insert->execute();
+
+    $connection=NULL;
 }
