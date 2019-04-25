@@ -67,6 +67,17 @@ function editTournament($id){
     modelUpdateTournament($tournament_name,$nb_team,$id);
 }
 
+function deleteTeamForTournament($team_id) {
+    require_once "../Model/model-DB.php";
+    $infoTeam= modelInfoTeam($team_id);
+
+    $pathLogo= $infoTeam['path_logo'];
+
+    if(file_exists($pathLogo))
+        unlink( $pathLogo ) ;
+    modelDeleteTeam($team_id);
+}
+
 function deleteTournament($id){
     require_once "../Model/model-DB.php";
 
@@ -74,7 +85,7 @@ function deleteTournament($id){
 
     $teams = getTeamList($id);
     foreach ($teams as $team) {
-        deleteTeam($team['id']);
+        deleteTeamForTournament($team['id']);
     }
     modelDeleteTournament($id);
 }

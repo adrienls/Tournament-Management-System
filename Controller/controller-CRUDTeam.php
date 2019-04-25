@@ -81,6 +81,7 @@ function deleteTeam($team_id) {
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."&success=delete");
 }
 
+
 function editTeam($id_team){
     require_once "../Model/model-DB.php";
 

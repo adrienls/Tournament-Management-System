@@ -158,6 +158,7 @@ function insertTournament($tournamentName, $nbTeam){
 
 //start for team
 
+
 function getTeamList($id){
     $connection = connectDB();
 
