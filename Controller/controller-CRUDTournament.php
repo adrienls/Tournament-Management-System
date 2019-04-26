@@ -95,10 +95,10 @@ function testNumberMaxTeam($tournament_id){
     }
 }
 
-function generateDays($id) {
+function generateDays($tournament_id) {
     require_once "../Model/model-DB.php";
 
-    $teams = getTeamList($id);
+    $teams = getTeamList($tournament_id);
 
     $nbDays = count($teams);
     if ($nbDays % 2 == 0) {
@@ -107,8 +107,18 @@ function generateDays($id) {
 
     // Days creation
     for ($i = 1; $i <= $nbDays; $i++) {
-        insertDay($id,$i);
+        insertDay($tournament_id,$i);
     }
 
-    $days = getDayList($id);
+    $days = dbGetDayList($tournament_id);
+    /*foreach ($days as $day) {
+        if($day['day_number'] != 1) {
+            //
+        }
+        //Generate Matches
+        $matches =
+
+        //Insert Matches
+        insertPlanning($day['day_id'], $teams[0]['name'], $teams[1]['id']);
+    }*/
 }

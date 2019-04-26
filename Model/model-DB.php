@@ -160,7 +160,6 @@ function insertTournament($tournamentName, $nbTeam){
 
 // Team Model
 
-
 function getTeamList($id){
     $connection = connectDB();
 
@@ -230,22 +229,36 @@ function modelUpdateTeam($team_name,$fileDestination, $id_team){
 
 // Day Model
 
-function getDayList($id){
+function dbGetDayList($tournament_id){
     $connection = connectDB();
 
-    $queryDays = $connection->prepare("SELECT * FROM Day WHERE tournament_id='$id'");
+    $queryDays = $connection->prepare("SELECT * FROM Day WHERE tournament_id='$tournament_id'");
     $queryDays->execute();
     $days = $queryDays->fetchAll();
 
     $connection=NULL;
     return $days;
 }
-function insertDay($tournament_id, $day_id) {
+function insertDay($tournament_id, $day_number) {
     $connection = connectDB();
 
-    $insert = $connection->prepare("INSERT INTO Day (id, tournament_id, day_id, done) VALUES (NULL, :tournament_id, :day_id, 0)");
+    $insert = $connection->prepare("INSERT INTO Day (id, tournament_id, day_number, done) VALUES (NULL, :tournament_id, :day_number, 0)");
     $insert->bindParam(':tournament_id', $tournament_id);
+    $insert->bindParam(':day_number', $day_number);
+    $insert->execute();
+
+    $connection=NULL;
+}
+
+// Planning Model
+
+function insertPlanning($day_id, $teamA_id, $teamB_id) {
+    $connection = connectDB();
+
+    $insert = $connection->prepare("INSERT INTO Planning (id, day_id, teamA_name, teamB_name, teamA_nbGoal, teamB_nbGoal) VALUES (NULL, :day_id, :teamA_name, :teamB_name, NULL, NULL)");
     $insert->bindParam(':day_id', $day_id);
+    $insert->bindParam(':teamA_id', $teamA_id);
+    $insert->bindParam(':teamB_id', $teamB_id);
     $insert->execute();
 
     $connection=NULL;
