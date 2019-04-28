@@ -10,10 +10,10 @@ if(isset($_GET['func'])) {
     }
 }
 
-function viewTeam($id,$tournamentName){
-    require_once "../../../Model/model-DB.php";
+function viewTeam($id, $tournamentName){
+    require_once "../Model/model-DB.php";
     //Tournaments Recovery
-    $teams = getTeamList($id);
+    $teams = dbGetTeamList($id);
     //Display
     echo "<table><tr><th>Name</th><th>NbOfVisit</th><th>Logo</th></tr>";
     foreach($teams as $team) {
@@ -42,7 +42,7 @@ function createTeam($tournament_id) {
 
     //Name verification
 
-    $dbTeams = getTeamList($tournament_id);
+    $dbTeams = dbGetTeamList($tournament_id);
     foreach ($dbTeams as $team) {
         if($name == $team['name']){
             redirect("../View/Admin/Team/view-CreateTeam.php?id=".$tournament_id."&name=".$_GET['name']."&error=name_used");
@@ -61,21 +61,21 @@ function createTeam($tournament_id) {
     move_uploaded_file($file,$fileDestination);
 
     //Informations sending
-    insertTeam($name, $tournament_id, $fileDestination);
+    dbInsertTeam($name, $tournament_id, $fileDestination);
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."");
 
 }
 
 function deleteTeam($team_id) {
     require_once "../Model/model-DB.php";
-    $infoTeam= modelInfoTeam($team_id);
+    $infoTeam= dbGetInfoTeam($team_id);
 
     $tournament_id = $infoTeam['tournament_id'];
     $pathLogo= $infoTeam['path_logo'];
 
     if(file_exists($pathLogo))
         unlink( $pathLogo ) ;
-    modelDeleteTeam($team_id);
+    dbDeleteTeam($team_id);
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."&success=delete");
 }
 
@@ -89,12 +89,12 @@ function editTeam($id_team){
     }
 
     //Verification of the unique name of team
-    $infoTeam = infoTeam($id_team);
+    $infoTeam = dbGetTeamById($id_team);
 
     $id_tournament = $infoTeam['tournament_id'];
     $pathLogo= $infoTeam['path_logo'];
 
-    $dbTeams = Teams($id_tournament);
+    $dbTeams = dbGetTeamList($id_tournament);
     foreach ($dbTeams as $team) {
         if($team_name == $team['name']){
             redirect("../View/Admin/Team/view-UpdateTeam.php?id=".$id_team."&name=".$_GET['name']."&error=name_used");
@@ -114,14 +114,14 @@ function editTeam($id_team){
     move_uploaded_file($file,$fileDestination);
 
     //Informations sending
-    modelUpdateTeam($team_name,$fileDestination,$id_team);
+    dbUpdateTeam($team_name,$fileDestination,$id_team);
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$id_tournament."&name=".$_GET['name']."&success=update");
 
 }
 
 function editTeamView($id_team){
-    require_once "../../../Model/model-DB.php";
-    $info = info($id_team);
+    require_once "../Model/model-DB.php";
+    $info = dbGetTeamById($id_team);
 
     echo "Name : <input type='text' name='name' value='".$info['name']."'/>
     <br>

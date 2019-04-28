@@ -32,7 +32,7 @@ else {
             <td><a href=\"../Admin/Tournament/view-IndexTournament.php?id=" . $tournament['id'] . "&&name=" . $tournament['name'] . "\">" . $tournament['name'] . "</td>
             <td>" . $tournament['nb_team'] . "</td>
             <td><a href=\"../Admin/Tournament/view-UpdateTournament.php?id=" . $tournament['id'] . "\">Edit</a></td>
-            <td><a href=\"../../Controller/Controller-CRUDTournament.php?func=deleteTournament&&id=" . $tournament['id'] . "\">Delete</a></td>
+            <td><a href=\"../../Controller/controller-CRUDTournament.php?func=deleteTournament&&id=" . $tournament['id'] . "\">Delete</a></td>
             </tr>";
     }
     echo "</table>";

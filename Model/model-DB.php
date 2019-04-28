@@ -6,8 +6,8 @@
  * Time: 11:25
  */
 
+function connectDB($host="localhost", $dbName="Tournament-Management-System", $user="adrien", $password="password"){
 //function connectDB($host="localhost", $dbName="Tournament-Management-System", $user="testUser", $password="testPassword"){
-function connectDB($host="localhost", $dbName="Tournament-Management-System", $user="testUser", $password="testPassword"){
     $dsn = 'mysql:host='.$host.';dbname='.$dbName;
     try {
         $dbConnection = new PDO($dsn, $user, $password);
@@ -20,37 +20,52 @@ function connectDB($host="localhost", $dbName="Tournament-Management-System", $u
     }
 }
 
-// Admin Model
-
-function dbGetUsernameList(){
+//Admin
+function dbGetUserList(){
     $connection = connectDB();
-    //Admins recovery
     $userList = $connection->prepare("SELECT username FROM Admin");
     $userList->execute();
     $userList = $userList->fetchAll();
-
     $connection = NULL;
     return $userList;
 }
 function dbGetAdminTable($login){
     $connection = connectDB();
-    //Admin recovery
     $adminTable = $connection->prepare("SELECT * FROM Admin WHERE username='$login'");
     $adminTable->execute();
     $adminTable = $adminTable->fetch();
-
     $connection = NULL;
     return $adminTable;
 }
 function dbGetAdminList(){
     $connection = connectDB();
-    //Admins recovery
-    $queryAdmins = $connection->prepare("SELECT * FROM Admin ");
-    $queryAdmins->execute();
-    $admins = $queryAdmins->fetchAll();
-
+    $adminList = $connection->prepare("SELECT * FROM Admin ");
+    $adminList->execute();
+    $adminList = $adminList->fetchAll();
     $connection = NULL;
-    return $admins;
+    return $adminList;
+}
+function dbGetAdminById($id){
+    $connection = connectDB();
+    $adminById = $connection->prepare("SELECT * FROM Admin WHERE id='$id'");
+    $adminById->execute();
+    $adminById = $adminById->fetch();
+    $connection = NULL;
+    return $adminById;
+}
+function dbInsertAdmin($username, $password_encrypted){
+    $connection = connectDB();
+    $insertAdmin = $connection->prepare("INSERT INTO Admin (id, username, password) VALUES (NULL, :username, :password)");
+    $insertAdmin->bindParam(':username', $username);
+    $insertAdmin->bindParam(':password', $password_encrypted);
+    $insertAdmin->execute();
+    $connection = NULL;
+}
+function dbUpdateAdmin($username, $password, $id){
+    $connection = connectDB();
+    $updateAdmin = $connection->prepare("UPDATE Admin SET username='$username', password='$password' WHERE id='$id'");
+    $updateAdmin->execute();
+    $connection = NULL;
 }
 function dbDeleteAdmin($id){
     $connection = connectDB();
@@ -60,206 +75,141 @@ function dbDeleteAdmin($id){
     $connection = NULL;
     redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=delete");
 }
-function dbUpdateAdmin($username, $password, $id){
-    $connection = connectDB();
-    $insert = $connection->prepare("UPDATE Admin SET username='$username', password='$password' WHERE id='$id'");
-    $insert->execute();
 
-    $connection = NULL;
-    redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=update");
-}
-function dbUpdateAdminView($id){
-    $connection = connectDB();
-
-    $queryAdmins = $connection->prepare("SELECT * FROM Admin WHERE id='$id'");
-    $queryAdmins->execute();
-    $admin = $queryAdmins->fetch();
-
-    $connection = NULL;
-    return $admin;
-}
-function insertAdmin($username, $password_encrypted){
-    $connection = connectDB();
-    $insert = $connection->prepare("INSERT INTO Admin (id, username, password) VALUES (NULL, :username, :password)");
-    $insert->bindParam(':username', $username);
-    $insert->bindParam(':password', $password_encrypted);
-    $insert->execute();
-    $connection = NULL;
-    redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=new");
-}
-
-
-// Tournament Model
-
+//Tournament
 function dbGetTournamentList(){
     $connection = connectDB();
-    //Tournaments recovery
-    $queryTournaments = $connection->prepare("SELECT * FROM Tournament ");
-    $queryTournaments->execute();
-    $tournaments = $queryTournaments->fetchAll();
-
+    $tournamentList = $connection->prepare("SELECT * FROM Tournament ");
+    $tournamentList->execute();
+    $tournamentList = $tournamentList->fetchAll();
     $connection = NULL;
-    return $tournaments;
+    return $tournamentList;
 }
-function oldTournament($id){
+function dbGetTournamentById($id){
     $connection = connectDB();
-
-    $queryNbTeam = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id'");
-    $queryNbTeam->execute();
-    $oldNbTeam = $queryNbTeam->rowCount();
-
-    $connection = NULL;
-    return $oldNbTeam;
-}
-function modelUpdateTournament($tournament_name,$nb_team,$id){
-    $connection = connectDB();
-    $insert = $connection->prepare("UPDATE Tournament SET name='$tournament_name', nb_team='$nb_team' WHERE id='$id'");
-    $insert->execute();
-    $connection = NULL;
-    redirect("../View/Admin/view-IndexAdmin.php?success=update");
-}
-function dbEditTournamentView($id){
-    $connection = connectDB();
-
-    $queryTournament = $connection->prepare("SELECT * FROM Tournament WHERE id='$id'");
-    $queryTournament->execute();
-    $tournament = $queryTournament->fetch();
-
+    $tournamentById = $connection->prepare("SELECT * FROM Tournament WHERE id='$id'");
+    $tournamentById->execute();
+    $tournamentById = $tournamentById->fetch();
     $connection=NULL;
-    return $tournament;
+    return $tournamentById;
 }
-function modelDeleteTournament($id){
+function dbGetNbTeamMax($tournament_id){
     $connection = connectDB();
-
-    $delete = $connection->prepare("DELETE FROM Tournament WHERE id='$id'");
-    $delete->execute();
-
-    $connection=NULL;
-    redirect("../View/Admin/view-IndexAdmin.php?success=delete");
-}
-function modelInfoTeam($team_id){
-    $connection = connectDB();
-    $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$team_id'");
-    $queryIdPathTournament->execute();
-    $infoTeam= $queryIdPathTournament->fetch();
-    $connection=NULL;
-    return $infoTeam;
-}
-function modelDeleteTeam($team_id){
-    $connection=connectDB();
-    $delete = $connection->prepare("DELETE FROM Team WHERE id='$team_id'");
-    $delete->execute();
-}
-function insertTournament($tournamentName, $nbTeam){
-    $connection = connectDB();
-    $insert = $connection->prepare("INSERT INTO Tournament (id, name, nb_team) VALUES (NULL, :name, :nb_team)");
-    $insert->bindParam(':name', $tournamentName);
-    $insert->bindParam(':nb_team', $nbTeam);
-    $insert->execute();
-}
-
-// Team Model
-
-function getTeamList($id){
-    $connection = connectDB();
-
-    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id'");
-    $queryTeams->execute();
-    $teams = $queryTeams->fetchAll();
-
-    $connection=NULL;
-    return $teams;
-}
-function insertTeam($name, $tournament_id, $fileDestination){
-    $connection = connectDB();
-
-    $insert = $connection->prepare("INSERT INTO Team (id, name, tournament_id, nb_visit, path_logo) VALUES (NULL, :name, :tournament_id, 0, :path_logo)");
-    $insert->bindParam(':name', $name);
-    $insert->bindParam(':tournament_id', $tournament_id);
-    $insert->bindParam(':path_logo', $fileDestination);
-    $insert->execute();
-
-    $connection=NULL;
-}
-function nbTeamMax($tournament_id){
-    $connection = connectDB();
-    $queryNbTeamMax = $connection->prepare("SELECT nb_team FROM Tournament WHERE id='$tournament_id'");
-    $queryNbTeamMax->execute();
-    $nbTeamMax = $queryNbTeamMax->fetchColumn();
+    $nbTeamMax = $connection->prepare("SELECT nb_team FROM Tournament WHERE id='$tournament_id'");
+    $nbTeamMax->execute();
+    $nbTeamMax = $nbTeamMax->fetchColumn();
     $connection = NULL;
     return $nbTeamMax;
 }
-function nbTeam($tournament_id){
+function dbInsertTournament($tournamentName, $nbTeam){
     $connection = connectDB();
-    $queryNbTeam = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$tournament_id'");
-    $queryNbTeam->execute();
-    $nbTeam = $queryNbTeam->rowCount();
+    $insertTournament = $connection->prepare("INSERT INTO Tournament (id, name, nb_team) VALUES (NULL, :name, :nb_team)");
+    $insertTournament->bindParam(':name', $tournamentName);
+    $insertTournament->bindParam(':nb_team', $nbTeam);
+    $insertTournament->execute();
+    $connection=NULL;
+}
+function dbUpdateTournament($tournament_name, $nb_team, $id){
+    $connection = connectDB();
+    $updateTournament = $connection->prepare("UPDATE Tournament SET name='$tournament_name', nb_team='$nb_team' WHERE id='$id'");
+    $updateTournament->execute();
+    $connection = NULL;
+}
+function dbDeleteTournament($id){
+    $connection = connectDB();
+    $deleteTournament = $connection->prepare("DELETE FROM Tournament WHERE id='$id'");
+    $deleteTournament->execute();
+    $connection=NULL;
+}
+
+//Team Table
+function dbGetTeamList($id){
+    $connection = connectDB();
+    $teamList = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id'");
+    $teamList->execute();
+    $teamList = $teamList->fetchAll();
+    $connection=NULL;
+    return $teamList;
+}
+function dbGetNbTeam($tournament_id){
+    $connection = connectDB();
+    $nbTeam = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$tournament_id'");
+    $nbTeam->execute();
+    $nbTeam = $nbTeam->rowCount();
     $connection = NULL;
     return $nbTeam;
 }
-function info($id_team){
+function dbGetTeamById($id_team){
     $connection = connectdb();
-    $queryInfos = $connection->prepare("SELECT * FROM Team WHERE id='$id_team'");
-    $queryInfos->execute();
-    $info = $queryInfos->fetch();
+    $teamById = $connection->prepare("SELECT * FROM Team WHERE id='$id_team'");
+    $teamById->execute();
+    $teamById = $teamById->fetch();
     $connection = NULL;
-    return $info;
+    return $teamById;
 }
-function infoTeam($id_team){
+function dbGetInfoTeam($team_id){
     $connection = connectDB();
-    $queryIdPathTournament = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$id_team'");
-    $queryIdPathTournament->execute();
-    $infoTeam = $queryIdPathTournament->fetch();
+    $infoTeam = $connection->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$team_id'");
+    $infoTeam->execute();
+    $infoTeam= $infoTeam->fetch();
     $connection=NULL;
     return $infoTeam;
 }
-function Teams($id_tournament){
+function dbInsertTeam($name, $tournament_id, $fileDestination){
     $connection = connectDB();
-    $queryTeams = $connection->prepare("SELECT * FROM Team WHERE tournament_id='$id_tournament'");
-    $queryTeams->execute();
-    $dbTeams = $queryTeams->fetchAll();
-    $connection = NULL;
-    return $dbTeams;
+    $insertTeam = $connection->prepare("INSERT INTO Team (id, name, tournament_id, nb_visit, path_logo) VALUES (NULL, :name, :tournament_id, 0, :path_logo)");
+    $insertTeam->bindParam(':name', $name);
+    $insertTeam->bindParam(':tournament_id', $tournament_id);
+    $insertTeam->bindParam(':path_logo', $fileDestination);
+    $insertTeam->execute();
+    $connection=NULL;
 }
-function modelUpdateTeam($team_name,$fileDestination, $id_team){
+function dbUpdateTeam($team_name, $fileDestination, $id_team){
     $connection = connectDB();
-    $insert = $connection->prepare("UPDATE Team SET name='$team_name', path_logo='$fileDestination' WHERE id='$id_team'");
-    $insert->execute();
+    $updateTeam = $connection->prepare("UPDATE Team SET name='$team_name', path_logo='$fileDestination' WHERE id='$id_team'");
+    $updateTeam->execute();
+    $connection=NULL;
+}
+function dbDeleteTeam($team_id){
+    $connection=connectDB();
+    $deleteTeam = $connection->prepare("DELETE FROM Team WHERE id='$team_id'");
+    $deleteTeam->execute();
+    $connection=NULL;
 }
 
-// Day Model
-
+//Day Table
+function dbGetDayPlanning($id){
+    $connection = connectDB();
+    $dayPlanning = $connection->prepare("SELECT * FROM Day JOIN Planning ON Day.id = Planning.day_id WHERE tournament_id='$id'");
+    $dayPlanning->execute();
+    $dayPlanning = $dayPlanning->fetchAll();
+    $connection=NULL;
+    return $dayPlanning;
+}
 function dbGetDayList($tournament_id){
     $connection = connectDB();
-
-    $queryDays = $connection->prepare("SELECT * FROM Day WHERE tournament_id='$tournament_id'");
-    $queryDays->execute();
-    $days = $queryDays->fetchAll();
-
+    $dayList = $connection->prepare("SELECT * FROM Day WHERE tournament_id='$tournament_id'");
+    $dayList->execute();
+    $dayList = $dayList->fetchAll();
     $connection=NULL;
-    return $days;
+    return $dayList;
 }
-function insertDay($tournament_id, $day_number) {
+function dbInsertDay($tournament_id, $day_number) {
     $connection = connectDB();
-
-    $insert = $connection->prepare("INSERT INTO Day (id, tournament_id, day_number, done) VALUES (NULL, :tournament_id, :day_number, 0)");
-    $insert->bindParam(':tournament_id', $tournament_id);
-    $insert->bindParam(':day_number', $day_number);
-    $insert->execute();
-
+    $insertDay = $connection->prepare("INSERT INTO Day (id, tournament_id, day_number, done) VALUES (NULL, :tournament_id, :day_number, 0)");
+    $insertDay->bindParam(':tournament_id', $tournament_id);
+    $insertDay->bindParam(':day_number', $day_number);
+    $insertDay->execute();
     $connection=NULL;
 }
 
-// Planning Model
-
-function insertPlanning($day_id, $teamA_id, $teamB_id) {
+//Planning Table
+function dbInsertPlanning($day_id, $teamA_id, $teamB_id) {
     $connection = connectDB();
-
-    $insert = $connection->prepare("INSERT INTO Planning (id, day_id, teamA_name, teamB_name, teamA_nbGoal, teamB_nbGoal) VALUES (NULL, :day_id, :teamA_name, :teamB_name, NULL, NULL)");
-    $insert->bindParam(':day_id', $day_id);
-    $insert->bindParam(':teamA_id', $teamA_id);
-    $insert->bindParam(':teamB_id', $teamB_id);
-    $insert->execute();
-
+    $insertPlanning = $connection->prepare("INSERT INTO Planning (id, day_id, teamA_name, teamB_name, teamA_nbGoal, teamB_nbGoal) VALUES (NULL, :day_id, :teamA_name, :teamB_name, NULL, NULL)");
+    $insertPlanning->bindParam(':day_id', $day_id);
+    $insertPlanning->bindParam(':teamA_id', $teamA_id);
+    $insertPlanning->bindParam(':teamB_id', $teamB_id);
+    $insertPlanning->execute();
     $connection=NULL;
 }

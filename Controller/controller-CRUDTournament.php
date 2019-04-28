@@ -30,7 +30,7 @@ function createTournament() {
     }
 
     //Informations sending
-    insertTournament($tournamentName, $nbTeam);
+    dbInsertTournament($tournamentName, $nbTeam);
     redirect("../View/Admin/view-IndexAdmin.php?success=new");
 
 }
@@ -44,7 +44,7 @@ function editTournament($id){
         redirect("../View/Admin/Tournament/view-UpdateTournament.php?id=".$id ."&error=field_missing");
     }
 
-    $oldNbTeam = oldTournament($id);
+    $oldNbTeam = dbGetNbTeamMax($id);
 
     //Verification of the number of teams
     if($nb_team < 0) {
@@ -55,18 +55,19 @@ function editTournament($id){
     }
 
     //Informations sending
-    modelUpdateTournament($tournament_name,$nb_team,$id);
+    dbUpdateTournament($tournament_name,$nb_team,$id);
+    redirect("../View/Admin/view-IndexAdmin.php?success=update");
 }
 
 function deleteTeamForTournament($team_id) {
     require_once "../Model/model-DB.php";
-    $infoTeam= modelInfoTeam($team_id);
+    $infoTeam= dbGetInfoTeam($team_id);
 
     $pathLogo= $infoTeam['path_logo'];
 
     if(file_exists($pathLogo))
         unlink( $pathLogo ) ;
-    modelDeleteTeam($team_id);
+    dbDeleteTeam($team_id);
 }
 
 function deleteTournament($id){
@@ -74,18 +75,19 @@ function deleteTournament($id){
 
     require_once "controller-CRUDTeam.php";
 
-    $teams = getTeamList($id);
+    $teams = dbGetTeamList($id);
     foreach ($teams as $team) {
         deleteTeamForTournament($team['id']);
     }
-    modelDeleteTournament($id);
+    dbDeleteTournament($id);
+    redirect("../View/Admin/view-IndexAdmin.php?success=deleteTournament");
 }
 
 function testNumberMaxTeam($tournament_id){
-    require_once "../../../Model/model-DB.php";
+    require_once "../Model/model-DB.php";
 
-    $nbTeamMax = nbTeamMax($tournament_id);
-    $nbTeam = nbTeam($tournament_id);
+    $nbTeamMax = dbGetNbTeamMax($tournament_id);
+    $nbTeam = dbGetNbTeam($tournament_id);
 
     if($nbTeam<$nbTeamMax){
         return 0;
@@ -98,7 +100,7 @@ function testNumberMaxTeam($tournament_id){
 function generateDays($tournament_id) {
     require_once "../Model/model-DB.php";
 
-    $teams = getTeamList($tournament_id);
+    $teams = dbGetTeamList($tournament_id);
 
     $nbDays = count($teams);
     if ($nbDays % 2 == 0) {
@@ -107,7 +109,7 @@ function generateDays($tournament_id) {
 
     // Days creation
     for ($i = 1; $i <= $nbDays; $i++) {
-        insertDay($tournament_id,$i);
+        dbInsertDay($tournament_id,$i);
     }
 
     $days = dbGetDayList($tournament_id);

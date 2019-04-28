@@ -32,7 +32,7 @@ function createAdmin() {
     }
     //Informations sending
     $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
-    insertAdmin($username, $password_encrypted);
+    dbInsertAdmin($username, $password_encrypted);
     redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=new");
 }
 
@@ -52,8 +52,8 @@ function updateAdmin($id){
 }
 
 function updateAdminView($id){
-    require_once "../../Model/model-DB.php";
-    $admin = dbUpdateAdminView($id);
+    require_once "../Model/model-DB.php";
+    $admin = dbGetAdminById($id);
 
     echo "Username : <input type='text' name='username' value='".$admin['username']."'/>
     <br>
