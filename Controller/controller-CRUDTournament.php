@@ -95,3 +95,56 @@ function testNumberMaxTeam($tournament_id){
         return 1;
     }
 }
+
+function generateDays($tournament_id) {
+    require_once "../Model/model-DB.php";
+
+    $teams = dbGetTeamList($tournament_id);
+
+    $nbTeams = count($teams);
+    $nbDays = ($nbTeams % 2 == 0) ? $nbTeams-1 : $nbTeams;
+
+    // Days creation
+    for ($i = 1; $i <= $nbDays; $i++) {
+        dbInsertDay($tournament_id,$i);
+    }
+    $days = dbGetDayList($tournament_id);
+
+    $matches = array();
+    $j = 0;
+    foreach ($teams as $team) {
+        $nbTeams = count($teams);
+        for ($i = 1; $i < $nbTeams; $i++) {
+            if ($teams[$i]['name'] != $team['name']) {
+                $matches[$j][0] = $team['name'];
+                $matches[$j][1] = $teams[$i]['name'];
+                $j++;
+            }
+        }
+        array_shift($teams); // Erase the current team used
+        if (count($teams) == 1) {
+            break;
+        }
+    }
+
+    $teams = dbGetTeamList($tournament_id);
+    $dayMatches = array();
+    $i = 0;
+    $currentMatch = $matches[0];
+    foreach ($matches as $match) {
+        $oldMatch = $currentMatch;
+        $currentMatch = $match;
+        if ($currentMatch[0] == $oldMatch[0]) {
+            $dayMatches[$i][0] = $currentMatch;
+            $i++;
+        }
+        else {
+            foreach ($dayMatches as $dayMatch) {
+                //echo $dayMatch[0][0];
+                //echo "<br>";
+                //var_dump($dayMatch);
+                //$dayMatch[0][0] == $currentMatch[0] || $dayMatch[0][1] == $currentMatch[0]
+            }
+        }
+    }
+}
