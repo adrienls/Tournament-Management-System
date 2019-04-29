@@ -32,7 +32,6 @@ function createTournament() {
     //Informations sending
     dbInsertTournament($tournamentName, $nbTeam);
     redirect("../View/Admin/view-IndexAdmin.php?success=new");
-
 }
 
 function editTournament($id){
@@ -65,14 +64,14 @@ function deleteTeamForTournament($team_id) {
 
     $pathLogo= $infoTeam['path_logo'];
 
-    if(file_exists($pathLogo))
+    if(file_exists($pathLogo)){
         unlink( $pathLogo ) ;
+    }
     dbDeleteTeam($team_id);
 }
 
 function deleteTournament($id){
     require_once "../Model/model-DB.php";
-
     require_once "controller-CRUDTeam.php";
 
     $teams = dbGetTeamList($id);
@@ -95,32 +94,4 @@ function testNumberMaxTeam($tournament_id){
     else{
         return 1;
     }
-}
-
-function generateDays($tournament_id) {
-    require_once "../Model/model-DB.php";
-
-    $teams = dbGetTeamList($tournament_id);
-
-    $nbDays = count($teams);
-    if ($nbDays % 2 == 0) {
-        $nbDays--;
-    }
-
-    // Days creation
-    for ($i = 1; $i <= $nbDays; $i++) {
-        dbInsertDay($tournament_id,$i);
-    }
-
-    $days = dbGetDayList($tournament_id);
-    /*foreach ($days as $day) {
-        if($day['day_number'] != 1) {
-            //
-        }
-        //Generate Matches
-        $matches =
-
-        //Insert Matches
-        insertPlanning($day['day_id'], $teams[0]['name'], $teams[1]['id']);
-    }*/
 }
