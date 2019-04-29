@@ -7,18 +7,30 @@
  */
 
 class Team{
+    private $id;
     private $name;
-    private $logoPath;
-    private $nbVisit;
+    private $tournament_id;
+    private $nb_visit;
+    private $path_logo;
 
-    public function __construct($name, $logoPath) {
-        $this->name = $name;
-        $this->logoPath = $logoPath;
+    public function getId()
+    {
+        return $this->id;
     }
-    public function getName() {return $this->name;}
-    public function setName($name) {$this->name = $name;}
-    public function getLogoPath() {return $this->logoPath;}
-    public function setLogoPath($logoPath) {$this->logoPath = $logoPath;}
-    public function getNbVisit() {return $this->nbVisit;}
-    public function setNbVisit($nbVisit) {$this->nbVisit = $nbVisit;}
+    public function getName()
+    {
+        return $this->name;
+    }
+    public function getTournamentId()
+    {
+        return $this->tournament_id;
+    }
+    public function getNbVisit()
+    {
+        return $this->nb_visit;
+    }
+    public function getPathLogo()
+    {
+        return $this->path_logo;
+    }
 }

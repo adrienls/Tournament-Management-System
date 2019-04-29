@@ -7,15 +7,20 @@
  */
 
 class Tournament{
-    private $listTeams;
+    private $id;
     private $name;
+    private $nb_team;
 
-    public function __construct($listTeams, $name) {
-        $this->listTeams = $listTeams;
-        $this->name = $name;
+    public function getId()
+    {
+        return $this->id;
     }
-    public function getListTeams() {return $this->listTeams;}
-    public function setListTeams($listTeams) {$this->listTeams = $listTeams;}
-    public function getName() {return $this->name;}
-    public function setName($name) {$this->name = $name;}
+    public function getName()
+    {
+        return $this->name;
+    }
+    public function getNbTeam()
+    {
+        return $this->nb_team;
+    }
 }
