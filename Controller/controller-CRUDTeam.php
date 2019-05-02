@@ -11,7 +11,7 @@ if(isset($_GET['func'])) {
 }
 
 function createTeam($tournament_id) {
-    require_once "../Model/model-DB.php";
+    require_once "../Model/Database.php";
     //Fields recovery
     $name = $_POST['name'];
 
@@ -45,7 +45,7 @@ function createTeam($tournament_id) {
 }
 
 function deleteTeam($team_id) {
-    require_once "../Model/model-DB.php";
+    require_once "../Model/Database.php";
     $infoTeam = dbGetInfoTeam($team_id);
     $tournament_id = $infoTeam['tournament_id'];
     $path_logo = $infoTeam['path_logo'];
@@ -58,7 +58,7 @@ function deleteTeam($team_id) {
 }
 
 function editTeam($id_team){
-    require_once "../Model/model-DB.php";
+    require_once "../Model/Database.php";
 
     $team_name = $_POST['name'];
 
@@ -97,7 +97,7 @@ function editTeam($id_team){
 }
 
 function editTeamView($id_team){
-    require_once "../Model/model-DB.php";
+    require_once "../Model/Database.php";
     $info = dbGetTeamById($id_team);
 
     echo "Name : <input type='text' name='name' value='".$info['name']."'/>

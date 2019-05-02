@@ -1,5 +1,5 @@
 <?php
-require_once "../Model/model-DB.php";
+require_once "../Model/Database.php";
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){

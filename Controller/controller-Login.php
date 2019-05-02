@@ -6,11 +6,11 @@ if(isset($_GET['func'])) {
 }
 
 function login(){
-    require_once "../Model/model-DB.php";
+    require_once "../Model/Database.php";
 
     //Makes sure the login and the password fields are not empty
     if (empty($_POST['login']) || empty($_POST['password'])) {
-        redirect("../View/Admin/view-model-DB.php?error=bad_login");
+        redirect("../View/Admin/view-Database.php?error=bad_login");
     }
 
     $login = $_POST['login'];
@@ -30,7 +30,7 @@ function login(){
     }
     if ($adminTable == NULL){
         //if no username corresponds print out an error
-        redirect("../View/Admin/view-model-DB.php?error=bad_login");
+        redirect("../View/Admin/view-Database.php?error=bad_login");
     }
 
     //verify the password hash is corresponding to the input password
@@ -42,7 +42,7 @@ function login(){
     }
     else{
         //if the input password doesn't match the hash print out an error
-        redirect("../View/Admin/view-model-DB.php?error=bad_login");
+        redirect("../View/Admin/view-Database.php?error=bad_login");
     }
 }
 

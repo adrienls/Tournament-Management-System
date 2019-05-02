@@ -1,7 +1,7 @@
 <?php
 
 function generateDays($tournament_id) {
-    require_once "../Model/model-DB.php";
+    require_once "../Model/Database.php";
 
     $teams = dbGetTeamList($tournament_id);
 

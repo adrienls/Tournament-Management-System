@@ -6,7 +6,7 @@ session_start();
 
 if(isset($_SESSION['username'])) {
     if(isset($_GET['id'])) {
-        require_once "../../../Model/model-DB.php";
+        require_once "../../../Model/Database.php";
         $id = $_GET['id'];
         echo "<h1>Update Tournament</h1>
         <form action=\"../../../Controller/controller-CRUDTournament.php?func=editTournament&&id=".$id."\" method=\"post\" >";

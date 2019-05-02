@@ -12,7 +12,7 @@ if(isset($_GET['func'])) {
 }
 
 function createAdmin() {
-    require_once "../Model/model-DB.php";
+    require_once "../Model/Database.php";
     //Connection to database
     //Fields recovery
     $username = $_POST['username'];
@@ -37,7 +37,7 @@ function createAdmin() {
 }
 
 function updateAdmin($id){
-    require_once "../Model/model-DB.php";
+    require_once "../Model/Database.php";
     $username = $_POST['username'];
     $password = $_POST['password'];
 
@@ -52,7 +52,7 @@ function updateAdmin($id){
 }
 
 function updateAdminView($id){
-    require_once "../Model/model-DB.php";
+    require_once "../Model/Database.php";
     $admin = dbGetAdminById($id);
 
     echo "Username : <input type='text' name='username' value='".$admin['username']."'/>
@@ -62,6 +62,6 @@ function updateAdminView($id){
 }
 
 function deleteAdmin($id) {
-    require_once "../Model/model-DB.php";
+    require_once "../Model/Database.php";
     dbDeleteAdmin($id);
 }

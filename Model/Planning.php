@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: adrien
- * Date: 01/04/19
- * Time: 13:29
- */
+require_once "./Database.php";
 
-class Planning
+class Planning extends Database
 {
     private $id;
     private $day_id;
@@ -38,5 +33,25 @@ class Planning
     public function getTeamBNbGoal()
     {
         return $this->teamB_nbGoal;
+    }
+
+    function insertPlanning($day_id, $teamA_id, $teamB_id) {
+        $insertPlanning = $this->connection->prepare("INSERT INTO Planning (id, day_id, teamA_name, teamB_name, teamA_nbGoal, teamB_nbGoal) VALUES (NULL, :day_id, :teamA_name, :teamB_name, NULL, NULL)");
+        $insertPlanning->bindParam(':day_id', $day_id);
+        $insertPlanning->bindParam(':teamA_id', $teamA_id);
+        $insertPlanning->bindParam(':teamB_id', $teamB_id);
+        $insertPlanning->execute();
+    }
+
+    public function __toString()
+    {
+        $description = "Planning table: ".$this."</br>
+        id: ".$this->id."</br>
+        day_id: ".$this->day_id."</br>
+        teamA_name: ".$this->teamA_name."</br>
+        teamB_name: ".$this->teamB_name."</br>
+        teamA_nbGoal: ".$this->teamA_nbGoal."</br>
+        teamB_nbGoal: ".$this->teamB_nbGoal."</br>";
+        return $description;
     }
 }

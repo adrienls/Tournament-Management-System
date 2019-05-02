@@ -1,6 +1,6 @@
 <?php
 
-require_once "../../Model/model-DB.php";
+require_once "../../Model/Database.php";
 require_once "../../Controller/controller-GlobalFunctions.php";
 require_once "../../Controller/controller-CRUDTournament.php";
 require_once "../../Controller/controller-CRUDAdmin.php";

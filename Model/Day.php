@@ -1,28 +1,46 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: adrien
- * Date: 01/04/19
- * Time: 13:29
- */
+require_once "./Database.php";
 
-class Day
+class Day extends Database
 {
     private $id;
     private $tournament_id;
     private $day_number;
     private $done;
 
-    public function getId(){
-        return $this->id;
+    public function getId(){ return $this->id; }
+    public function getTournamentId(){ return $this->tournament_id; }
+    public function getDayNumber(){ return $this->day_number; }
+    public function getDone(){ return $this->done; }
+
+    public function insertDay($tournament_id, $day_number) {
+        $insertDay = $this->connection->prepare("INSERT INTO Day (id, tournament_id, day_number, done) VALUES (NULL, :tournament_id, :day_number, 0)");
+        $insertDay->bindParam(':tournament_id', $tournament_id);
+        $insertDay->bindParam(':day_number', $day_number);
+        $insertDay->execute();
     }
-    public function getTournamentId(){
-        return $this->tournament_id;
+    public function __toString(){
+        $description = "Day table: ".$this."</br>
+        id: ".$this->id."</br>
+        tournament_id: ".$this->tournament_id."</br>
+        day_number: ".$this->day_number."</br>
+        done: ".$this->done."</br>";
+        return $description;
     }
-    public function getDayNumber(){
-        return $this->day_number;
-    }
-    public function getDone(){
-        return $this->done;
-    }
+}
+
+function getDayPlanning($id){
+    $db = new Database();
+    $dayPlanning = $db->getConnection()->prepare("SELECT * FROM Day JOIN Planning ON Day.id = Planning.day_id WHERE tournament_id='$id'");
+    $dayPlanning->execute();
+    $dayPlanning = $dayPlanning->fetchAll();
+    //return the info as an array not a class, because it is joined tables
+    return $dayPlanning;
+}
+function getDayList($tournament_id){
+    $db = new Database();
+    $dayList = $db->getConnection()->prepare("SELECT * FROM Day WHERE tournament_id='$tournament_id'");
+    $dayList->execute();
+    $dayList = $dayList->fetchAll(PDO::FETCH_CLASS, "Day");
+    return $dayList;
 }
