@@ -1,9 +1,9 @@
 <?php
 
 require_once "../../Model/Database.php";
-require_once "../../Controller/controller-GlobalFunctions.php";
-require_once "../../Controller/controller-CRUDTournament.php";
-require_once "../../Controller/controller-CRUDAdmin.php";
+require_once "../../Controller/controller-Global.php";
+require_once "../../Controller/controller-Tournament.php";
+require_once "../../Controller/controller-Admin.php";
 //use AdminList;
 
 
@@ -43,6 +43,6 @@ else {
         if($_GET['success'] == "update") {echo "<br><b style='color:green;'>Tournament updated !</b><br>";}
         if($_GET['success'] == "delete") {echo "<br><b style='color:green;'>Tournament erased !</b><br>";}
     }
-    echo '<a href="../../Controller/controller-Login.php?func=logout">Disconnect</a>';
+    echo '<a href="../../Controller/controller-Admin.php?func=logout">Disconnect</a>';
 }
 ?>

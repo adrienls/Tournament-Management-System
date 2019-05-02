@@ -1,6 +1,6 @@
 <?php
 
-require_once "controller-GlobalFunctions.php";
+require_once "controller-Global.php";
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -72,7 +72,7 @@ function deleteTeamForTournament($team_id) {
 
 function deleteTournament($id){
     require_once "../Model/Database.php";
-    require_once "controller-CRUDTeam.php";
+    require_once "controller-Team.php";
 
     $teams = dbGetTeamList($id);
     foreach ($teams as $team) {

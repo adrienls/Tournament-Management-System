@@ -1,7 +1,7 @@
 <?php
 
-require_once "../../Controller/controller-GlobalFunctions.php";
-require_once "../../Controller/controller-CRUDAdmin.php";
+require_once "../../Controller/controller-Global.php";
+require_once "../../Controller/controller-Admin.php";
 
 session_start();
 
@@ -11,7 +11,8 @@ if(isset($_SESSION['username'])){
             $id = $_GET['id'];
             echo "<h2>Update Admin</h2>
             <form action='../../Controller/controller-CRUDAdmin.php?func=updateAdmin&id=".$id."' method='post'>";
-                updateAdminView($id);
+                echo "Username : <input type='text' name='username' value='".readAdmin($id)."'/><br>
+                Password : <input type='password' name='password'/><br>";
                 if(isset($_GET['error'])){
                     if($_GET['error'] == "field_missing") {echo "<br><b style='color:red;'>Fill all the fields !</b><br>";}
                 }

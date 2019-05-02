@@ -1,5 +1,5 @@
 <?php
-require_once "controller-GlobalFunctions.php";
+require_once "controller-Global.php";
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){

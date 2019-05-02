@@ -55,3 +55,12 @@ class Planning extends Database
         return $description;
     }
 }
+
+function getDayPlanning($id){
+    $db = new Database();
+    $dayPlanning = $db->getConnection()->prepare("SELECT * FROM Day JOIN Planning ON Day.id = Planning.day_id WHERE tournament_id='$id'");
+    $dayPlanning->execute();
+    $dayPlanning = $dayPlanning->fetchAll();
+    //return the info as an array not a class, because it is joined tables
+    return $dayPlanning;
+}

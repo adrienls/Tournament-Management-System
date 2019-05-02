@@ -6,7 +6,7 @@
  * Time: 00:08
  */
 
-require_once "../../../Controller/controller-CRUDTeam.php";
+require_once "../../../Controller/controller-Team.php";
 
 session_start();
 
@@ -27,6 +27,6 @@ if(isset($_SESSION['username'])) {
     }
 }
 else {
-    require_once "../../Controller/controller-GlobalFunctions.php";
+    require_once "../../../Controller/controller-Global.php";
     redirect("../index.php?error=access_denied");
 }

@@ -1,6 +1,7 @@
 <?php
+require_once "./Database.php";
 
-class Admin
+class Admin extends Database
 {
     private $id;
     private $username;
@@ -11,24 +12,19 @@ class Admin
     public function getPassword(){ return $this->password; }
 
     public function insertAdmin($username, $password){
-        $connection = connectDB();
-        $insertAdmin = $connection->prepare("INSERT INTO Admin (id, username, password) VALUES (NULL, :username, :password)");
+        $insertAdmin = $this->connection->prepare("INSERT INTO Admin (id, username, password) VALUES (NULL, :username, :password)");
         $insertAdmin->bindParam(':username', $username);
         $insertAdmin->bindParam(':password', $password);
         $insertAdmin->execute();
-        $connection = NULL;
     }
     public function updateAdmin($id, $username, $password){
-        $connection = connectDB();
-        $updateAdmin = $connection->prepare("UPDATE Admin SET username='$username', password='$password' WHERE id='$id'");
+        $updateAdmin = $this->connection->prepare("UPDATE Admin SET username='$username', password='$password' WHERE id='$id'");
         $updateAdmin->execute();
-        $connection = NULL;
     }
+    //ISSUE WITH REDIRECT NOT SUPPOSED TO BE THERE
     public function deleteAdmin($id){
-        $connection = connectDB();
-        $delete = $connection->prepare("DELETE FROM Admin WHERE id='$id'");
+        $delete = $this->connection->prepare("DELETE FROM Admin WHERE id='$id'");
         $delete->execute();
-        $connection = NULL;
         redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=delete");
     }
 
@@ -42,34 +38,30 @@ class Admin
 }
 
 function getUserList(){
-    $connection = connectDB();
-    $userList = $connection->prepare("SELECT username FROM Admin");
+    $db = new Database();
+    $userList = $db->getConnection()->prepare("SELECT username FROM Admin");
     $userList->execute();
     $userList = $userList->fetchAll(PDO::FETCH_CLASS, "Admin");
-    $connection = NULL;
     return $userList;
 }
 function getAdminTable($login){
-    $connection = connectDB();
-    $adminTable = $connection->prepare("SELECT * FROM Admin WHERE username='$login'");
+    $db = new Database();
+    $adminTable = $db->getConnection()->prepare("SELECT * FROM Admin WHERE username='$login'");
     $adminTable->execute();
     $adminTable = $adminTable->fetchObject("Admin");
-    $connection = NULL;
     return $adminTable;
 }
 function getAdminList(){
-    $connection = connectDB();
-    $adminList = $connection->prepare("SELECT * FROM Admin ");
+    $db = new Database();
+    $adminList = $db->getConnection()->prepare("SELECT * FROM Admin ");
     $adminList->execute();
     $adminList = $adminList->fetchAll(PDO::FETCH_CLASS, "Admin");
-    $connection = NULL;
     return $adminList;
 }
 function getAdminById($id){
-    $connection = connectDB();
-    $adminById = $connection->prepare("SELECT * FROM Admin WHERE id='$id'");
+    $db = new Database();
+    $adminById = $db->getConnection()->prepare("SELECT * FROM Admin WHERE id='$id'");
     $adminById->execute();
     $adminById = $adminById->fetchObject("Admin");
-    $connection = NULL;
     return $adminById;
 }

@@ -3,7 +3,7 @@
 session_start();
 
 if(isset($_SESSION['username'])){
-    echo "<form action='../../../Controller/controller-CRUDTournament.php?func=createTournament' method='post'>
+    echo "<form action='../../../Controller/controller-Tournament.php?func=createTournament' method='post'>
         Name: <input type='text' name='tournamentName'/>
         <br>
         Number of team : <input type='number' step='0.1' name='nbTeam'/>
@@ -16,7 +16,7 @@ if(isset($_SESSION['username'])){
     </form>";
 }
 else {
-    require_once "../../../Controller/controller-GlobalFunctions.php";
+    require_once "../../../Controller/controller-Global.php";
     redirect("../../index.php?error=access_denied");
 }
 
