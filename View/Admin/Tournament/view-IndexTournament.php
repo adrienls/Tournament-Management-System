@@ -13,8 +13,7 @@ if(!isset($_SESSION['username'])){
 }
 
 else {
-    require_once "../../../Controller/controller-CRUDTournament.php";
-    require_once "../../../Model/Database.php";
+    require_once "../../../Controller/controller-Tournament.php";
 
     echo "<h2>".$_GET['name']." Management</h2>";
     echo "<a href=\"../Team/view-CreateTeam.php?id=".$_GET["id"]."&&name=".$_GET['name']."\">New Team</a><br><br>";

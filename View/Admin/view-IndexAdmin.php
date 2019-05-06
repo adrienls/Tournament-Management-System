@@ -1,11 +1,8 @@
 <?php
 
-require_once "../../Model/Database.php";
 require_once "../../Controller/controller-Global.php";
 require_once "../../Controller/controller-Tournament.php";
 require_once "../../Controller/controller-Admin.php";
-//use AdminList;
-
 
 session_start();
 
@@ -21,23 +18,22 @@ else {
     }
     echo '<a href="Tournament/view-CreateTournament.php">New Tournament</a><br/><br/>';
 
-    //$admins = $this->getAdminList();
-
-    // test pour le trait qui est ok
-    $tournaments= dbGetTournamentList();
+    $tournaments = getTournamentList();
 
     echo "<table><tr><th>Name</th><th>NbTeamsMax</th></tr>";
     foreach ($tournaments as $tournament) {
+        $id = $tournament->getId();
+        $name = $tournament->getName();
+        $nb_team = $tournament->getNbTeam();
         echo "<tr>
-            <td><a href=\"../Admin/Tournament/view-IndexTournament.php?id=" . $tournament['id'] . "&&name=" . $tournament['name'] . "\">" . $tournament['name'] . "</td>
-            <td>" . $tournament['nb_team'] . "</td>
-            <td><a href=\"../Admin/Tournament/view-UpdateTournament.php?id=" . $tournament['id'] . "\">Edit</a></td>
-            <td><a href=\"../../Controller/controller-CRUDTournament.php?func=deleteTournament&&id=" . $tournament['id'] . "\">Delete</a></td>
+            <td><a href=\"../Admin/Tournament/view-IndexTournament.php?id=".$id."&&name=".$name."\">".$name."</td>
+            <td>".$nb_team."</td>
+            <td><a href=\"../Admin/Tournament/view-UpdateTournament.php?id=".$id."\">Edit</a></td>
+            <td><a href=\"../../Controller/controller-CRUDTournament.php?func=deleteTournament&&id=".$id."\">Delete</a></td>
             </tr>";
     }
     echo "</table>";
     //Display
-
     if(isset($_GET['success'])){
         if($_GET['success'] == "new") {echo "<br><b style='color:green;'>Tournament created !</b><br>";}
         if($_GET['success'] == "update") {echo "<br><b style='color:green;'>Tournament updated !</b><br>";}
@@ -45,4 +41,3 @@ else {
     }
     echo '<a href="../../Controller/controller-Admin.php?func=logout">Disconnect</a>';
 }
-?>

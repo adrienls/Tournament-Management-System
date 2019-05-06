@@ -1,6 +1,6 @@
 <?php
-
-require_once "controller-GlobalFunctions.php";
+require_once "./controller-Global.php";
+require_once "../Model/Tournament.php";
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -12,8 +12,6 @@ if(isset($_GET['func'])) {
 }
 
 function createTournament() {
-    require_once "../Model/model-DB.php";
-
     $tournamentName = $_POST['tournamentName'];
     $nbTeam = $_POST['nbTeam'];
 
@@ -35,7 +33,6 @@ function createTournament() {
 }
 
 function editTournament($id){
-    require_once "../Model/model-DB.php";
     $tournament_name = $_POST['tournament_name'];
     $nb_team = $_POST['nb_team'];
 
@@ -59,7 +56,6 @@ function editTournament($id){
 }
 
 function deleteTeamForTournament($team_id) {
-    require_once "../Model/model-DB.php";
     $infoTeam= dbGetInfoTeam($team_id);
 
     $pathLogo= $infoTeam['path_logo'];
@@ -71,9 +67,6 @@ function deleteTeamForTournament($team_id) {
 }
 
 function deleteTournament($id){
-    require_once "../Model/model-DB.php";
-    require_once "controller-CRUDTeam.php";
-
     $teams = dbGetTeamList($id);
     foreach ($teams as $team) {
         deleteTeamForTournament($team['id']);
@@ -83,8 +76,6 @@ function deleteTournament($id){
 }
 
 function testNumberMaxTeam($tournament_id){
-    require_once "../../../Model/model-DB.php";
-
     $nbTeamMax = dbGetNbTeamMax($tournament_id);
     $nbTeam = dbGetNbTeam($tournament_id);
 
@@ -121,8 +112,6 @@ function generateMatches($teams){
 }
 
 function generateDays($tournament_id) {
-    require_once "../Model/model-DB.php";
-
     $teamsList = dbGetTeamList($tournament_id);
     $teams = [];
     foreach ($teamsList as $team) {
