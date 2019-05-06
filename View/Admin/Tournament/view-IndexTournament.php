@@ -43,7 +43,7 @@ else {
         if($_GET['success'] == "generate") {echo "<br><b style='color:green;'>Days & Matches generated !</b><br>";}
     }
     if(testNumberMaxTeam($_GET['id'])){
-        echo "<br><a href=\"../../../Controller/controller-Tournament.php?func=generateDays&id=".$_GET["id"]."&name=".$_GET["name"]."\">GenerateDays</a></br>";
+        echo "<br><a href=\"../../../Controller/controller-Days.php?func=generateDays&id=".$_GET["id"]."&name=".$_GET["name"]."\">GenerateDays</a></br>";
     }
     echo "<a href='../view-IndexAdmin.php'>Back</a>";
 }
