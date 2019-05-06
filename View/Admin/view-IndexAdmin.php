@@ -1,5 +1,4 @@
 <?php
-
 require_once "../../Controller/controller-Global.php";
 require_once "../../Controller/controller-Tournament.php";
 require_once "../../Controller/controller-Admin.php";
@@ -19,7 +18,6 @@ else {
     echo '<a href="Tournament/view-CreateTournament.php">New Tournament</a><br/><br/>';
 
     $tournaments = getTournamentList();
-
     echo "<table><tr><th>Name</th><th>NbTeamsMax</th></tr>";
     foreach ($tournaments as $tournament) {
         $id = $tournament->getId();

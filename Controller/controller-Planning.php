@@ -2,7 +2,6 @@
 require_once "controller-Global.php";
 require_once __DIR__."/../Model/Planning.php";
 
-
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
         $_GET['func']($_GET['id']);
@@ -26,10 +25,10 @@ function cmp($a, $b) {
     return ($a["score"] < $b["score"]) ? 1 : -1;
 }
 function getRankingsTournament($id_tournament){
-    $teamList = dbGetTeamList($id_tournament);
+    $teamList = getTeamList($id_tournament);
     $ranking = array();
     foreach ($teamList as $team){
-        $ranking[$team["name"]] = array(
+        $ranking[$team->getName()] = array(
             "score" => 0,
             "goalScored" => 0,
             "goalTaken" => 0,
@@ -37,8 +36,7 @@ function getRankingsTournament($id_tournament){
     }
     $dailyRanking = array();
 
-    $dayPlanning = dbGetDayPlanning($id_tournament);
-    //var_dump($dayPlanning);
+    $dayPlanning = getDayPlanning($id_tournament);
     foreach ($dayPlanning as $match){
         if ($match["done"] == 0){
             break;
@@ -68,4 +66,4 @@ function getRankingsTournament($id_tournament){
     return $dailyRanking;
 }
 
-getRankingsTournament(1);
+//getRankingsTournament(1);

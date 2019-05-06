@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: adrien
- * Date: 02/05/19
- * Time: 21:18
- */
 
 class Database
 {
@@ -13,8 +7,8 @@ class Database
     private $connection;
     public function getConnection(){ return $this->connection; }
 
-    //public function __construct($host="localhost", $dbName="Tournament-Management-System", $user="adrien", $password="password"){
-    public function __construct($host="localhost", $dbName="Tournament-Management-System", $user="testUser", $password="testPassword"){
+    public function __construct($host="localhost", $dbName="Tournament-Management-System", $user="adrien", $password="password"){
+    //public function __construct($host="localhost", $dbName="Tournament-Management-System", $user="testUser", $password="testPassword"){
         if($this->connection == NULL){
             $this->host = $host;
             $this->dbName = $dbName;
