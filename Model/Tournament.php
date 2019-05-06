@@ -59,7 +59,7 @@ function getTournamentById($id){
     $db = new Database();
     $tournamentById = $db->getConnection()->prepare("SELECT * FROM Tournament WHERE id='$id'");
     $tournamentById->execute();
-    $tournamentById = $tournamentById->fetch();
+    $tournamentById = $tournamentById->fetchObject("Tournament");
     return $tournamentById;
 }
 function getNbTeamMax($tournament_id){
