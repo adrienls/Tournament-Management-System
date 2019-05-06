@@ -1,7 +1,7 @@
 <?php
 require_once "./Database.php";
 
-class Admin extends Database
+class Admin
 {
     private $id;
     private $username;
@@ -12,20 +12,21 @@ class Admin extends Database
     public function getPassword(){ return $this->password; }
 
     public function insertAdmin($username, $password){
-        $insertAdmin = $this->connection->prepare("INSERT INTO Admin (id, username, password) VALUES (NULL, :username, :password)");
+        $db = new Database();
+        $insertAdmin = $db->getConnection()->prepare("INSERT INTO Admin (id, username, password) VALUES (NULL, :username, :password)");
         $insertAdmin->bindParam(':username', $username);
         $insertAdmin->bindParam(':password', $password);
         $insertAdmin->execute();
     }
     public function updateAdmin($id, $username, $password){
-        $updateAdmin = $this->connection->prepare("UPDATE Admin SET username='$username', password='$password' WHERE id='$id'");
+        $db = new Database();
+        $updateAdmin = $db->getConnection()->prepare("UPDATE Admin SET username='$username', password='$password' WHERE id='$id'");
         $updateAdmin->execute();
     }
-    //ISSUE WITH REDIRECT NOT SUPPOSED TO BE THERE
     public function deleteAdmin($id){
-        $delete = $this->connection->prepare("DELETE FROM Admin WHERE id='$id'");
+        $db = new Database();
+        $delete = $db->getConnection()->prepare("DELETE FROM Admin WHERE id='$id'");
         $delete->execute();
-        redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=delete");
     }
 
     public function __toString(){

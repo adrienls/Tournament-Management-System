@@ -1,7 +1,7 @@
 <?php
 require_once "./Database.php";
 
-class Team extends Database
+class Team
 {
     private $id;
     private $name;
@@ -30,19 +30,22 @@ class Team extends Database
         return $this->path_logo;
     }
 
-    function insertTeam($name, $tournament_id, $fileDestination){
-        $insertTeam = $this->connection->prepare("INSERT INTO Team (id, name, tournament_id, nb_visit, path_logo) VALUES (NULL, :name, :tournament_id, 0, :path_logo)");
+    public function insertTeam($name, $tournament_id, $fileDestination){
+        $db = new Database();
+        $insertTeam = $db->getConnection()->prepare("INSERT INTO Team (id, name, tournament_id, nb_visit, path_logo) VALUES (NULL, :name, :tournament_id, 0, :path_logo)");
         $insertTeam->bindParam(':name', $name);
         $insertTeam->bindParam(':tournament_id', $tournament_id);
         $insertTeam->bindParam(':path_logo', $fileDestination);
         $insertTeam->execute();
     }
-    function updateTeam($team_name, $fileDestination, $id_team){
-        $updateTeam = $this->connection->prepare("UPDATE Team SET name='$team_name', path_logo='$fileDestination' WHERE id='$id_team'");
+    public function updateTeam($team_name, $fileDestination, $id_team){
+        $db = new Database();
+        $updateTeam = $db->getConnection()->prepare("UPDATE Team SET name='$team_name', path_logo='$fileDestination' WHERE id='$id_team'");
         $updateTeam->execute();
     }
-    function deleteTeam($team_id){
-        $deleteTeam = $this->connection->prepare("DELETE FROM Team WHERE id='$team_id'");
+    public function deleteTeam($team_id){
+        $db = new Database();
+        $deleteTeam = $db->getConnection()->prepare("DELETE FROM Team WHERE id='$team_id'");
         $deleteTeam->execute();
     }
 
@@ -70,17 +73,17 @@ function getNbTeam($tournament_id){
     $nbTeam->execute();
     return $nbTeam;
 }
-function getTeamById($id_team){
+function getTeamById($team_id){
     $db = new Database();
-    $teamById = $db->getConnection()->prepare("SELECT * FROM Team WHERE id='$id_team'");
+    $teamById = $db->getConnection()->prepare("SELECT * FROM Team WHERE id='$team_id'");
     $teamById->execute();
-    $teamById = $teamById->fetchObject();
+    $teamById = $teamById->fetchObject("Team");
     return $teamById;
 }
 function getInfoTeam($team_id){
     $db = new Database();
     $infoTeam = $db->getConnection()->prepare("SELECT tournament_id, path_logo FROM Team WHERE id='$team_id'");
     $infoTeam->execute();
-    $infoTeam= $infoTeam->fetchObject();
+    $infoTeam = $infoTeam->fetchObject("Team");
     return $infoTeam;
 }

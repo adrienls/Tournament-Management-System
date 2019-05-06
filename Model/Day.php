@@ -1,7 +1,7 @@
 <?php
 require_once "./Database.php";
 
-class Day extends Database
+class Day
 {
     private $id;
     private $tournament_id;
@@ -14,11 +14,13 @@ class Day extends Database
     public function getDone(){ return $this->done; }
 
     public function insertDay($tournament_id, $day_number) {
-        $insertDay = $this->connection->prepare("INSERT INTO Day (id, tournament_id, day_number, done) VALUES (NULL, :tournament_id, :day_number, 0)");
+        $db = new Database();
+        $insertDay = $db->getConnection()->prepare("INSERT INTO Day (id, tournament_id, day_number, done) VALUES (NULL, :tournament_id, :day_number, 0)");
         $insertDay->bindParam(':tournament_id', $tournament_id);
         $insertDay->bindParam(':day_number', $day_number);
         $insertDay->execute();
     }
+
     public function __toString(){
         $description = "Day table: ".$this."</br>
         id: ".$this->id."</br>

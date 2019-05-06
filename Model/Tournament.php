@@ -1,7 +1,7 @@
 <?php
 require_once "./Database.php";
 
-class Tournament extends Database
+class Tournament
 {
     private $id;
     private $name;
@@ -21,17 +21,20 @@ class Tournament extends Database
     }
 
     function insertTournament($tournamentName, $nbTeam){
-        $insertTournament = $this->connection->prepare("INSERT INTO Tournament (id, name, nb_team) VALUES (NULL, :name, :nb_team)");
+        $db = new Database();
+        $insertTournament = $db->getConnection()->prepare("INSERT INTO Tournament (id, name, nb_team) VALUES (NULL, :name, :nb_team)");
         $insertTournament->bindParam(':name', $tournamentName);
         $insertTournament->bindParam(':nb_team', $nbTeam);
         $insertTournament->execute();
     }
     function updateTournament($tournament_name, $nb_team, $id){
-        $updateTournament = $this->connection->prepare("UPDATE Tournament SET name='$tournament_name', nb_team='$nb_team' WHERE id='$id'");
+        $db = new Database();
+        $updateTournament = $db->getConnection()->prepare("UPDATE Tournament SET name='$tournament_name', nb_team='$nb_team' WHERE id='$id'");
         $updateTournament->execute();
     }
     function deleteTournament($id){
-        $deleteTournament = $this->connection->prepare("DELETE FROM Tournament WHERE id='$id'");
+        $db = new Database();
+        $deleteTournament = $db->getConnection()->prepare("DELETE FROM Tournament WHERE id='$id'");
         $deleteTournament->execute();
     }
 
@@ -57,7 +60,6 @@ function getTournamentById($id){
     $tournamentById = $db->getConnection()->prepare("SELECT * FROM Tournament WHERE id='$id'");
     $tournamentById->execute();
     $tournamentById = $tournamentById->fetch();
-    $connection=NULL;
     return $tournamentById;
 }
 function getNbTeamMax($tournament_id){
@@ -65,6 +67,5 @@ function getNbTeamMax($tournament_id){
     $nbTeamMax = $db->getConnection()->prepare("SELECT nb_team FROM Tournament WHERE id='$tournament_id'");
     $nbTeamMax->execute();
     $nbTeamMax = $nbTeamMax->fetchColumn();
-    $connection = NULL;
     return $nbTeamMax;
 }

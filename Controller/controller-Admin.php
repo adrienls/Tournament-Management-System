@@ -58,6 +58,7 @@ readAdmin(1);
 function deleteAdmin($id) {
     require_once "../Model/Database.php";
     dbDeleteAdmin($id);
+    redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=delete");
 }
 
 function login(){

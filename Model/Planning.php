@@ -1,7 +1,7 @@
 <?php
 require_once "./Database.php";
 
-class Planning extends Database
+class Planning
 {
     private $id;
     private $day_id;
@@ -36,7 +36,8 @@ class Planning extends Database
     }
 
     function insertPlanning($day_id, $teamA_id, $teamB_id) {
-        $insertPlanning = $this->connection->prepare("INSERT INTO Planning (id, day_id, teamA_name, teamB_name, teamA_nbGoal, teamB_nbGoal) VALUES (NULL, :day_id, :teamA_name, :teamB_name, NULL, NULL)");
+        $db = new Database();
+        $insertPlanning = $db->getConnection()->prepare("INSERT INTO Planning (id, day_id, teamA_name, teamB_name, teamA_nbGoal, teamB_nbGoal) VALUES (NULL, :day_id, :teamA_name, :teamB_name, NULL, NULL)");
         $insertPlanning->bindParam(':day_id', $day_id);
         $insertPlanning->bindParam(':teamA_id', $teamA_id);
         $insertPlanning->bindParam(':teamB_id', $teamB_id);

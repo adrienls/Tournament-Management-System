@@ -1,6 +1,6 @@
 <?php
 require_once "../../Model/Database.php";
-require_once "../../Controller/controller-CRUDAdmin.php";
+require_once "../../Controller/controller-Admin.php";
 session_start();
 
 if(isset($_SESSION['username'])){
@@ -17,7 +17,7 @@ if(isset($_SESSION['username'])){
                 echo "<tr>
             <td>".$admin['username']."</td>
             <td><a href=\"view-UpdateAdmin.php?id=".$admin['id']."\">Edit</a></td>
-            <td><a href=\"../../Controller/controller-CRUDAdmin.php?func=deleteAdmin&id=".$admin['id']."\">Delete</a></td>
+            <td><a href=\"../../Controller/controller-Admin.php?func=deleteAdmin&id=".$admin['id']."\">Delete</a></td>
             </tr>";
             }
         }

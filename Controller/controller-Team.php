@@ -45,9 +45,9 @@ function createTeam($tournament_id) {
 }
 
 function deleteTeam($team_id) {
-    require_once "../Model/Database.php";
-    $infoTeam = dbGetInfoTeam($team_id);
-    $tournament_id = $infoTeam['tournament_id'];
+    require_once "../Model/Team.php";
+    $infoTeam = getInfoTeam($team_id);
+    $tournament_id = $infoTeam->getTournamentId();
     $path_logo = $infoTeam['path_logo'];
 
     if(file_exists($path_logo)){
