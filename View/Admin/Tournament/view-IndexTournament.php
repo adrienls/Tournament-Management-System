@@ -19,16 +19,16 @@ else {
     echo "<a href=\"../Team/view-CreateTeam.php?id=".$_GET["id"]."&&name=".$_GET['name']."\">New Team</a><br><br>";
 
     //Tournaments Recovery
-    $teams = dbGetTeamList($_GET["id"]);
+    $teams = getTeamList($_GET["id"]);
     //Display
     echo "<table><tr><th>Name</th><th>NbOfVisit</th><th>Logo</th></tr>";
     foreach($teams as $team) {
         echo "<tr>
-            <td>".$team['name']."</td>
-            <td>".$team['nb_visit']."</td>
+            <td>".$team->getName()."</td>
+            <td>".$team->getNbVisit()."</td>
             <td></td>
-            <td><a href=\"../Team/view-UpdateTeam.php?id=".$team['id']."&&name=".$_GET['name']."\">Edit</a></td>
-            <td><a href=\"../../../Controller/controller-CRUDTeam.php?func=deleteTeam&&id=".$team['id']."&&name=".$_GET['name']."\">Delete</a></td>
+            <td><a href=\"../Team/view-UpdateTeam.php?id=".$team->getId()."&&name=".$_GET['name']."\">Edit</a></td>
+            <td><a href=\"../../../Controller/controller-Team.php?func=deleteTeam&&id=".$team->getId()."&&name=".$_GET['name']."\">Delete</a></td>
             </tr>";
     }
     echo "</table>";
@@ -43,7 +43,7 @@ else {
         if($_GET['success'] == "generate") {echo "<br><b style='color:green;'>Days & Matches generated !</b><br>";}
     }
     if(testNumberMaxTeam($_GET['id'])){
-        echo "<br><a href=\"../../../Controller/controller-CRUDTournament.php?func=generateDays&id=".$_GET["id"]."&name=".$_GET["name"]."\">GenerateDays</a></br>";
+        echo "<br><a href=\"../../../Controller/controller-Tournament.php?func=generateDays&id=".$_GET["id"]."&name=".$_GET["name"]."\">GenerateDays</a></br>";
     }
     echo "<a href='../view-IndexAdmin.php'>Back</a>";
 }

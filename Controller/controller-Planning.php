@@ -1,6 +1,7 @@
 <?php
-require_once "./controller-Global.php";
-require_once "../Model/Planning.php";
+require_once "controller-Global.php";
+require_once __DIR__."/../Model/Planning.php";
+
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){

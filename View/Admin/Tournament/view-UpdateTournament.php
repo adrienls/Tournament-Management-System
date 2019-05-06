@@ -9,8 +9,8 @@ if(isset($_SESSION['username'])) {
         require_once "../../../Model/Database.php";
         $id = $_GET['id'];
         echo "<h1>Update Tournament</h1>
-        <form action=\"../../../Controller/controller-CRUDTournament.php?func=editTournament&&id=".$id."\" method=\"post\" >";
-            $tournament=dbGetTournamentById($id);
+        <form action=\"../../../Controller/controller-Tournament.php?func=editTournament&&id=".$id."\" method=\"post\" >";
+            $tournament=getTournamentById($id);
             echo "Name : <input type='text' name='tournament_name' value='".$tournament['name']."'/>
             <br>
             Number of team : <input type='number' step=\"1\" min=\"0\" name='nb_team' value='".$tournament['nb_team']."'/>

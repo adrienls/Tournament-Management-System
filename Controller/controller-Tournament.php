@@ -1,6 +1,9 @@
 <?php
-require_once "./controller-Global.php";
-require_once "../Model/Tournament.php";
+require_once "controller-Global.php";
+require_once __DIR__."/../Model/Day.php";
+require_once __DIR__."/../Model/Team.php";
+require_once __DIR__."/../Model/Planning.php";
+require_once __DIR__."/../Model/Tournament.php";
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -20,15 +23,16 @@ function createTournament() {
     }
 
     //Name verification
-    $dbTournament = dbGetTournamentList();
+    $dbTournament = getTournamentList();
     foreach ($dbTournament as $tournament) {
-        if($tournamentName == $tournament['name']){
+        if($tournamentName == $tournament->getName()){
             redirect("../View/Admin/Tournament/view-CreateTournament.php?error=name_used");
         }
     }
 
     //Informations sending
-    dbInsertTournament($tournamentName, $nbTeam);
+    $tournament = new Tournament();
+    $tournament->insertTournament($tournamentName, $nbTeam);
     redirect("../View/Admin/view-IndexAdmin.php?success=new");
 }
 
@@ -40,7 +44,7 @@ function editTournament($id){
         redirect("../View/Admin/Tournament/view-UpdateTournament.php?id=".$id ."&error=field_missing");
     }
 
-    $oldNbTeam = dbGetNbTeamMax($id);
+    $oldNbTeam = getNbTeamMax($id);
 
     //Verification of the number of teams
     if($nb_team < 0) {
@@ -51,33 +55,36 @@ function editTournament($id){
     }
 
     //Informations sending
-    dbUpdateTournament($tournament_name,$nb_team,$id);
+    $tournament = new Tournament();
+    $tournament->updateTournament($tournament_name,$nb_team,$id);
     redirect("../View/Admin/view-IndexAdmin.php?success=update");
 }
 
 function deleteTeamForTournament($team_id) {
-    $infoTeam= dbGetInfoTeam($team_id);
+    $infoTeam = getInfoTeam($team_id);
 
-    $pathLogo= $infoTeam['path_logo'];
+    $pathLogo= $infoTeam->getPathLogo();
 
     if(file_exists($pathLogo)){
         unlink( $pathLogo ) ;
     }
-    dbDeleteTeam($team_id);
+    $team = new Team();
+    $team->deleteTeam($team_id);
 }
 
 function deleteTournament($id){
-    $teams = dbGetTeamList($id);
+    $teams = getTeamList($id);
     foreach ($teams as $team) {
-        deleteTeamForTournament($team['id']);
+        deleteTeamForTournament($team->getId());
     }
-    dbDeleteTournament($id);
+    $tournament = new Tournament();
+    $tournament->deleteTournament($id);
     redirect("../View/Admin/view-IndexAdmin.php?success=deleteTournament");
 }
 
 function testNumberMaxTeam($tournament_id){
-    $nbTeamMax = dbGetNbTeamMax($tournament_id);
-    $nbTeam = dbGetNbTeam($tournament_id);
+    $nbTeamMax = getNbTeamMax($tournament_id);
+    $nbTeam = getNbTeam($tournament_id);
 
     if($nbTeam<$nbTeamMax){
         return 0;
@@ -112,24 +119,28 @@ function generateMatches($teams){
 }
 
 function generateDays($tournament_id) {
-    $teamsList = dbGetTeamList($tournament_id);
+    $teamsList = getTeamList($tournament_id);
     $teams = [];
     foreach ($teamsList as $team) {
-        array_push($teams,$team['name']);
+        array_push($teams,$team->getName());
     }
 
     $nbTeams = count($teams);
     $nbDays = ($nbTeams % 2 == 0) ? $nbTeams-1 : $nbTeams;
 
     for ($i = 1; $i <= $nbDays; $i++) {
-        dbInsertDay($tournament_id,$i);
+        $day = new Day();
+        $day->insertDay($tournament_id,$i);
     }
-    $days = dbGetDayList($tournament_id);
+    $days = getDayList($tournament_id);
 
     $matches = generateMatches($teams);
     foreach ($days as $day) {
         for ($j=0; $j<$nbTeams/2; $j++) {
-            dbInsertPlanning($day['id'],$matches[$day['day_number']-1][$j]['Home'],$matches[$day['day_number']-1][$j]['Away']);
+            $dayNumber = $day->getDayNumber();
+            $dayId = $day->getId();
+            $planning = new Planning();
+            $planning->insertPlanning($dayId,$matches[$dayNumber-1][$j]['Home'],$matches[$dayNumber-1][$j]['Away']);
         }
     }
 

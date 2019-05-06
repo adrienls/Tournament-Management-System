@@ -1,4 +1,3 @@
-
 <form action="../../Controller/controller-Admin.php?func=login" method="post">
     <h2>Connection</h2>
     Login : <input type="text" name="login" />

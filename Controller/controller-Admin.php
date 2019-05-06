@@ -1,6 +1,6 @@
 <?php
-require_once "./controller-Global.php";
-require_once "../Model/Admin.php";
+require_once "controller-Global.php";
+require_once __DIR__."/../Model/Admin.php";
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -20,9 +20,9 @@ function createAdmin() {
         redirect("../View/SuperAdmin/view-CreateAdmin.php?error=field_missing");
     }
     //Username verification
-    $admins = dbGetAdminList();
+    $admins = getAdminList();
     foreach ($admins as $admin) {
-        if($username == $admin['username']){
+        if($username == $admin->getUsername()){
             redirect("../View/SuperAdmin/view-CreateAdmin.php?error=name_used");
         }
     }
@@ -60,11 +60,11 @@ function deleteAdmin($id) {
 function login(){
     //Makes sure the login and the password fields are not empty
     $login = $_POST['login'];
-    var_dump($login);
     if (empty($login) || empty($_POST['password'])) {
         redirect("../View/Admin/view-Login.php?error=bad_login");
     }
     $userList = getUserList();
+    var_dump($userList);
     $adminTable = NULL;
     foreach ($userList as $username){
         //checks if the username input corresponds to an existing user in the admin table
