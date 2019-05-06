@@ -1,6 +1,6 @@
 <?php
 
-require_once "controller-Global.php";
+require_once "controller-GlobalFunctions.php";
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -12,7 +12,7 @@ if(isset($_GET['func'])) {
 }
 
 function createTournament() {
-    require_once "../Model/Database.php";
+    require_once "../Model/model-DB.php";
 
     $tournamentName = $_POST['tournamentName'];
     $nbTeam = $_POST['nbTeam'];
@@ -35,7 +35,7 @@ function createTournament() {
 }
 
 function editTournament($id){
-    require_once "../Model/Database.php";
+    require_once "../Model/model-DB.php";
     $tournament_name = $_POST['tournament_name'];
     $nb_team = $_POST['nb_team'];
 
@@ -59,7 +59,7 @@ function editTournament($id){
 }
 
 function deleteTeamForTournament($team_id) {
-    require_once "../Model/Database.php";
+    require_once "../Model/model-DB.php";
     $infoTeam= dbGetInfoTeam($team_id);
 
     $pathLogo= $infoTeam['path_logo'];
@@ -71,8 +71,8 @@ function deleteTeamForTournament($team_id) {
 }
 
 function deleteTournament($id){
-    require_once "../Model/Database.php";
-    require_once "controller-Team.php";
+    require_once "../Model/model-DB.php";
+    require_once "controller-CRUDTeam.php";
 
     $teams = dbGetTeamList($id);
     foreach ($teams as $team) {
@@ -83,7 +83,7 @@ function deleteTournament($id){
 }
 
 function testNumberMaxTeam($tournament_id){
-    require_once "../Model/Database.php";
+    require_once "../../../Model/model-DB.php";
 
     $nbTeamMax = dbGetNbTeamMax($tournament_id);
     $nbTeam = dbGetNbTeam($tournament_id);
@@ -96,55 +96,55 @@ function testNumberMaxTeam($tournament_id){
     }
 }
 
-function generateDays($tournament_id) {
-    require_once "../Model/Database.php";
+//Round Robin Tournament Algorithm taken from : https://phpro.org/examples/Create-Round-Robin-Using-PHP.html
+function generateMatches($teams){
 
-    $teams = dbGetTeamList($tournament_id);
+    if (count($teams)%2 != 0){
+        array_push($teams,"exempt");
+    }
+    $away = array_splice($teams,(count($teams)/2));
+    $home = $teams;
+    $round = [];
+    for ($i=0; $i < count($home)+count($away)-1; $i++) {
+        for ($j=0; $j<count($home); $j++) {
+            $round[$i][$j]["Home"]=$home[$j];
+            $round[$i][$j]["Away"]=$away[$j];
+        }
+        if(count($home)+count($away)-1 > 2) {
+            $s = array_splice($home,1,1);
+            $slice = array_shift($s); // array to string conversion
+            array_unshift($away,$slice);
+            array_push($home, array_pop($away));
+        }
+    }
+    return $round;
+}
+
+function generateDays($tournament_id) {
+    require_once "../Model/model-DB.php";
+
+    $teamsList = dbGetTeamList($tournament_id);
+    $teams = [];
+    foreach ($teamsList as $team) {
+        array_push($teams,$team['name']);
+    }
 
     $nbTeams = count($teams);
     $nbDays = ($nbTeams % 2 == 0) ? $nbTeams-1 : $nbTeams;
 
-    // Days creation
     for ($i = 1; $i <= $nbDays; $i++) {
         dbInsertDay($tournament_id,$i);
     }
     $days = dbGetDayList($tournament_id);
 
-    $matches = array();
-    $j = 0;
-    foreach ($teams as $team) {
-        $nbTeams = count($teams);
-        for ($i = 1; $i < $nbTeams; $i++) {
-            if ($teams[$i]['name'] != $team['name']) {
-                $matches[$j][0] = $team['name'];
-                $matches[$j][1] = $teams[$i]['name'];
-                $j++;
-            }
-        }
-        array_shift($teams); // Erase the current team used
-        if (count($teams) == 1) {
-            break;
+    $matches = generateMatches($teams);
+    foreach ($days as $day) {
+        for ($j=0; $j<$nbTeams/2; $j++) {
+            dbInsertPlanning($day['id'],$matches[$day['day_number']-1][$j]['Home'],$matches[$day['day_number']-1][$j]['Away']);
         }
     }
 
-    $teams = dbGetTeamList($tournament_id);
-    $dayMatches = array();
-    $i = 0;
-    $currentMatch = $matches[0];
-    foreach ($matches as $match) {
-        $oldMatch = $currentMatch;
-        $currentMatch = $match;
-        if ($currentMatch[0] == $oldMatch[0]) {
-            $dayMatches[$i][0] = $currentMatch;
-            $i++;
-        }
-        else {
-            foreach ($dayMatches as $dayMatch) {
-                //echo $dayMatch[0][0];
-                //echo "<br>";
-                //var_dump($dayMatch);
-                //$dayMatch[0][0] == $currentMatch[0] || $dayMatch[0][1] == $currentMatch[0]
-            }
-        }
-    }
+    redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id ."&name=".$_GET['name']."&success=generate");
 }
+
+

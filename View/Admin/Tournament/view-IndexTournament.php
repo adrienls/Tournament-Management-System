@@ -13,6 +13,7 @@ if(!isset($_SESSION['username'])){
 }
 
 else {
+    require_once "../../../Controller/controller-CRUDTournament.php";
     require_once "../../../Model/Database.php";
 
     echo "<h2>".$_GET['name']." Management</h2>";
@@ -40,9 +41,10 @@ else {
         if($_GET['success'] == "new") {echo "<br><b style='color:green;'>Team created !</b><br>";}
         if($_GET['success'] == "update") {echo "<br><b style='color:green;'>Team updated !</b><br>";}
         if($_GET['success'] == "delete") {echo "<br><b style='color:green;'>Team erased !</b><br>";}
+        if($_GET['success'] == "generate") {echo "<br><b style='color:green;'>Days & Matches generated !</b><br>";}
     }
     if(testNumberMaxTeam($_GET['id'])){
-        echo "<br><a href=\"../../../Controller/controller-CRUDTournament.php?func=generateDays&&id=".$_GET["id"]."\">GenerateDays</a></br>";
+        echo "<br><a href=\"../../../Controller/controller-CRUDTournament.php?func=generateDays&id=".$_GET["id"]."&name=".$_GET["name"]."\">GenerateDays</a></br>";
     }
     echo "<a href='../view-IndexAdmin.php'>Back</a>";
 }
