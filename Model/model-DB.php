@@ -204,12 +204,12 @@ function dbInsertDay($tournament_id, $day_number) {
 }
 
 //Planning Table
-function dbInsertPlanning($day_id, $teamA_id, $teamB_id) {
+function dbInsertPlanning($day_id, $teamA_name, $teamB_name) {
     $connection = connectDB();
     $insertPlanning = $connection->prepare("INSERT INTO Planning (id, day_id, teamA_name, teamB_name, teamA_nbGoal, teamB_nbGoal) VALUES (NULL, :day_id, :teamA_name, :teamB_name, NULL, NULL)");
     $insertPlanning->bindParam(':day_id', $day_id);
-    $insertPlanning->bindParam(':teamA_id', $teamA_id);
-    $insertPlanning->bindParam(':teamB_id', $teamB_id);
+    $insertPlanning->bindParam(':teamA_name', $teamA_name);
+    $insertPlanning->bindParam(':teamB_name', $teamB_name);
     $insertPlanning->execute();
     $connection=NULL;
 }
