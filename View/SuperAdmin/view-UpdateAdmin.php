@@ -10,7 +10,7 @@ if(isset($_SESSION['username'])){
         if(isset($_GET['id'])) {
             $id = $_GET['id'];
             echo "<h2>Update Admin</h2>
-            <form action='../../Controller/controller-CRUDAdmin.php?func=updateAdmin&id=".$id."' method='post'>";
+            <form action='../../Controller/controller-Admin.php?func=updateAdmin&id=".$id."' method='post'>";
                 echo "Username : <input type='text' name='username' value='".readAdmin($id)."'/><br>
                 Password : <input type='password' name='password'/><br>";
                 if(isset($_GET['error'])){

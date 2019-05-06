@@ -22,9 +22,9 @@ function createTeam($tournament_id) {
     }
 
     //Name verification
-    $dbTeams = dbGetTeamList($tournament_id);
+    $dbTeams = getTeamList($tournament_id);
     foreach ($dbTeams as $team) {
-        if($name == $team['name']){
+        if($name == $team->getName()){
             redirect("../View/Admin/Team/view-CreateTeam.php?id=".$tournament_id."&name=".$_GET['name']."&error=name_used");
         }
     }
@@ -41,7 +41,8 @@ function createTeam($tournament_id) {
     move_uploaded_file($file, $fileDestination);
 
     //Information sending
-    dbInsertTeam($name, $tournament_id, $fileDestination);
+    $team = new Team();
+    $team->insertTeam($name, $tournament_id, $fileDestination);
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."");
 }
 
@@ -49,12 +50,13 @@ function deleteTeam($team_id) {
     require_once "../Model/Team.php";
     $infoTeam = getInfoTeam($team_id);
     $tournament_id = $infoTeam->getTournamentId();
-    $path_logo = $infoTeam['path_logo'];
+    $path_logo = $infoTeam->getPathLogo();
 
     if(file_exists($path_logo)){
         unlink( $path_logo ) ;
     }
-    dbDeleteTeam($team_id);
+    $team = new Team();
+    $team->deleteTeam($team_id);
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."&success=delete");
 }
 
@@ -68,13 +70,13 @@ function editTeam($id_team){
     }
 
     //Verification of the name of team's uniqueness
-    $infoTeam = dbGetTeamById($id_team);
-    $id_tournament = $infoTeam['tournament_id'];
-    $pathLogo= $infoTeam['path_logo'];
+    $infoTeam = getTeamById($id_team);
+    $id_tournament = $infoTeam->getTournamentId();
+    $pathLogo= $infoTeam->getPathLogo();
 
-    $dbTeams = dbGetTeamList($id_tournament);
+    $dbTeams = getTeamList($id_tournament);
     foreach ($dbTeams as $team) {
-        if($team_name == $team['name']){
+        if($team_name == $team->getName()){
             redirect("../View/Admin/Team/view-UpdateTeam.php?id=".$id_team."&name=".$_GET['name']."&error=name_used");
         }
     }
@@ -92,18 +94,8 @@ function editTeam($id_team){
     move_uploaded_file($file,$fileDestination);
 
     //Informations sending
-    dbUpdateTeam($team_name,$fileDestination,$id_team);
+    $team = new Team();
+    $team->updateTeam($team_name,$fileDestination,$id_team);
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$id_tournament."&name=".$_GET['name']."&success=update");
-
-}
-
-function editTeamView($id_team){
-    require_once "../Model/Database.php";
-    $info = dbGetTeamById($id_team);
-
-    echo "Name : <input type='text' name='name' value='".$info['name']."'/>
-    <br>
-    Logo : <input type='file' name='logo' size='100000'/>
-    <br>";
 
 }

@@ -9,15 +9,15 @@ if(isset($_SESSION['username'])){
         //viewAdmin();
 
         // test pour le trait qui est ok
-        $admins= dbGetAdminList();
+        $admins= getAdminList();
         //Display
         echo "<table><tr><th>Username</th></tr>";
         foreach($admins as $admin) {
-            if ($admin['username'] != "admin") {
+            if ($admin->getUsername() != "admin") {
                 echo "<tr>
-            <td>".$admin['username']."</td>
-            <td><a href=\"view-UpdateAdmin.php?id=".$admin['id']."\">Edit</a></td>
-            <td><a href=\"../../Controller/controller-Admin.php?func=deleteAdmin&id=".$admin['id']."\">Delete</a></td>
+            <td>".$admin->getUsername()."</td>
+            <td><a href=\"view-UpdateAdmin.php?id=".$admin->getId()."\">Edit</a></td>
+            <td><a href=\"../../Controller/controller-Admin.php?func=deleteAdmin&id=".$admin->getId()."\">Delete</a></td>
             </tr>";
             }
         }
