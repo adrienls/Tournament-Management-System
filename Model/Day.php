@@ -26,6 +26,11 @@ class Day
         $deleteDay->execute();
     }
 
+    public function dbChangeDay($id){
+        $db = new Database();
+        $update = $db->getConnection()->prepare("UPDATE Day SET done=1 WHERE id='$id'");
+        $update->execute();
+    }
     public function __toString(){
         $description = "Day table: ".$this."</br>
         id: ".$this->id."</br>

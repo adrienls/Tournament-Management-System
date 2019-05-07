@@ -77,3 +77,18 @@ function getMatchesList($day_id) {
     $matchesList = $matches->fetchAll(PDO::FETCH_CLASS, "Planning");
     return $matchesList;
 }
+function dbGetPlanning($day_id){
+    $db = new Database();
+    $plannings = $db->getConnection()->prepare("SELECT * FROM Planning WHERE day_id='$day_id'");
+    $plannings->execute();
+    $plannings = $plannings->fetchAll(PDO::FETCH_CLASS, "Planning");
+    return $plannings;
+}
+function dbUpdateGoal($id){
+    $goal1=goal();
+    $goal2=goal();
+    echo $goal1;
+    $db = new Database();
+    $update = $db->getConnection()->prepare("UPDATE Planning SET teamA_nbGoal=$goal1,teamB_nbGoal=$goal2 WHERE id='$id'");
+    $update->execute();
+}
