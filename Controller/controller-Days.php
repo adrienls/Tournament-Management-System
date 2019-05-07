@@ -5,6 +5,15 @@ require_once __DIR__."/../Model/Day.php";
 require_once __DIR__."/../Model/Planning.php";
 require_once __DIR__."/../Model/Tournament.php";
 
+if(isset($_GET['func'])) {
+    if(isset($_GET['id'])){
+        $_GET['func']($_GET['id']);
+    }
+    else {
+        $_GET['func']();
+    }
+}
+
 //Round Robin Tournament Algorithm taken from : https://phpro.org/examples/Create-Round-Robin-Using-PHP.html
 function generateMatches($teams){
 

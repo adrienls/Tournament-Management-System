@@ -20,19 +20,19 @@ class Tournament
         return $this->nb_team;
     }
 
-    function insertTournament($tournamentName, $nbTeam){
+    public function insertTournament($tournamentName, $nbTeam){
         $db = new Database();
         $insertTournament = $db->getConnection()->prepare("INSERT INTO Tournament (id, name, nb_team) VALUES (NULL, :name, :nb_team)");
         $insertTournament->bindParam(':name', $tournamentName);
         $insertTournament->bindParam(':nb_team', $nbTeam);
         $insertTournament->execute();
     }
-    function updateTournament($tournament_name, $nb_team, $id){
+    public function updateTournament($tournament_name, $nb_team, $id){
         $db = new Database();
         $updateTournament = $db->getConnection()->prepare("UPDATE Tournament SET name='$tournament_name', nb_team='$nb_team' WHERE id='$id'");
         $updateTournament->execute();
     }
-    function deleteTournament($id){
+    public function deleteTournament($id){
         $db = new Database();
         $deleteTournament = $db->getConnection()->prepare("DELETE FROM Tournament WHERE id='$id'");
         $deleteTournament->execute();

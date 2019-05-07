@@ -1,6 +1,8 @@
 <?php
 require_once "controller-Global.php";
+require_once __DIR__."/../Model/Day.php";
 require_once __DIR__."/../Model/Team.php";
+require_once __DIR__."/../Model/Planning.php";
 require_once __DIR__."/../Model/Tournament.php";
 
 if(isset($_GET['func'])) {
@@ -60,9 +62,7 @@ function editTournament($id){
 
 function deleteTeamForTournament($team_id) {
     $infoTeam = getInfoTeam($team_id);
-
     $pathLogo= $infoTeam->getPathLogo();
-
     if(file_exists($pathLogo)){
         unlink( $pathLogo ) ;
     }
@@ -71,10 +71,22 @@ function deleteTeamForTournament($team_id) {
 }
 
 function deleteTournament($id){
+
     $teams = getTeamList($id);
     foreach ($teams as $team) {
         deleteTeamForTournament($team->getId());
     }
+
+    $days = getDayList($id);
+    foreach ($days as $day) {
+        $dayId = $day->getId();
+        $matches = getMatchesList($dayId);
+        foreach ($matches as $match) {
+            $match->deletePlanning($match->getId());
+        }
+        $day->deleteDay($dayId);
+    }
+
     $tournament = new Tournament();
     $tournament->deleteTournament($id);
     redirect("../View/Admin/view-IndexAdmin.php?success=deleteTournament");
@@ -83,11 +95,5 @@ function deleteTournament($id){
 function testNumberMaxTeam($tournament_id){
     $nbTeamMax = getNbTeamMax($tournament_id);
     $nbTeam = getNbTeam($tournament_id);
-
-    if($nbTeam<$nbTeamMax){
-        return 0;
-    }
-    else{
-        return 1;
-    }
+    return ($nbTeam<$nbTeamMax);
 }

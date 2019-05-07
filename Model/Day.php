@@ -20,6 +20,11 @@ class Day
         $insertDay->bindParam(':day_number', $day_number);
         $insertDay->execute();
     }
+    public function deleteDay($id){
+        $db = new Database();
+        $deleteDay = $db->getConnection()->prepare("DELETE FROM Day WHERE id='$id'");
+        $deleteDay->execute();
+    }
 
     public function __toString(){
         $description = "Day table: ".$this."</br>

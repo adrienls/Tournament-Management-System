@@ -71,6 +71,7 @@ function getNbTeam($tournament_id){
     $db = new Database();
     $nbTeam = $db->getConnection()->prepare("SELECT COUNT(id) FROM Team WHERE tournament_id='$tournament_id'");
     $nbTeam->execute();
+    $nbTeam = $nbTeam->fetchColumn();
     return $nbTeam;
 }
 function getTeamById($team_id){
