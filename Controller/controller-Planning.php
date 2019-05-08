@@ -43,26 +43,27 @@ function getRankingsTournament($id_tournament){
         }
         $teamA_name = $match["teamA_name"];
         $teamB_name = $match["teamB_name"];
-        if ($match["teamA_nbGoal"] > $match["teamB_nbGoal"]){
-            $ranking[$teamA_name]["score"] += 3;
-        }
-        else if ($match["teamA_nbGoal"] < $match["teamB_nbGoal"]){
-            $ranking[$teamB_name]["score"] += 3;
-        }
-        else if($match["teamA_nbGoal"] == $match["teamB_nbGoal"]){
-            $ranking[$teamA_name]["score"] += 1;
-            $ranking[$teamB_name]["score"] += 1;
-        }
-        //team id ou team name? vote pour team name
-        $ranking[$teamA_name]["goalScored"] += $match["teamA_nbGoal"];
-        $ranking[$teamA_name]["goalTaken"] += $match["teamB_nbGoal"];
-        $ranking[$teamB_name]["goalScored"] += $match["teamB_nbGoal"];
-        $ranking[$teamB_name]["goalTaken"] += $match["teamA_nbGoal"];
+        if ($teamA_name != "exempt" && $teamB_name != "exempt") {
+            if ($match["teamA_nbGoal"] > $match["teamB_nbGoal"]){
+                $ranking[$teamA_name]["score"] += 3;
+            }
+            else if ($match["teamA_nbGoal"] < $match["teamB_nbGoal"]){
+                $ranking[$teamB_name]["score"] += 3;
+            }
+            else if($match["teamA_nbGoal"] == $match["teamB_nbGoal"]){
+                $ranking[$teamA_name]["score"] += 1;
+                $ranking[$teamB_name]["score"] += 1;
+            }
+            //team id ou team name? vote pour team name
+            $ranking[$teamA_name]["goalScored"] += $match["teamA_nbGoal"];
+            $ranking[$teamA_name]["goalTaken"] += $match["teamB_nbGoal"];
+            $ranking[$teamB_name]["goalScored"] += $match["teamB_nbGoal"];
+            $ranking[$teamB_name]["goalTaken"] += $match["teamA_nbGoal"];
 
-        uasort($ranking, "cmp");
-        $dailyRanking[$match["day_number"]] = $ranking;
+            uasort($ranking, "cmp");
+            $dailyRanking[$match["day_number"]] = $ranking;
+        }
     }
-    var_dump($dailyRanking);
     return $dailyRanking;
 }
 

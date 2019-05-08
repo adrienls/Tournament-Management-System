@@ -128,3 +128,8 @@ function goal() {
     }
     return $goal;
 }
+
+function isPlayedDays($tournament_id) {
+    $playedDays = getNbPlayedDays($tournament_id);
+    return ($playedDays != 0);
+}

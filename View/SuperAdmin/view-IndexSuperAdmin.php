@@ -29,7 +29,7 @@ if(isset($_SESSION['username'])){
             if($_GET['success'] == "update") {echo "<br><b style='color:green;'>Admin updated !</b><br>";}
             if($_GET['success'] == "delete") {echo "<br><b style='color:green;'>Admin erased !</b><br>";}
         }
-        echo "<a href='../Admin/view-IndexAdmin.php'>Back</a>";
+        echo "<br><a href='../Admin/view-IndexAdmin.php'>Back</a>";
     }
     else {
         redirect("view-IndexAdmin.php?error=access_denied");

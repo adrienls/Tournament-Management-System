@@ -37,5 +37,5 @@ else {
         if($_GET['success'] == "update") {echo "<br><b style='color:green;'>Tournament updated !</b><br>";}
         if($_GET['success'] == "delete") {echo "<br><b style='color:green;'>Tournament erased !</b><br>";}
     }
-    echo '<a href="../../Controller/controller-Admin.php?func=logout">Disconnect</a>';
+    echo '<br><a href="../../Controller/controller-Admin.php?func=logout">Disconnect</a>';
 }
