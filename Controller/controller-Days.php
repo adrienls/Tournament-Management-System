@@ -15,7 +15,7 @@ if(isset($_GET['func'])) {
 }
 
 //Round Robin Tournament Algorithm taken from : https://phpro.org/examples/Create-Round-Robin-Using-PHP.html
-function generateMatches($teams){
+function generateMatches($teams) {
 
     if (count($teams)%2 != 0){
         array_push($teams,"exempt");
@@ -67,110 +67,64 @@ function generateDays($tournament_id) {
     redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id ."&name=".$_GET['name']."&success=generate");
 }
 
-
-function playDay($tournament_id){
+function isGeneratedDays($tournament_id) {
     $days = getDayList($tournament_id);
-    $actualDay=0;
-    $actualDayId=0;
-    $oldday=1;
-    foreach ($days as $day){
-        $dayDone=$day->getDone();
+    return (count($days) != 0);
+}
+
+function playDay($tournament_id) {
+
+    $days = getDayList($tournament_id);
+    //$actualDay = 0;
+    $actualDayId = 0;
+    $oldDay = 1;
+    foreach ($days as $day) {
+        $dayDone = $day->getDone();
         $dayId = $day->getId();
         $dayNumber = $day->getDayNumber();
-        if (!$dayDone){
-            if ($oldday>=1){
-                $actualDayId=$dayId;
-                $actualDay=$dayNumber;
-                $oldday=0;
+        if (!$dayDone) {
+            if ($oldDay >= 1) {
+                $actualDayId = $dayId;
+                //$actualDay = $dayNumber;
+                $oldDay = 0;
             }
         }
         else {
-            $oldday=$dayNumber;
+            $oldDay = $dayNumber;
         }
     }
-//    echo $actualDayId;
-    $plannings=dbGetPlanning($actualDayId);
-    foreach ($plannings as $planning){
-        $planningId=$planning->getId();
-        echo "on rentre la";
-        echo $planningId;
-        dbUpdateGoal($planningId);
+
+    $matches = getMatchesList($actualDayId);
+    foreach ($matches as $match){
+        if ($match->getTeamAName() != "exempt" && $match->getTeamBName() != "exempt") {
+            $teamA_nbGoal = goal();
+            $teamB_nbGoal = goal();
+            $match->updateMatchGoal($match->getId(),$teamA_nbGoal,$teamB_nbGoal);
+        }
     }
     $day = new Day();
-    $day->dbChangeDay($actualDayId);
-    //redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id ."&name=".$_GET['name']."&success=play");
+    $day->updateDayPlayed($actualDayId);
+    redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id ."&name=".$_GET['name']."&success=play");
 
 }
-function goal(){
-    $proba=rand(0,99);
-    if($proba<20){
-        $goal=0;
-    }
-    elseif($proba<40){
-        $goal=1;
-    }
-    elseif($proba<60){
-        $goal=2;
-    }
-    elseif($proba<75){
-        $goal=3;
-    }
-    elseif($proba<85){
-        $goal=4;
-    }
-    elseif($proba<90){
-        $goal=5;
-    }
-    elseif($proba<95){
-        $goal=6;
-    }
-    elseif($proba<96.6){
-        $goal=7;
-    }
-    elseif($proba<98.4){
-        $goal=8;
-    }
-    elseif($proba<100){
-        $goal=9;
-        /*$proba2=rand(0,2);
-        if($proba2==0){
-            $goal=7;
-        }
-        if($proba2==1){
-            $goal=8;
-        }
-        if($proba2==2){
-            $goal=9;
-        }*/
-    }
-return $goal;
-}
 
-/*
-function dbGetDay($tournament_id){
-    $connection = connectDB();
-    $day = $connection->prepare("SELECT * FROM Day WHERE tournament_id='$tournament_id'");
-    $day->execute();
-    $connection = NULL;
-    return $day;
+function goal() {
+    $probability = rand(0,99);
+    if ($probability < 20) { $goal = 0; }
+    elseif ($probability < 40) { $goal = 1; }
+    elseif ($probability < 60) { $goal = 2; }
+    elseif ($probability < 75) { $goal = 3; }
+    elseif ($probability < 85) { $goal = 4; }
+    elseif ($probability < 90) { $goal = 5; }
+    elseif ($probability < 95) { $goal = 6; }
+    //elseif ($probability < 96.6) { $goal = 7; }
+    //elseif ($probability < 98.4) { $goal = 8; }
+    //elseif ($probability < 100) { $goal = 9; }
+    elseif ($probability < 100) {
+        $probability2 = rand(0,2);
+        if ($probability2 == 0) { $goal = 7; }
+        if ($probability2 == 1) { $goal = 8; }
+        if ($probability2 == 2) { $goal = 9; }
+    }
+    return $goal;
 }
-function dbGetPlanning($day_id){
-    $connection = connectDB();
-    $planning = $connection->prepare("SELECT * FROM Planning WHERE day_id='$day_id'");
-    $planning->execute();
-    $connection = NULL;
-    return $planning;
-function dbUpdateGoal($id){
-    $goal1=goal();
-    $goal2=goal();
-    $connection=connectDB();
-    $update = $connection->prepare("UPDATE Planning SET teamA_nbGoal=$goal1,teamB_nbGoal=$goal2 WHERE id='$id'");
-    $update->execute();
-    $connection = NULL;
-}
-function dbChangeDay($id){
-    $connection=connectDB();
-    $update = $connection->prepare("UPDATE Day SET done=1 WHERE id='$id'");
-    $update->execute();
-}
-*/

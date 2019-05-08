@@ -20,18 +20,18 @@ class Day
         $insertDay->bindParam(':day_number', $day_number);
         $insertDay->execute();
     }
-    public function deleteDay($id){
+    public function deleteDay($id) {
         $db = new Database();
         $deleteDay = $db->getConnection()->prepare("DELETE FROM Day WHERE id='$id'");
         $deleteDay->execute();
     }
-
-    public function dbChangeDay($id){
+    public function updateDayPlayed($id) {
         $db = new Database();
         $update = $db->getConnection()->prepare("UPDATE Day SET done=1 WHERE id='$id'");
         $update->execute();
     }
-    public function __toString(){
+
+    public function __toString() {
         $description = "Day table: ".$this."</br>
         id: ".$this->id."</br>
         tournament_id: ".$this->tournament_id."</br>
@@ -41,7 +41,7 @@ class Day
     }
 }
 
-function getDayList($tournament_id){
+function getDayList($tournament_id) {
     $db = new Database();
     $dayList = $db->getConnection()->prepare("SELECT * FROM Day WHERE tournament_id='$tournament_id'");
     $dayList->execute();

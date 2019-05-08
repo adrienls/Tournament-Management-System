@@ -43,10 +43,15 @@ class Planning
         $insertPlanning->bindParam(':teamB_name', $teamB_name);
         $insertPlanning->execute();
     }
-    public function deletePlanning($id){
+    public function deletePlanning($id) {
         $db = new Database();
         $deletePlanning = $db->getConnection()->prepare("DELETE FROM Planning WHERE id='$id'");
         $deletePlanning->execute();
+    }
+    public function updateMatchGoal($id, $teamA_nbGoal, $teamB_nbGoal) {
+        $db = new Database();
+        $update = $db->getConnection()->prepare("UPDATE Planning SET teamA_nbGoal=$teamA_nbGoal,teamB_nbGoal=$teamB_nbGoal WHERE id='$id'");
+        $update->execute();
     }
 
     public function __toString()
@@ -62,7 +67,7 @@ class Planning
     }
 }
 
-function getDayPlanning($id){
+function getDayPlanning($id) {
     $db = new Database();
     $dayPlanning = $db->getConnection()->prepare("SELECT * FROM Day JOIN Planning ON Day.id = Planning.day_id WHERE tournament_id='$id'");
     $dayPlanning->execute();
@@ -76,19 +81,4 @@ function getMatchesList($day_id) {
     $matches->execute();
     $matchesList = $matches->fetchAll(PDO::FETCH_CLASS, "Planning");
     return $matchesList;
-}
-function dbGetPlanning($day_id){
-    $db = new Database();
-    $plannings = $db->getConnection()->prepare("SELECT * FROM Planning WHERE day_id='$day_id'");
-    $plannings->execute();
-    $plannings = $plannings->fetchAll(PDO::FETCH_CLASS, "Planning");
-    return $plannings;
-}
-function dbUpdateGoal($id){
-    $goal1=goal();
-    $goal2=goal();
-    echo $goal1;
-    $db = new Database();
-    $update = $db->getConnection()->prepare("UPDATE Planning SET teamA_nbGoal=$goal1,teamB_nbGoal=$goal2 WHERE id='$id'");
-    $update->execute();
 }
