@@ -2,11 +2,6 @@
 require_once "controller-Global.php";
 require_once __DIR__."/../Model/Planning.php";
 
-session_start();
-if (!isset($_SESSION['username'])) {
-    redirect("../View/index.php?error=access_denied");
-}
-
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
         $_GET['func']($_GET['id']);
