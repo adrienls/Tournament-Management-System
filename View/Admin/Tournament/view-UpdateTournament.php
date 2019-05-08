@@ -18,8 +18,8 @@ if(isset($_SESSION['username'])) {
             if(isset($_GET['error'])){
                 if($_GET['error'] == "field_missing") {echo "<br><b style='color:red;'>Fill all the fields !</b><br>";}
                 if($_GET['error'] == "number_invalid") {echo "<br><b style='color:red;'>Enter a valid number of teams (>0) !</b><br>";}
-                if($_GET['error'] == "number_use") {echo "<br><b style='color:red;'>Enter a valid number of team !</b><br>";}
-
+                if($_GET['error'] == "teams_already_created") {echo "<br><b style='color:red;'>You need to delete teams before !</b><br>";}
+                if($_GET['error'] == "days_already_generated") {echo "<br><b style='color:red;'>Days are already generated, you can't change the number of teams !</b><br>";}
             }
             echo "<br>
             <input type='submit' value='Submit'/>

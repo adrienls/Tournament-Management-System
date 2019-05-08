@@ -37,6 +37,8 @@ function createTournament() {
 }
 
 function editTournament($id){
+    require_once "controller-Days.php";
+
     $tournament_name = $_POST['tournament_name'];
     $nb_team = $_POST['nb_team'];
 
@@ -45,13 +47,16 @@ function editTournament($id){
     }
 
     $oldNbTeam = getNbTeamMax($id);
-
+    $currentNbTeamCreated = getNbTeam($id);
     //Verification of the number of teams
     if($nb_team < 0) {
         redirect("../View/Admin/Tournament/view-UpdateTournament.php?id=".$id ."&error=number_invalid");
     }
-    if($nb_team<$oldNbTeam) {
-        redirect("../View/Admin/Tournament/view-UpdateTournament.php?id=".$id ."&error=number_use");
+    if(isGeneratedDays($id) && $nb_team != $oldNbTeam){
+        redirect("../View/Admin/Tournament/view-UpdateTournament.php?id=".$id ."&error=days_already_generated");
+    }
+    if($nb_team < $currentNbTeamCreated) {
+        redirect("../View/Admin/Tournament/view-UpdateTournament.php?id=".$id ."&error=teams_already_created");
     }
 
     //Informations sending

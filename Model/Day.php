@@ -48,3 +48,10 @@ function getDayList($tournament_id) {
     $dayList = $dayList->fetchAll(PDO::FETCH_CLASS, "Day");
     return $dayList;
 }
+function getDayById($id){
+    $db = new Database();
+    $dayById = $db->getConnection()->prepare("SELECT * FROM Day WHERE id='$id'");
+    $dayById->execute();
+    $dayById = $dayById->fetchObject("Day");
+    return $dayById;
+}

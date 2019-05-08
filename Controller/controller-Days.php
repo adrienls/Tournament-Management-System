@@ -102,9 +102,9 @@ function playDay($tournament_id) {
             $match->updateMatchGoal($match->getId(),$teamA_nbGoal,$teamB_nbGoal);
         }
     }
-    $day = new Day();
+    $day = getDayById($actualDayId);
     $day->updateDayPlayed($actualDayId);
-    redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id ."&name=".$_GET['name']."&success=play");
+    redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."&success=play&day_number=".$day->getDayNumber());
 
 }
 

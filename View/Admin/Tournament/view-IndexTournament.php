@@ -14,6 +14,7 @@ if(!isset($_SESSION['username'])){
 
 else {
     require_once "../../../Controller/controller-Tournament.php";
+    require_once "../../../Controller/controller-Days.php";
 
     echo "<h2>".$_GET['name']." Management</h2>";
     echo "<a href=\"../Team/view-CreateTeam.php?id=".$_GET["id"]."&&name=".$_GET['name']."\">New Team</a><br><br>";
@@ -41,7 +42,7 @@ else {
         if($_GET['success'] == "update") {echo "<br><b style='color:green;'>Team updated !</b><br>";}
         if($_GET['success'] == "delete") {echo "<br><b style='color:green;'>Team erased !</b><br>";}
         if($_GET['success'] == "generate") {echo "<br><b style='color:green;'>Days & Matches generated !</b><br>";}
-        if($_GET['success'] == "play") {echo "<br><b style='color:green;'>Day played !</b><br>";}
+        if($_GET['success'] == "play") {echo "<br><b style='color:green;'>Day ".$_GET['day_number']." played !</b><br>";}
     }
     if(!testNumberMaxTeam($_GET['id']) && !isGeneratedDays($_GET['id'])){
         echo "<br><a href=\"../../../Controller/controller-Days.php?func=generateDays&id=".$_GET["id"]."&name=".$_GET["name"]."\">GenerateDays</a></br>";
