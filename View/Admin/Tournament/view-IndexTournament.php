@@ -33,7 +33,7 @@ else {
     echo "<h3>Teams</h3>";
     echo "<a href=\"../Team/view-CreateTeam.php?id=".$_GET["id"]."&&name=".$_GET['name']."\">New Team</a><br><br>";
     $teams = getTeamList($_GET["id"]);
-    echo "<table><tr><th>Name</th><th>NbOfVisit</th><th>Logo</th></tr>";
+    echo "<table style=\"text-align:center\"><tr><th>Name</th><th>NbOfVisit</th><th>Logo</th></tr>";
     foreach($teams as $team) {
         echo "<tr>
         <td>".$team->getName()."</td>
@@ -49,7 +49,7 @@ else {
         echo "<h3>Ranking</h3>";
         $rankings = getRankingsTournament($_GET['id']);
         $ranking = array_pop($rankings);
-        echo "<table><tr><th>Team</th><th>Score</th><th>GoalScored</th><th>GoalTaken</th></tr>";
+        echo "<table style=\"text-align:center\"><tr><th>Team</th><th>Score</th><th>GoalScored</th><th>GoalTaken</th></tr>";
         foreach($ranking as $name => $team) {
             echo "<tr>
             <td>".$name."</td>

@@ -11,7 +11,7 @@ if(isset($_SESSION['username'])){
         // test pour le trait qui est ok
         $admins= getAdminList();
         //Display
-        echo "<table><tr><th>Username</th></tr>";
+        echo "<table style=\"text-align:center\"><tr><th>Username</th></tr>";
         foreach($admins as $admin) {
             if ($admin->getUsername() != "admin") {
                 echo "<tr>
