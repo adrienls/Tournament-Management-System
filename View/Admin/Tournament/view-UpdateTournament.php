@@ -8,8 +8,8 @@ if(isset($_SESSION['username'])) {
     if(isset($_GET['id'])) {
         require_once "../../../Model/Database.php";
         $id = $_GET['id'];
-        echo "<h1>Update Tournament</h1>
-        <form action=\"../../../Controller/controller-Tournament.php?func=editTournament&&id=".$id."\" method=\"post\" >";
+        echo "<h2>Update Tournament</h2>
+        <form action=\"../../../Controller/controller-Tournament.php?func=editTournament&id=".$id."\" method=\"post\" >";
             $tournament = getTournamentById($id);
             echo "Name : <input type='text' name='tournament_name' value='".$tournament->getName()."'/>
             <br>
@@ -23,7 +23,8 @@ if(isset($_SESSION['username'])) {
             }
             echo "<br>
             <input type='submit' value='Submit'/>
-        </form>";
+        </form>
+        <a href=\"../view-IndexAdmin.php\">Back</a>";
     }
 }
 else {

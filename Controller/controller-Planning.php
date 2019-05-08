@@ -66,5 +66,3 @@ function getRankingsTournament($id_tournament){
     }
     return $dailyRanking;
 }
-
-//getRankingsTournament(1);

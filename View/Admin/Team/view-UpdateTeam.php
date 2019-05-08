@@ -13,7 +13,7 @@ session_start();
 if(isset($_SESSION['username'])) {
     if(isset($_GET['id'])) {
         $id_team = $_GET['id'];
-        echo "<h1>Update Team</h1>
+        echo "<h2>Update Team</h2>
         <form action=\"../../../Controller/controller-Team.php?func=editTeam&id=".$id_team."&name=".$_GET['name']."\" method=\"post\" enctype='multipart/form-data'>";
         $info = getTeamById($id_team);
         echo "Name : <input type='text' name='name' value='".$info->getName()."'/>
@@ -25,9 +25,9 @@ if(isset($_SESSION['username'])) {
             if($_GET['error'] == "name_used") {echo "<br><b style='color:red;'>Put a new name !</b><br>";}
             if($_GET['error'] == "number_invalid") {echo "<br><b style='color:red;'>Enter a valid logo</b><br>";}
         }
-        echo "<br>
-            <input type='submit' value='Submit'/>
-        </form>";
+        echo "<br><input type='submit' value='Submit'/>
+        </form>
+        <a href=\"../Tournament/view-IndexTournament.php?id=".$_GET['tournament_id']."&name=".$_GET['name']."\">Back</a>";
     }
 }
 else {

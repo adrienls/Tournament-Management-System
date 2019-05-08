@@ -5,10 +5,10 @@ session_start();
 
 if(isset($_SESSION['username'])){
     if($_SESSION['username']==="admin") {
-        echo '<a href="view-CreateAdmin.php">New Admin</a><br/><br/>';
-        //viewAdmin();
+        echo "<h2>Admin Management</h2>
+        
+        <a href=\"view-CreateAdmin.php\">New Admin</a><br/><br/>";
 
-        // test pour le trait qui est ok
         $admins= getAdminList();
         //Display
         echo "<table style=\"text-align:center\"><tr><th>Username</th></tr>";

@@ -23,7 +23,7 @@ else {
         echo "<a href=\"../../../Controller/controller-Days.php?func=generateDays&id=".$_GET["id"]."&name=".$_GET["name"]."\">GenerateDays</a></br>";
     }
     if(isGeneratedDays($_GET['id'])) {
-        echo "<a href=\"../../../Controller/controller-Days.php?func=playDay&&id=".$_GET["id"]."&&name=".$_GET['name']."\">PlayDay</a><br>";
+        echo "<a href=\"../../../Controller/controller-Days.php?func=playDay&id=".$_GET["id"]."&name=".$_GET['name']."\">PlayDay</a><br>";
     }
     if(isset($_GET['success'])) {
         if($_GET['success'] == "generate") {echo "<br><b style='color:green;'>Days & Matches generated !</b><br>";}
@@ -31,7 +31,7 @@ else {
     }
 
     echo "<h3>Teams</h3>";
-    echo "<a href=\"../Team/view-CreateTeam.php?id=".$_GET["id"]."&&name=".$_GET['name']."\">New Team</a><br><br>";
+    echo "<a href=\"../Team/view-CreateTeam.php?id=".$_GET["id"]."&name=".$_GET['name']."\">New Team</a><br><br>";
     $teams = getTeamList($_GET["id"]);
     echo "<table style=\"text-align:center\"><tr><th>Name</th><th>NbOfVisit</th><th>Logo</th></tr>";
     foreach($teams as $team) {
@@ -39,8 +39,8 @@ else {
         <td>".$team->getName()."</td>
         <td>".$team->getNbVisit()."</td>
         <td></td>
-        <td><a href=\"../Team/view-UpdateTeam.php?id=".$team->getId()."&&name=".$_GET['name']."\">Edit</a></td>
-        <td><a href=\"../../../Controller/controller-Team.php?func=deleteTeam&&id=".$team->getId()."&&name=".$_GET['name']."\">Delete</a></td>
+        <td><a href=\"../Team/view-UpdateTeam.php?id=".$team->getId()."&name=".$_GET['name']."&tournament_id=".$_GET['id']."\">Edit</a></td>
+        <td><a href=\"../../../Controller/controller-Team.php?func=deleteTeam&id=".$team->getId()."&name=".$_GET['name']."\">Delete</a></td>
         </tr>";
     }
     echo "</table>";
@@ -57,7 +57,7 @@ else {
             <td>".$team['goalScored']."</td>
             <td>".$team['goalTaken']."</td>
             </tr>";
-            }
+        }
         echo "</table>";
     }
 

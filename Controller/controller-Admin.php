@@ -15,9 +15,14 @@ function createAdmin() {
     //Fields recovery
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $passwordVerification = $_POST['password_verification'];
     //Verification of all fields
-    if(empty($username) || empty($password)) {
+    if(empty($username) || empty($password) || empty($passwordVerification)) {
         redirect("../View/SuperAdmin/view-CreateAdmin.php?error=field_missing");
+    }
+    //Password verification
+    if ($password != $passwordVerification) {
+        redirect("../View/SuperAdmin/view-CreateAdmin.php?error=password_different");
     }
     //Username verification
     $admins = getAdminList();
@@ -36,13 +41,29 @@ function createAdmin() {
 function updateAdmin($id){
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $passwordVerification = $_POST['password_verification'];
 
-    if(empty($username) || empty($password)){
+    if(empty($username) || empty($password) || empty($passwordVerification)){
         redirect("../View/SuperAdmin/view-UpdateAdmin.php?id=$id&error=field_missing");
     }
+
+    //Username verification
+    if (readAdmin($id) != $username) {
+        $admins = getAdminList();
+        foreach ($admins as $admin) {
+            if($username == $admin->getUsername()){
+                redirect("../View/SuperAdmin/view-UpdateAdmin.php?id=$id&error=name_used");
+            }
+        }
+    }
+
+    //Password verification
+    if ($password != $passwordVerification) {
+        redirect("../View/SuperAdmin/view-UpdateAdmin.php?id=$id&error=password_different");
+    }
+
     //Informations sending
     $password_encrypted = password_hash($password, PASSWORD_DEFAULT);
-
     $admin = new Admin();
     $admin->updateAdmin($username, $password_encrypted, $id);
     redirect("../View/SuperAdmin/view-IndexSuperAdmin.php?success=update");

@@ -24,10 +24,10 @@ else {
         $name = $tournament->getName();
         $nb_team = $tournament->getNbTeam();
         echo "<tr>
-            <td><a href=\"../Admin/Tournament/view-IndexTournament.php?id=".$id."&&name=".$name."\">".$name."</td>
+            <td><a href=\"../Admin/Tournament/view-IndexTournament.php?id=".$id."&name=".$name."\">".$name."</td>
             <td>".$nb_team."</td>
             <td><a href=\"../Admin/Tournament/view-UpdateTournament.php?id=".$id."\">Edit</a></td>
-            <td><a href=\"../../Controller/controller-Tournament.php?func=deleteTournament&&id=".$id."\">Delete</a></td>
+            <td><a href=\"../../Controller/controller-Tournament.php?func=deleteTournament&id=".$id."\">Delete</a></td>
             </tr>";
     }
     echo "</table>";
