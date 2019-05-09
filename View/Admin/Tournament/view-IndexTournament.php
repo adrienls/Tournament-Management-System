@@ -36,7 +36,7 @@ else {
     echo "<table style=\"text-align:center\"><tr><th>Name</th><th>NbOfVisit</th><th>Logo</th></tr>";
     foreach($teams as $team) {
         echo "<tr>
-        <td>".$team->getName()."</td>
+        <td><a href=\"../Team/view-IndexTeam.php?id=".$team->getId()."&name=".$_GET['name']."\">".$team->getName()."</td>
         <td>".$team->getNbVisit()."</td>
         <td></td>
         <td><a href=\"../Team/view-UpdateTeam.php?id=".$team->getId()."&name=".$_GET['name']."&tournament_id=".$_GET['id']."\">Edit</a></td>

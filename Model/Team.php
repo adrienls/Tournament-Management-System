@@ -49,6 +49,14 @@ class Team
         $deleteTeam->execute();
     }
 
+    public function updateNbVisit($id,$numberVisit){
+        $db = new Database();
+        $numberVisit++;
+        $changeNbVisit = $db->getConnection()->prepare("UPDATE Team SET nb_visit='$numberVisit' WHERE id='$id'");
+        $changeNbVisit->bindParam(':numberVisit', $numberVisit);
+        $changeNbVisit->execute();
+    }
+
     public function __toString(){
         $description = "Team table: ".$this."</br>
         id: ".$this->id."</br>
@@ -88,3 +96,4 @@ function getInfoTeam($team_id){
     $infoTeam = $infoTeam->fetchObject("Team");
     return $infoTeam;
 }
+
