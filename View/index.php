@@ -18,6 +18,7 @@
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <title>Tournament Management System</title>
     <!-- Main style and icons for this application-->
+    <link rel="shortcut icon" href="template/img/favicon.ico">
     <link rel="stylesheet" href="template/css/style.css">
     <link rel="stylesheet" href="template/@coreui/icons/css/coreui-icons.min.css">
     <link rel="stylesheet" href="template/font-awesome/css/font-awesome.min.css">
@@ -27,7 +28,7 @@
     <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="index.php">
         <img class="navbar-brand-full" src="template/img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
         <img class="navbar-brand-minimized" src="template/img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
     </a>

@@ -17,6 +17,7 @@
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <title>Admin Login</title>
     <!-- Main style and icons for this application-->
+    <link rel="shortcut icon" href="../template/img/favicon.ico">
     <link rel="stylesheet" href="../template/css/style.css">
     <link rel="stylesheet" href="../template/@coreui/icons/css/coreui-icons.min.css">
     <link rel="stylesheet" href="../template/font-awesome/css/font-awesome.min.css">
