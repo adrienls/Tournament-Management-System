@@ -31,10 +31,10 @@ else{
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <title>New Admin</title>
     <!-- Main style and icons for this application-->
-    <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui/dist/css/coreui.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
-    <link href="../js/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../template/css/style.css">
+    <link rel="stylesheet" href="../template/@coreui/icons/css/coreui-icons.min.css">
+    <link rel="stylesheet" href="../template/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../template/simple-line-icons/css/simple-line-icons.css">
 </head>
 <body class="app flex-row align-items-center">
 <div class="container">
@@ -100,11 +100,7 @@ else{
     </div>
 </div>
 <!-- CoreUI and necessary plugins-->
-<script src="../js/jquery/js/jquery.min.js"></script>
-<script src="../js/popper.js/js/popper.min.js"></script>
-<script src="../js/bootstrap/js/bootstrap.min.js"></script>
-<script src="../js/pace-progress/js/pace.min.js"></script>
-<script src="../js/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
-<script src="../js/@coreui/coreui/js/coreui.min.js"></script>
+<script src="../template/jquery/jquery.min.js"></script>
+<script src="../template/@coreui/coreui/coreui.min.js"></script>
 </body>
 </html>

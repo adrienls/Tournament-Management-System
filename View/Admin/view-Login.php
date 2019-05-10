@@ -16,11 +16,11 @@
     <meta name="author" content="Łukasz Holeczek">
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <title>Admin Login</title>
-    <!-- Main styles for this application-->
-    <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui/dist/css/coreui.min.css">
-    <!-- Stylesheet for icons from https://www.w3schools.com/icons/default.asp -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
-    <link rel="stylesheet" href="../js/simple-line-icons/css/simple-line-icons.css">
+    <!-- Main style and icons for this application-->
+    <link rel="stylesheet" href="../template/css/style.css">
+    <link rel="stylesheet" href="../template/@coreui/icons/css/coreui-icons.min.css">
+    <link rel="stylesheet" href="../template/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../template/simple-line-icons/css/simple-line-icons.css">
 </head>
 <body class="app flex-row align-items-center">
 <div class="container">

@@ -18,10 +18,9 @@
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <title>Tournament Management System</title>
     <!-- Main style and icons for this application-->
-    <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui/dist/css/coreui.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="js/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="template/css/style.css">
+    <link rel="stylesheet" href="template/@coreui/icons/css/coreui-icons.min.css">
+    <link rel="stylesheet" href="template/font-awesome/css/font-awesome.min.css">
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
 <header class="app-header navbar">
@@ -29,8 +28,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">
-        <img class="navbar-brand-full" src="img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
-        <img class="navbar-brand-minimized" src="img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
+        <img class="navbar-brand-full" src="template/img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
+        <img class="navbar-brand-minimized" src="template/img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
     </a>
     <h1 class="nav navbar-nav ml-auto" style="font-family: CoreUI-Icons-Linear-Free">Tournament Management System</h1>
     <ul class="nav navbar-nav ml-auto">
@@ -59,27 +58,27 @@
                 <div class="nav-divider"></div>
                 <li class="nav-title">Dashboard</li>
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="index.php">
                         <i class="nav-icon fa fa-dashboard fa-fw"></i> Overview</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="User/Rankings.php">
                         <i class="nav-icon fa fa-eye fa-fw"></i> Rankings</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="User/Calendar.php">
                         <i class="nav-icon fa fa-calendar fa-fw"></i> Calendar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="base/cards.html">
+                    <a class="nav-link" href="User/Teams.php">
                         <i class="nav-icon fa fa-users fa-fw"></i> Teams</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="base/carousel.html">
+                    <a class="nav-link" href="#">
                         <i class="nav-icon fa fa-history fa-fw"></i> News</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="base/collapse.html">
+                    <a class="nav-link" href="#">
                         <i class="nav-icon fa fa-cog fa-fw"></i> History</a>
                 </li>
             </ul>
@@ -128,15 +127,7 @@
     </div>
 </footer>
 <!-- CoreUI and necessary plugins-->
-<script src="js/jquery/js/jquery.min.js"></script>
-<script src="js/popper.js/js/popper.min.js"></script>
-<script src="js/bootstrap/js/bootstrap.min.js"></script>
-<script src="js/pace-progress/js/pace.min.js"></script>
-<script src="js/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
-<script src="js/@coreui/coreui/js/coreui.min.js"></script>
-<!-- Plugins and scripts required by this view-->
-<script src="js/chart.js/js/Chart.min.js"></script>
-<script src="js/@coreui/coreui-plugin-chartjs-custom-tooltips/js/custom-tooltips.min.js"></script>
-<script src="js/main.js"></script>
+<script src="template/jquery/jquery.min.js"></script>
+<script src="template/@coreui/coreui/coreui.min.js"></script>
 </body>
 </html>

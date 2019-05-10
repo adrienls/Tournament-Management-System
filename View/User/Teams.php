@@ -1,126 +1,158 @@
 <!DOCTYPE html>
-<html>
-<title>Tournament Management System</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-    html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
-</style>
-<body class="w3-light-grey">
+<!--
+* CoreUI - Free Bootstrap Admin Template
+* @version v2.1.12
+* @link https://coreui.io
+* Copyright (c) 2018 creativeLabs Łukasz Holeczek
+* Licensed under MIT (https://coreui.io/license)
+-->
 
-<!-- Top container -->
-<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-    <span class="w3-bar-item w3-left"><button class="w3-button w3-dark-grey" onclick="location.href='../index.php'">Tournament Management System</button></span>
-    <span class="w3-bar-item w3-right"><button class="w3-button w3-dark-grey" onclick="location.href='../Admin/view-Login.php'">Connection <i class="fa fa-arrow-right"></i></button></span>
+<html lang="en">
+<head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="Tournament Management System">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>Tournament Management System</title>
+    <!-- Main style and icons for this application-->
+    <link rel="stylesheet" href="../template/css/style.css">
+    <link rel="stylesheet" href="../template/@coreui/icons/css/coreui-icons.min.css">
+    <link rel="stylesheet" href="../template/font-awesome/css/font-awesome.min.css">
+</head>
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+<header class="app-header navbar">
+    <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">
+        <img class="navbar-brand-full" src="../template/img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
+        <img class="navbar-brand-minimized" src="../template/img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
+    </a>
+    <h1 class="nav navbar-nav ml-auto" style="font-family: CoreUI-Icons-Linear-Free">Tournament Management System</h1>
+    <ul class="nav navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link" href="../Admin/view-Login.php" role="button">
+                <i class="cui-dashboard btn-lg"> Admin</i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-header text-center">
+                    <strong>Settings</strong>
+                </div>
+                <a class="dropdown-item" href="#">
+                    <i class="fa fa-user"></i> Profile</a>
+                <a class="dropdown-item" href="#">
+                    <i class="fa fa-wrench"></i> Settings</a>
+                <a class="dropdown-item" href="#">
+                    <i class="fa fa-lock"></i> Logout</a>
+            </div>
+        </li>
+    </ul>
+</header>
+<div class="app-body">
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <div class="nav-divider"></div>
+                <li class="nav-title">Dashboard</li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../index.php">
+                        <i class="nav-icon fa fa-dashboard fa-fw"></i> Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../User/Rankings.php">
+                        <i class="nav-icon fa fa-eye fa-fw"></i> Rankings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../User/Calendar.php">
+                        <i class="nav-icon fa fa-calendar fa-fw"></i> Calendar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../User/Teams.php">
+                        <i class="nav-icon fa fa-users fa-fw"></i> Teams</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="nav-icon fa fa-history fa-fw"></i> News</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="nav-icon fa fa-cog fa-fw"></i> History</a>
+                </li>
+            </ul>
+        </nav>
+        <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+    </div>
+    <main class="main">
+        <br/>
+        <div class="container-fluid">
+            <div class="animated fadeIn">
+                <table class="table">
+                    <?php
+                    require_once "../../Controller/controller-Team.php";
+                    require_once "../../Controller/controller-Tournament.php";
+                    if(isset($_GET["id"])) {
+                        $id = $_GET["id"];
+                        $teams = getTeamList($id);
+                        $tournament = getTournamentById($id);
+                        echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Teams from '.$tournament->getName().'</h3></p>';
+                        echo '
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Number of visit</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+                        foreach ($teams as $team) {
+                            echo '
+                            <tr>
+                                  <td><a href="Teams.php?id='.$id.'">'.$team->getName().'</a></td>
+                                  <td>'.$team->getNbVisit().'</td>
+                            </tr>';
+                        }
+                        echo '</tbody>';
+                    }
+                    else{
+                        require_once "../../Controller/controller-Tournament.php";
+                        $tournaments = getTournamentList();
+                        echo "<p><h3 style=\"font-family: CoreUI-Icons-Linear-Free\">Please select a Tournament:</h3></p>";
+                        echo '
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Number of team</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+                        foreach ($tournaments as $tournament){
+                            echo '
+                        <tr>
+                              <th><a href="Teams.php?id='.$tournament->getId().'">'.$tournament->getName().'</a></th>
+                              <td>'.$tournament->getNbTeam().'</td>
+                        </tr>';
+                        }
+                        echo '</tbody>';
+                    }?>
+                </table>
+            </div>
+        </div>
+    </main>
 </div>
-
-<!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
-    <div class="w3-container">
-        <h5>Dashboard</h5>
+<footer class="app-footer">
+    <div>
+        <i class="fa fa-github"></i>
+        <a href="https://github.com/adrienls/Tournament-Management-System">Source Code</a>
+        <span>&copy; 2019 ISEN Nantes CIR2.</span>
     </div>
-    <div class="w3-bar-block">
-        <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding w3-blue" onclick="location.href='../index.php'"><i class="fa fa-dashboard fa-fw"></i>  Overview</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Rankings</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-calendar fa-fw"></i>  Calendar</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Teams</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
+    <div class="ml-auto">
+        <span>Powered by Alexis Decamp, Arthur Guerineau and Adrien Le Saux</span>
     </div>
-</nav>
-
-<!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
-
-<!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:300px;margin-top:43px;">
-
-    <!-- Header -->
-    <header class="w3-container" style="padding-top:22px">
-        <h5><b><i class="fa fa-dashboard"></i> My Teams</b></h5>
-    </header>
-
-    <div class="w3-row-padding w3-margin-bottom">
-        <div class="w3-quarter">
-            <div class="w3-container w3-red w3-padding-16">
-                <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
-                <div class="w3-right">
-                    <h3>52</h3>
-                </div>
-                <div class="w3-clear"></div>
-                <h4>Team A</h4>
-            </div>
-        </div>
-        <div class="w3-quarter">
-            <div class="w3-container w3-blue w3-padding-16">
-                <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
-                <div class="w3-right">
-                    <h3>99</h3>
-                </div>
-                <div class="w3-clear"></div>
-                <h4>Team B</h4>
-            </div>
-        </div>
-        <div class="w3-quarter">
-            <div class="w3-container w3-teal w3-padding-16">
-                <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
-                <div class="w3-right">
-                    <h3>23</h3>
-                </div>
-                <div class="w3-clear"></div>
-                <h4>Team C</h4>
-            </div>
-        </div>
-        <div class="w3-quarter">
-            <div class="w3-container w3-orange w3-text-white w3-padding-16">
-                <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
-                <div class="w3-right">
-                    <h3>50</h3>
-                </div>
-                <div class="w3-clear"></div>
-                <h4>Team D</h4>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="w3-container w3-padding-16 w3-light-grey">
-        <h4>FOOTER</h4>
-        <p>Powered by Alexis Decamp, Arthur Guerineau and Adrien Le Saux - ISEN Nantes CIR2</p>
-    </footer>
-
-    <!-- End page content -->
-</div>
-
-<script>
-    // Get the Sidebar
-    var mySidebar = document.getElementById("mySidebar");
-
-    // Get the DIV with overlay effect
-    var overlayBg = document.getElementById("myOverlay");
-
-    // Toggle between showing and hiding the sidebar, and add overlay effect
-    function w3_open() {
-        if (mySidebar.style.display === 'block') {
-            mySidebar.style.display = 'none';
-            overlayBg.style.display = "none";
-        } else {
-            mySidebar.style.display = 'block';
-            overlayBg.style.display = "block";
-        }
-    }
-
-    // Close the sidebar with the close button
-    function w3_close() {
-        mySidebar.style.display = "none";
-        overlayBg.style.display = "none";
-    }
-</script>
-
+</footer>
+<!-- CoreUI and necessary plugins-->
+<script src="../template/jquery/jquery.min.js"></script>
+<script src="../template/@coreui/coreui/coreui.min.js"></script>
 </body>
 </html>
