@@ -1,5 +1,5 @@
 <?php
-require_once "../../Model/Database.php";
+require_once "../../Controller/controller-Global.php";
 require_once "../../Controller/controller-Admin.php";
 session_start();
 
@@ -32,10 +32,9 @@ if(isset($_SESSION['username'])){
         echo "<br><a href='../Admin/view-IndexAdmin.php'>Back</a>";
     }
     else {
-        redirect("view-IndexAdmin.php?error=access_denied");
+        redirect("view-IndexAdmin.php");
     }
 }
-
 else {
-  redirect("../index.php");
+    redirect("view-Login.php?error");
 }

@@ -1,3 +1,19 @@
+<?php
+require_once "../../Controller/controller-Team.php";
+require_once "../../Controller/controller-Tournament.php";
+require_once "../../Controller/controller-Global.php";
+
+if(isset($_GET["id"])) {
+    $id = $_GET["id"];
+    $teams = getTeamList($id);
+    $tournament = getTournamentById($id);
+    $name = $tournament->getName();
+}
+else{
+    redirect("../index.php");
+}
+?>
+
 <!DOCTYPE html>
 <!--
 * CoreUI - Free Bootstrap Admin Template
@@ -38,17 +54,6 @@
             <a class="nav-link" href="../Admin/view-Login.php" role="button">
                 <i class="cui-dashboard btn-lg"> Admin</i>
             </a>
-            <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-header text-center">
-                    <strong>Settings</strong>
-                </div>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-user"></i> Profile</a>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-wrench"></i> Settings</a>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-lock"></i> Logout</a>
-            </div>
         </li>
     </ul>
 </header>
@@ -59,8 +64,8 @@
                 <div class="nav-divider"></div>
                 <li class="nav-title">Dashboard</li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../index.php">
-                        <i class="nav-icon fa fa-dashboard fa-fw"></i> Overview</a>
+                    <a class="nav-link" href="../User/Teams.php">
+                        <i class="nav-icon fa fa-users fa-fw"></i> Teams</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="../User/Rankings.php">
@@ -71,72 +76,45 @@
                         <i class="nav-icon fa fa-calendar fa-fw"></i> Calendar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../User/Teams.php">
-                        <i class="nav-icon fa fa-users fa-fw"></i> Teams</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="nav-icon fa fa-history fa-fw"></i> News</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="nav-icon fa fa-cog fa-fw"></i> History</a>
                 </li>
             </ul>
         </nav>
         <button class="sidebar-minimizer brand-minimizer" type="button"></button>
     </div>
     <main class="main">
-        <br/>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="../index.php">Tournament Selection</a>
+            </li>
+            <li class="breadcrumb-item">
+                <?php echo "<a href='Teams.php?id=$id'>$name</a>";?>
+            </li>
+        </ol>
         <div class="container-fluid">
             <div class="animated fadeIn">
                 <table class="table">
+                    <?php echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Teams from '.$name.'</h3></p>';?>
+                    <thead>
+                    <tr>
+                        <th scope="col">Logo</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Number of visit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     <?php
-                    require_once "../../Controller/controller-Team.php";
-                    require_once "../../Controller/controller-Tournament.php";
-                    if(isset($_GET["id"])) {
-                        $id = $_GET["id"];
-                        $teams = getTeamList($id);
-                        $tournament = getTournamentById($id);
-                        echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Teams from '.$tournament->getName().'</h3></p>';
+                    foreach ($teams as $team) {
                         echo '
-                        <thead>
                             <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Number of visit</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
-                        foreach ($teams as $team) {
-                            echo '
-                            <tr>
+                                  <td><img src="'.$team->getPathLogo().'"></td>
                                   <td><a href="Teams.php?id='.$id.'">'.$team->getName().'</a></td>
                                   <td>'.$team->getNbVisit().'</td>
                             </tr>';
-                        }
-                        echo '</tbody>';
                     }
-                    else{
-                        require_once "../../Controller/controller-Tournament.php";
-                        $tournaments = getTournamentList();
-                        echo "<p><h3 style=\"font-family: CoreUI-Icons-Linear-Free\">Please select a Tournament:</h3></p>";
-                        echo '
-                        <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Number of team</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
-                        foreach ($tournaments as $tournament){
-                            echo '
-                        <tr>
-                              <th><a href="Teams.php?id='.$tournament->getId().'">'.$tournament->getName().'</a></th>
-                              <td>'.$tournament->getNbTeam().'</td>
-                        </tr>';
-                        }
-                        echo '</tbody>';
-                    }?>
+                    ?>
+                    </tbody>
                 </table>
             </div>
         </div>
