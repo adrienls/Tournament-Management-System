@@ -3,11 +3,15 @@ require_once "../../Controller/controller-Team.php";
 require_once "../../Controller/controller-Tournament.php";
 require_once "../../Controller/controller-Global.php";
 
-if(isset($_GET["id"])) {
-    $tournamentId = $_GET["id"];
-    $teams = getTeamList($tournamentId);
+if(isset($_GET["teamId"]) && isset($_GET['tournamentId'])) {
+    $teamId = $_GET["teamId"];
+    $team = getTeamById($teamId);
+    $teamName = $team->getName();
+    $nbVisit = $team->getNbVisit();
+    $tournamentId = $_GET['tournamentId'];
     $tournament = getTournamentById($tournamentId);
     $tournamentName = $tournament->getName();
+    $team->updateNbVisit($teamId, $team->getNbVisit());
 }
 else{
     redirect("../index.php");
@@ -61,7 +65,7 @@ else{
     <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
-                <li class="nav-divider"></li>
+                <div class="nav-divider"></div>
                 <li class="nav-title">Dashboard</li>
                 <li class="nav-item">
                     <?php echo '<a class="nav-link" href="Tournament.php?id='.$tournamentId.'">
@@ -89,31 +93,39 @@ else{
                 <a href="../index.php">Tournament Selection</a>
             </li>
             <li class="breadcrumb-item">
-                <?php echo "<a href='Teams.php?id=$tournamentId'>$tournamentName</a>";?>
+                <?php echo "<a href='Tournament.php?id=$tournamentId'>$tournamentName</a>";?>
+            </li>
+            <li class="breadcrumb-item">
+                <?php echo "<a href='Team.php?id=$teamId&name=$tournamentId'>$teamName</a>";?>
             </li>
         </ol>
         <div class="container-fluid">
             <div class="animated fadeIn">
                 <table class="table">
-                    <?php echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Teams from '.$tournamentName.'</h3></p>';?>
+                    <?php
+                    echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Team: '.$teamName.'</h3></p>';
+                    echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Number of visit: '.$nbVisit.'</h3></p>';
+                    echo '<img src='.$team->getPathLogo().' width="100" height="100"/>';
+                    ?>
                     <thead>
                     <tr>
-                        <th scope="col">Logo</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Number of visit</th>
+                        <th scope="col">Team A</th>
+                        <th scope="col">Team B</th>
+                        <th scope="col">Goal A</th>
+                        <th scope="col">Goal B</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                    foreach ($teams as $team) {
-                        echo '
-                            <tr>
-                                  <td><img src="'.$team->getPathLogo().'"></td>
-                                  <td><a href="Team.php?teamId='.$team->getId().'&tournamentId='.$tournamentId.'">'.$team->getName().'</a></td>
-                                  <td>'.$team->getNbVisit().'</td>
-                            </tr>';
-                    }
-                    ?>
+                    $listOfMatch = getMatchOfTeam($teamName);
+                    foreach ($listOfMatch as $match) {
+                        echo "<tr>
+                                  <td>".$match->getTeamAName()."</td>
+                                  <td>".$match->getTeamBName()."</td>
+                                  <td>".$match->getTeamANbGoal()."</td>
+                                  <td>".$match->getTeamBNbGoal()."</td>
+                              </tr>";
+                    }?>
                     </tbody>
                 </table>
             </div>

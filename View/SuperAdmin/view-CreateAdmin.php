@@ -2,14 +2,10 @@
 require_once "../../Controller/controller-Global.php";
 session_start();
 
-if(!isset($_SESSION['username'])){
-    redirect("../index.php?error=access_denied");
+if(!isset($_SESSION['username']) || $_SESSION['username']!="admin"){
+    redirect("../Admin/view-Login.php?error=access_denied");
 }
-else{
-    if ($_SESSION['username']!="admin") {
-        redirect("view-IndexAdmin.php?error=access_denied");
-    }
-}?>
+?>
 
 <!DOCTYPE html>
 <!--

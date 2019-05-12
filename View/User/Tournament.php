@@ -4,10 +4,10 @@ require_once "../../Controller/controller-Tournament.php";
 require_once "../../Controller/controller-Global.php";
 
 if(isset($_GET["id"])) {
-    $id = $_GET["id"];
-    $teams = getTeamList($id);
-    $tournament = getTournamentById($id);
-    $name = $tournament->getName();
+    $tournamentId = $_GET["id"];
+    $teams = getTeamList($tournamentId);
+    $tournament = getTournamentById($tournamentId);
+    $tournamentName = $tournament->getName();
 }
 else{
     redirect("../index.php");
@@ -61,23 +61,24 @@ else{
     <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
-                <div class="nav-divider"></div>
+                <li class="nav-divider"></li>
                 <li class="nav-title">Dashboard</li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../User/Teams.php">
-                        <i class="nav-icon fa fa-users fa-fw"></i> Teams</a>
+                    <?php echo '<a class="nav-link" href="Tournament.php?id='.$tournamentId.'">
+                        <i class="nav-icon fa fa-users fa-fw"></i> Teams</a>'; ?>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../User/Rankings.php">
-                        <i class="nav-icon fa fa-eye fa-fw"></i> Rankings</a>
+                    <?php echo '<a class="nav-link" href="Rankings.php?id='.$tournamentId.'">
+                        <i class="nav-icon fa fa-eye fa-fw"></i> Rankings</a>'; ?>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../User/Calendar.php">
-                        <i class="nav-icon fa fa-calendar fa-fw"></i> Calendar</a>
+                    <?php echo '
+                    <a class="nav-link" href="Calendar.php?id='.$tournamentId.'">
+                        <i class="nav-icon fa fa-calendar fa-fw"></i> Calendar</a>';?>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="nav-icon fa fa-history fa-fw"></i> News</a>
+                    <?php echo '<a class="nav-link" href="News.php?id='.$tournamentId.'">
+                        <i class="nav-icon fa fa-history fa-fw"></i> News</a>'; ?>
                 </li>
             </ul>
         </nav>
@@ -89,13 +90,13 @@ else{
                 <a href="../index.php">Tournament Selection</a>
             </li>
             <li class="breadcrumb-item">
-                <?php echo "<a href='Teams.php?id=$id'>$name</a>";?>
+                <?php echo "<a href='Teams.php?id=$tournamentId'>$tournamentName</a>";?>
             </li>
         </ol>
         <div class="container-fluid">
             <div class="animated fadeIn">
                 <table class="table">
-                    <?php echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Teams from '.$name.'</h3></p>';?>
+                    <?php echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Teams from '.$tournamentName.'</h3></p>';?>
                     <thead>
                     <tr>
                         <th scope="col">Logo</th>
@@ -109,7 +110,7 @@ else{
                         echo '
                             <tr>
                                   <td><img src="'.$team->getPathLogo().'"></td>
-                                  <td><a href="Teams.php?id='.$id.'">'.$team->getName().'</a></td>
+                                  <td><a href="Team.php?teamId='.$team->getId().'&tournamentId='.$tournamentId.'">'.$team->getName().'</a></td>
                                   <td>'.$team->getNbVisit().'</td>
                             </tr>';
                     }

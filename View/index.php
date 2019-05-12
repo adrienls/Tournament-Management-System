@@ -57,7 +57,7 @@
                 <div class="row">
                     <?php
                     require_once "../Controller/controller-Tournament.php";
-                    $color = array("bg-primary", "bg-secondary", "bg-success", "bg-danger", "bg-warning", "bg-info", "bg-light", "bg-dark");
+                    $color = array("bg-primary", "bg-secondary", "bg-success", "bg-danger", "bg-warning", "bg-info", "bg-light");
                     $i = 0;
                     $tournaments = getTournamentList();
                     foreach ($tournaments as $tournament){
@@ -65,13 +65,13 @@
                         <div class="col-sm-6 col-lg-3">
                             <div class="card text-white '.$color[$i].'">
                                 <div class="card-body">
-                                   <a class="text-value text-body" href="User/Teams.php?id='.$tournament->getId().'">'.$tournament->getName().'</a>
+                                   <a class="text-value text-body" href="User/Tournament.php?id='.$tournament->getId().'">'.$tournament->getName().'</a>
                                     <div>Number of team: '.$tournament->getNbTeam().'</div>
                                 </div>
                             </div>
                         </div>
                         ';
-                        $i = ($i === 7)? 0 : $i+1;
+                        $i = ($i === 6)? 0 : $i+1;
                     }?>
                 </div>
             </div>

@@ -49,7 +49,7 @@ class Team
         $deleteTeam->execute();
     }
 
-    public function updateNbVisit($id,$numberVisit){
+    public function updateNbVisit($id, $numberVisit){
         $db = new Database();
         $numberVisit++;
         $changeNbVisit = $db->getConnection()->prepare("UPDATE Team SET nb_visit='$numberVisit' WHERE id='$id'");

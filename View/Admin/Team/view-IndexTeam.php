@@ -25,13 +25,12 @@ else {
     $team->updateNbVisit($id,$team->getNbVisit());
     //$image="../../../Images/1555691323.PNG";
     //echo $image.'<br>';
-    $image=$team->getPathLogo();
-    $image="../../".$image;
-    echo "logo :";
-    print '<img src='.$image.' width="100" height="100"/>';
+    $image = $team->getPathLogo();
+    $image = "../../".$image;
+    echo "Logo :";
+    echo '<img src='.$image.' width="100" height="100"/>';
     $listOfMatch = getMatchOfTeam($team->getName());
-    echo "<br>";
-    echo "<table style=\"text-align:center\"><tr><th>Team A </th><th>Team B</th><th>Goal A</th><th>Goal B</th></tr>";
+    echo "<br/><table style=\"text-align:center\"><tr><th>Team A </th><th>Team B</th><th>Goal A</th><th>Goal B</th></tr>";
     foreach ($listOfMatch as $match){
         echo "<tr>
             <td>".$match->getTeamAName()."</td>
