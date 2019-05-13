@@ -18,7 +18,7 @@ else {
     echo '<a href="Tournament/view-CreateTournament.php">New Tournament</a><br/><br/>';
 
     $tournaments = getTournamentList();
-    echo "<table><tr><th>Name</th><th>NbTeamsMax</th></tr>";
+    echo "<table style=\"text-align:center\"><tr><th>Name</th><th>NbTeamsMax</th></tr>";
     foreach ($tournaments as $tournament) {
         $id = $tournament->getId();
         $name = $tournament->getName();

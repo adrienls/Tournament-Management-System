@@ -21,23 +21,19 @@ else {
     $id=$_GET["id"];
     $team = getTeamById($id);
     echo "<h3>Team : ".$team->getName()."</h3>";
-    echo "<h4>Number of visit : ".$team->getNbVisit()."</h4>";
-    $team->updateNbVisit($id,$team->getNbVisit());
-    //$image="../../../Images/1555691323.PNG";
-    //echo $image.'<br>';
     $image=$team->getPathLogo();
     $image="../../".$image;
-    echo "logo :";
     print '<img src='.$image.' width="100" height="100"/>';
+    echo "<h4>Number of visit : ".$team->getNbVisit()."</h4>";
+    $team->updateNbVisit($id,$team->getNbVisit());
+    echo "<h3>Matchs</h3>";
     $listOfMatch = getMatchOfTeam($team->getName());
-    echo "<br>";
-    echo "<table style=\"text-align:center\"><tr><th>Team A </th><th>Team B</th><th>Goal A</th><th>Goal B</th></tr>";
+    echo "<table style=\"text-align:center\"><tr><th>Home</th><th>Score</th><th>Away</th></tr>";
     foreach ($listOfMatch as $match){
         echo "<tr>
             <td>".$match->getTeamAName()."</td>
+            <td>".$match->getTeamANbGoal()." - ".$match->getTeamBNbGoal()."</td>
             <td>".$match->getTeamBName()."</td>
-            <td>".$match->getTeamANbGoal()."</td>
-            <td>".$match->getTeamBNbGoal()."</td>
             </tr>";
     }
     echo "</table>";
