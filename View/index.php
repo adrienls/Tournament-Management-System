@@ -56,7 +56,7 @@
                 <div class="dropdown-divider"></div>
                 <div class="row">
                     <?php
-                    require_once "../Controller/controller-Tournament.php";
+                    require_once "../Model/Tournament.php";
                     $color = array("bg-primary", "bg-secondary", "bg-success", "bg-danger", "bg-warning", "bg-info", "bg-light");
                     $i = 0;
                     $tournaments = getTournamentList();

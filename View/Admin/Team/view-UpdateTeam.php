@@ -7,10 +7,9 @@
  */
 
 require_once "../../../Controller/controller-Team.php";
+require_once "../../../Controller/controller-Global.php";
 
-session_start();
-
-if(isset($_SESSION['username'])) {
+if(isIdentified()){
     if(isset($_GET['id'])) {
         $id_team = $_GET['id'];
         echo "<h2>Update Team</h2>

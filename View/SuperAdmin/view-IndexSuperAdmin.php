@@ -1,9 +1,8 @@
 <?php
 require_once "../../Controller/controller-Global.php";
 require_once "../../Controller/controller-Admin.php";
-session_start();
 
-if(isset($_SESSION['username'])){
+if(isIdentified()){
     if($_SESSION['username']==="admin") {
         echo "<h2>Admin Management</h2>
         
@@ -32,9 +31,9 @@ if(isset($_SESSION['username'])){
         echo "<br><a href='../Admin/view-IndexAdmin.php'>Back</a>";
     }
     else {
-        redirect("view-IndexAdmin.php");
+        redirect("../Admin/view-IndexAdmin.php");
     }
 }
 else {
-    redirect("view-Login.php?error");
+    redirect("../Admin/view-Login.php?error");
 }

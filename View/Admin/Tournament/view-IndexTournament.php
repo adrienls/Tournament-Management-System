@@ -1,8 +1,8 @@
 <?php
 
-session_start();
+require_once "../../../Controller/controller-Global.php";
 
-if(!isset($_SESSION['username'])){
+if(!isIdentified()){
     redirect("../../index.php?error=bad_login");
 }
 
@@ -31,6 +31,7 @@ else {
     echo "<a href=\"../Team/view-CreateTeam.php?id=".$_GET["id"]."&name=".$_GET['name']."\">New Team</a><br><br>";
     if(isset($_GET['error'])){
         if($_GET['error'] == "max_number_of_team") {echo "<b style='color:darkred;'>Max number of team reach !</b><br><br>";}
+        if($_GET['error'] == "days_generated") {echo "<b style='color:darkred;'>Teams can't be erased once days are generated !</b><br><br>";}
     }
     if(isset($_GET['success'])){
         if($_GET['success'] == "new") {echo "<b style='color:green;'>Team created !</b><br><br>";}

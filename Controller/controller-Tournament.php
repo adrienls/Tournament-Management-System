@@ -5,6 +5,11 @@ require_once __DIR__."/../Model/Team.php";
 require_once __DIR__."/../Model/Planning.php";
 require_once __DIR__."/../Model/Tournament.php";
 
+
+if (!isIdentified()) {
+    redirect("../View/index.php?error=access_denied");
+}
+
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
         $_GET['func']($_GET['id']);

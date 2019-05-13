@@ -2,9 +2,13 @@
 require_once "../../Controller/controller-Global.php";
 require_once "../../Controller/controller-Tournament.php";
 require_once "../../Controller/controller-Admin.php";
-session_start();
 
-if(isset($_SESSION['username'])){
+if (!isIdentified()) {
+    redirect("../index.php?error=access_denied");
+}
+
+//SuperAdmin test
+else {
     echo "<h2>Welcome ".$_SESSION['username']."</h2>";
     if($_SESSION['username']==="admin") {
         echo '<a href="../SuperAdmin/view-IndexSuperAdmin.php">Admin Management</a><br/><br/>';
@@ -31,8 +35,5 @@ if(isset($_SESSION['username'])){
         if($_GET['success'] == "update") {echo "<br><b style='color:green;'>Tournament updated !</b><br>";}
         if($_GET['success'] == "delete") {echo "<br><b style='color:green;'>Tournament erased !</b><br>";}
     }
-    echo '<br><a href="../../Controller/controller-Admin.php?func=logout">Disconnect</a>';
-}
-else {
-    redirect("view-Login.php?error");
+    echo '<br><a href="../../Controller/controller-Connect.php?func=logout">Disconnect</a>';
 }

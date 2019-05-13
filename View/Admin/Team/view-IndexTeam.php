@@ -7,9 +7,7 @@
  */
 require_once "../../../Controller/controller-Global.php";
 
-session_start();
-
-if(!isset($_SESSION['username'])){
+if(!isIdentified()){
     redirect("../../index.php?error=bad_login");
 }
 

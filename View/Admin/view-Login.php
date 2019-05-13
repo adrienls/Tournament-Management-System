@@ -32,7 +32,7 @@
                     <div class="card-body">
                         <h1>Admin Login</h1>
                         <p class="text-muted">Sign In to your account</p>
-                        <form action="../../Controller/controller-Admin.php?func=login" method="post">
+                        <form action="../../Controller/controller-Connect.php?func=login" method="post">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                 <span class="input-group-text">
@@ -49,7 +49,7 @@
                                 </div>
                                 <input required class="form-control" type="password" name="password" placeholder="Password">
                             </div>
-                            <?php if(isset($_GET['error'])){
+                            <?php if(isset($_GET['error'])) {
                                 echo "<div class='alert alert-danger' role='alert'>A field is invalid !</div>";
                             }?>
                             <div class="row">

@@ -1,10 +1,8 @@
 <?php
-
 require_once "../../../Controller/controller-Tournament.php";
+require_once "../../../Controller/controller-Global.php";
 
-session_start();
-
-if(isset($_SESSION['username'])) {
+if(isIdentified()){
     if(isset($_GET['id'])) {
         require_once "../../../Model/Database.php";
         $id = $_GET['id'];

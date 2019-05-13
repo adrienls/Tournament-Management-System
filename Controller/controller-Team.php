@@ -1,6 +1,13 @@
 <?php
 require_once "controller-Global.php";
+require_once "controller-Days.php";
 require_once __DIR__."/../Model/Team.php";
+require_once __DIR__."/../Model/Database.php";
+
+
+if (!isIdentified()) {
+    redirect("../View/index.php?error=access_denied");
+}
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -12,7 +19,6 @@ if(isset($_GET['func'])) {
 }
 
 function createTeam($tournament_id) {
-    require_once "../Model/Database.php";
     //Fields recovery
     $name = $_POST['name'];
 
@@ -47,9 +53,11 @@ function createTeam($tournament_id) {
 }
 
 function deleteTeam($team_id) {
-    require_once "../Model/Team.php";
     $infoTeam = getInfoTeam($team_id);
     $tournament_id = $infoTeam->getTournamentId();
+    if(isGeneratedDays($tournament_id)) {
+        redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."&error=days_generated");
+    }
     $path_logo = $infoTeam->getPathLogo();
 
     if(file_exists($path_logo)){
@@ -61,23 +69,21 @@ function deleteTeam($team_id) {
 }
 
 function editTeam($id_team){
-    require_once "../Model/Database.php";
-
     $team_name = $_POST['name'];
-
-    if(empty($team_name)){
-        redirect("../View/Admin/Team/view-UpdateTeam.php?id=".$id_team."&name=".$_GET['name']."&error=need_name");
-    }
 
     //Verification of the name of team's uniqueness
     $infoTeam = getTeamById($id_team);
     $id_tournament = $infoTeam->getTournamentId();
     $pathLogo= $infoTeam->getPathLogo();
 
+    if(empty($team_name) || empty($_FILES['logo']['name'])){
+        redirect("../View/Admin/Team/view-UpdateTeam.php?id=".$id_team."&name=".$_GET['name']."&tournament_id=".$id_tournament."&error=need_name");
+    }
+
     $dbTeams = getTeamList($id_tournament);
     foreach ($dbTeams as $team) {
         if($team_name == $team->getName()){
-            redirect("../View/Admin/Team/view-UpdateTeam.php?id=".$id_team."&name=".$_GET['name']."&error=name_used");
+            redirect("../View/Admin/Team/view-UpdateTeam.php?id=".$id_team."&name=".$_GET['name']."&tournament_id=".$id_tournament."&error=name_used");
         }
     }
 
@@ -87,7 +93,7 @@ function editTeam($id_team){
     $fileDestination = '../Images/'.time().$extension;
     $fileSize = $_FILES['logo']['size'];
     if($fileSize > 100000) {
-        redirect("../View/Admin/Team/view-CreateTeam.php?id=".$id_team."&name=".$_GET['name']."&error=logo_invalid");
+        redirect("../View/Admin/Team/view-CreateTeam.php?id=".$id_team."&name=".$_GET['name']."&tournament_id=".$id_tournament."&error=logo_invalid");
     }
     if(file_exists($pathLogo))
         unlink($pathLogo);

@@ -1,8 +1,7 @@
 <?php
+require_once "../../../Controller/controller-Global.php";
 
-session_start();
-
-if(isset($_SESSION['username'])){
+if(isIdentified()){
     echo "<h2>New Tournament</h2>
     <form action='../../../Controller/controller-Tournament.php?func=createTournament' method='post'>
         Name: <input type='text' name='tournamentName'/>

@@ -1,6 +1,7 @@
 <?php
-require_once "../../Controller/controller-Team.php";
-require_once "../../Controller/controller-Tournament.php";
+require_once "../../Model/Team.php";
+require_once "../../Model/Planning.php";
+require_once "../../Model/Tournament.php";
 require_once "../../Controller/controller-Global.php";
 
 if(isset($_GET["teamId"]) && isset($_GET['tournamentId'])) {

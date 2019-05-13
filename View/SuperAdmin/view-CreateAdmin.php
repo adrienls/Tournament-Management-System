@@ -1,8 +1,7 @@
 <?php
 require_once "../../Controller/controller-Global.php";
-session_start();
 
-if(!isset($_SESSION['username']) || $_SESSION['username']!="admin"){
+if(!isIdentified() || $_SESSION['username']!="admin"){
     redirect("../Admin/view-Login.php?error=access_denied");
 }
 ?>

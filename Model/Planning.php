@@ -84,7 +84,7 @@ function getMatchesList($day_id) {
 }
 function getMatchOfTeam($name){
     $db = new Database();
-    $matches = $db->getConnection()->prepare("SELECT * FROM Planning WHERE teamA_name='$name' OR teamB_name='$name' AND teamA_nbGoal!='NULL'");
+    $matches = $db->getConnection()->prepare("SELECT * FROM Planning WHERE teamA_name='$name' OR teamB_name='$name'");
     $matches-> execute();
     $matchesList = $matches->fetchAll(PDO::FETCH_CLASS, "Planning");
     return $matchesList;

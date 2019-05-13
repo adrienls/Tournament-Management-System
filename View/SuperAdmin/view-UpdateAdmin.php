@@ -3,9 +3,7 @@
 require_once "../../Controller/controller-Global.php";
 require_once "../../Controller/controller-Admin.php";
 
-session_start();
-
-if(isset($_SESSION['username'])){
+if(isIdentified()){
     if ($_SESSION['username']=="admin") {
         if(isset($_GET['id'])) {
             $id = $_GET['id'];

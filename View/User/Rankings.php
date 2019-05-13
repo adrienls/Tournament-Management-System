@@ -1,6 +1,6 @@
 <?php
-require_once "../../Controller/controller-Team.php";
-require_once "../../Controller/controller-Tournament.php";
+require_once "../../Model/Team.php";
+require_once "../../Model/Tournament.php";
 require_once "../../Controller/controller-Global.php";
 require_once "../../Controller/controller-Planning.php";
 

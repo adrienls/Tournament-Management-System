@@ -1,9 +1,7 @@
 <?php
+require_once "../../../Controller/controller-Global.php";
 
-session_start();
-
-
-if(isset($_SESSION['username'])){
+if(isIdentified()){
     require_once "../../../Controller/controller-Team.php";
     require_once "../../../Controller/controller-Tournament.php";
     $tournament_id = $_GET["id"];
