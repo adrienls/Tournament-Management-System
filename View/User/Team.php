@@ -65,7 +65,7 @@ else{
     <div class="sidebar">
         <nav class="sidebar-nav">
             <ul class="nav">
-                <div class="nav-divider"></div>
+                <li class="nav-divider"></li>
                 <li class="nav-title">Dashboard</li>
                 <li class="nav-item">
                     <?php echo '<a class="nav-link" href="Tournament.php?id='.$tournamentId.'">
@@ -81,7 +81,7 @@ else{
                 </li>
                 <li class="nav-item">
                     <?php echo '<a class="nav-link" href="News.php?id='.$tournamentId.'">
-                    <i class="nav-icon fa fa-history fa-fw"></i> News</a>'; ?>'; ?>
+                    <i class="nav-icon fa fa-history fa-fw"></i> News</a>'; ?>'
                 </li>
             </ul>
         </nav>
@@ -96,17 +96,21 @@ else{
                 <?php echo "<a href='Tournament.php?id=$tournamentId'>$tournamentName</a>";?>
             </li>
             <li class="breadcrumb-item">
-                <?php echo "<a href='Team.php?id=$teamId&name=$tournamentId'>$teamName</a>";?>
+                <?php echo "<a href='Team.php?teamId=$teamId&tournamentId=$tournamentId'>$teamName</a>";?>
             </li>
         </ol>
         <div class="container-fluid">
             <div class="animated fadeIn">
+                <div class="row">
+                <div class="col">
+                <?php
+                echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Team: '.$teamName.'</h3></p>';
+                echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Number of visit: '.$nbVisit.'</h3></p></div>';
+                echo '<div class="col"><img src='.$team->getPathLogo().' width="100" height="100"/>';
+                ?>
+                </div>
+                </div>
                 <table class="table">
-                    <?php
-                    echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Team: '.$teamName.'</h3></p>';
-                    echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Number of visit: '.$nbVisit.'</h3></p>';
-                    echo '<img src='.$team->getPathLogo().' width="100" height="100"/>';
-                    ?>
                     <thead>
                     <tr>
                         <th scope="col">Team A</th>

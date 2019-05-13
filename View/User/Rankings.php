@@ -2,10 +2,11 @@
 require_once "../../Controller/controller-Team.php";
 require_once "../../Controller/controller-Tournament.php";
 require_once "../../Controller/controller-Global.php";
+require_once "../../Controller/controller-Planning.php";
 
 if(isset($_GET["id"])) {
     $tournamentId = $_GET["id"];
-    $teams = getTeamList($tournamentId);
+    $rankings = getRankingsTournament($tournamentId);
     $tournament = getTournamentById($tournamentId);
     $tournamentName = $tournament->getName();
 }
@@ -77,7 +78,7 @@ else{
                 </li>
                 <li class="nav-item">
                     <?php echo '<a class="nav-link" href="News.php?id='.$tournamentId.'">
-                    <i class="nav-icon fa fa-history fa-fw"></i> News</a>'; ?>'; ?>
+                    <i class="nav-icon fa fa-history fa-fw"></i> News</a>'; ?>'
                 </li>
             </ul>
         </nav>
@@ -89,31 +90,52 @@ else{
                 <a href="../index.php">Tournament Selection</a>
             </li>
             <li class="breadcrumb-item">
-                <?php echo "<a href='Teams.php?id=$tournamentId'>$tournamentName</a>";?>
+                <?php echo "<a href='Tournament.php?id=$tournamentId'>$tournamentName</a>";?>
+            </li>
+            <li class="breadcrumb-item">
+                <?php echo "<a href='Team.php?teamId=$teamId&tournamentId=$tournamentId'>$teamName</a>";?>
             </li>
         </ol>
         <div class="container-fluid">
             <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col">
+                        <?php
+                        echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Team: '.$teamName.'</h3></p>';
+                        echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Number of visit: '.$nbVisit.'</h3></p>';
+                        ?>
+                    </div>
+                    <div class="col">
+                        <select id="selectId">
+                            <option value="1">A</option>
+                            <option value="2">B</option>
+                            <option value="3">C</option>
+                            <option value="4">D</option>
+                        </select>
+                        <button class="dropdown"></button>
+                    </div>
+                    </div>
+                </div>
                 <table class="table">
-                    <?php echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Teams from '.$tournamentName.'</h3></p>';?>
                     <thead>
                     <tr>
-                        <th scope="col">Logo</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Number of visit</th>
+                        <th scope="col">Team A</th>
+                        <th scope="col">Team B</th>
+                        <th scope="col">Goal A</th>
+                        <th scope="col">Goal B</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                    foreach ($teams as $team) {
-                        echo '
-                            <tr>
-                                  <td><img src="'.$team->getPathLogo().'"></td>
-                                  <td><a href="Team.php?teamId='.$team->getId().'&tournamentId='.$tournamentId.'">'.$team->getName().'</a></td>
-                                  <td>'.$team->getNbVisit().'</td>
-                            </tr>';
-                    }
-                    ?>
+                    $listOfMatch = getMatchOfTeam($teamName);
+                    foreach ($listOfMatch as $match) {
+                        echo "<tr>
+                                  <td>".$match->getTeamAName()."</td>
+                                  <td>".$match->getTeamBName()."</td>
+                                  <td>".$match->getTeamANbGoal()."</td>
+                                  <td>".$match->getTeamBNbGoal()."</td>
+                              </tr>";
+                    }?>
                     </tbody>
                 </table>
             </div>
