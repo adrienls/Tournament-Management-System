@@ -19,6 +19,9 @@ else {
     if(isGeneratedDays($_GET['id'])) {
         echo "<a href=\"../../../Controller/controller-Days.php?func=playDay&id=".$_GET["id"]."&name=".$_GET['name']."\">PlayDay</a><br>";
     }
+    if(isset($_GET['error'])){
+        if($_GET['error'] == "all_days_played") {echo "<br><b style='color:darkred;'>All days are played !</b><br>";}
+    }
     if(isset($_GET['success'])) {
         if($_GET['success'] == "generate") {echo "<br><b style='color:green;'>Days & Matches generated !</b><br>";}
         if($_GET['success'] == "play") {echo "<br><b style='color:green;'>Day ".$_GET['day_number']." played !</b><br>";}
@@ -26,6 +29,14 @@ else {
 
     echo "<h3>Teams</h3>";
     echo "<a href=\"../Team/view-CreateTeam.php?id=".$_GET["id"]."&name=".$_GET['name']."\">New Team</a><br><br>";
+    if(isset($_GET['error'])){
+        if($_GET['error'] == "max_number_of_team") {echo "<b style='color:darkred;'>Max number of team reach !</b><br><br>";}
+    }
+    if(isset($_GET['success'])){
+        if($_GET['success'] == "new") {echo "<b style='color:green;'>Team created !</b><br><br>";}
+        if($_GET['success'] == "update") {echo "<b style='color:green;'>Team updated !</b><br><br>";}
+        if($_GET['success'] == "delete") {echo "<b style='color:green;'>Team erased !</b><br><br>";}
+    }
     $teams = getTeamList($_GET["id"]);
     echo "<table style=\"text-align:center\"><tr><th>Name</th><th>NbOfVisit</th><th>Logo</th></tr>";
     foreach($teams as $team) {
@@ -53,15 +64,6 @@ else {
             </tr>";
         }
         echo "</table>";
-    }
-
-    if(isset($_GET['error'])){
-        if($_GET['error'] == "max_number_of_team") {echo "<br><b style='color:darkred;'>Max number of team reach !</b><br>";}
-    }
-    if(isset($_GET['success'])){
-        if($_GET['success'] == "new") {echo "<br><b style='color:green;'>Team created !</b><br>";}
-        if($_GET['success'] == "update") {echo "<br><b style='color:green;'>Team updated !</b><br>";}
-        if($_GET['success'] == "delete") {echo "<br><b style='color:green;'>Team erased !</b><br>";}
     }
 
     echo "<br><a href='../view-IndexAdmin.php'>Back</a>";

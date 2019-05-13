@@ -74,6 +74,9 @@ function isGeneratedDays($tournament_id) {
 
 function playDay($tournament_id) {
 
+    if(getNbPlayedDays($_GET['id']) == getNbDays($_GET['id'])) {
+        redirect("../View/Admin/Tournament/view-IndexTournament.php?id=".$tournament_id."&name=".$_GET['name']."&error=all_days_played");
+    }
     $days = getDayList($tournament_id);
     //$actualDay = 0;
     $actualDayId = 0;

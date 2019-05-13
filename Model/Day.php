@@ -62,3 +62,10 @@ function getNbPlayedDays($tournament_id) {
     $nbPlayedDays = $nbPlayedDays->fetchColumn();
     return $nbPlayedDays;
 }
+function getNbDays($tournament_id) {
+    $db = new Database();
+    $nbDays = $db->getConnection()->prepare("SELECT COUNT(id) FROM Day WHERE tournament_id='$tournament_id'");
+    $nbDays->execute();
+    $nbDays = $nbDays->fetchColumn();
+    return $nbDays;
+}
