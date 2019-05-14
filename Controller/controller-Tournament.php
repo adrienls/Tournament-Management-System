@@ -23,7 +23,7 @@ function createTournament() {
     $tournamentName = $_POST['tournamentName'];
     $nbTeam = $_POST['nbTeam'];
 
-    if(empty($tournamentName) || $nbTeam==0){
+    if(empty($tournamentName) || $nbTeam <= 0){
         redirect("../View/Admin/Tournament/view-CreateTournament.php?error=field_missing_or_nb_invalid");
     }
 
@@ -47,7 +47,7 @@ function editTournament($id){
     $tournament_name = $_POST['tournament_name'];
     $nb_team = $_POST['nb_team'];
 
-    if(empty($tournament_name) || empty($nb_team)){
+    if(empty($tournament_name) || $nb_team <= 0){
         redirect("../View/Admin/Tournament/view-UpdateTournament.php?id=".$id ."&error=field_missing");
     }
 
@@ -99,7 +99,7 @@ function deleteTournament($id){
 
     $tournament = new Tournament();
     $tournament->deleteTournament($id);
-    redirect("../View/Admin/view-IndexAdmin.php?success=deleteTournament");
+    redirect("../View/Admin/view-IndexAdmin.php?success=delete");
 }
 
 function testNumberMaxTeam($tournament_id){

@@ -1,32 +1,104 @@
 <?php
-
 require_once "../../Controller/controller-Global.php";
 require_once "../../Controller/controller-Admin.php";
 
-if(isIdentified()){
-    if ($_SESSION['username']=="admin") {
-        if(isset($_GET['id'])) {
-            $id = $_GET['id'];
-            echo "<h2>Update Admin</h2>
-            <form action='../../Controller/controller-Admin.php?func=updateAdmin&id=".$id."' method='post'>";
-                echo "Username : <input type='text' name='username' value='".readAdmin($id)."'/><br>
-                Password : <input type='password' name='password'/><br>
-                Password : <input type='password' name='password_verification'/><br>";
-                if(isset($_GET['error'])){
-                    if($_GET['error'] == "field_missing") {echo "<br><b style='color:red;'>Fill all the fields !</b><br>";}
-                    if($_GET['error'] == "name_used") {echo "<br><b style='color:red;'>Username already used !</b><br>";}
-                    if($_GET['error'] == "password_different") {echo "<br><b style='color:red;'>Fill the same password twice !</b><br>";}
-                }
-                echo "<br>
-                <input type='submit' value='Submit'/>
-            </form>
-            <a href='view-IndexSuperAdmin.php'>Back</a>";
-        }
-    }
-    else {
-        redirect("view-IndexAdmin.php?error=access_denied");
-    }
+if(!isIdentified() || $_SESSION['username']!="admin"){
+    redirect("../Admin/view-Login.php?error=access_denied");
 }
-else {
-    redirect("../index.php?error=access_denied");
-}
+$id = $_GET['id'];
+?>
+
+<!DOCTYPE html>
+<!--
+* CoreUI - Free Bootstrap Admin Template
+* @version v2.1.12
+* @link https://coreui.io
+* Copyright (c) 2018 creativeLabs Łukasz Holeczek
+* Licensed under MIT (https://coreui.io/license)
+-->
+
+<html lang="en">
+<head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="New Admin">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>New Admin</title>
+    <!-- Main style and icons for this application-->
+    <link rel="shortcut icon" href="../template/img/favicon.ico">
+    <link rel="stylesheet" href="../template/css/style.css">
+    <link rel="stylesheet" href="../template/@coreui/icons/css/coreui-icons.min.css">
+    <link rel="stylesheet" href="../template/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../template/simple-line-icons/css/simple-line-icons.css">
+</head>
+<body class="app flex-row align-items-center">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mx-4">
+                <div class="card-body p-4">
+                    <h1>Update</h1>
+                    <p class="text-muted">Edit an admin</p>
+                    <?php echo "<form action='../../Controller/controller-Admin.php?func=updateAdmin&id=".$id."' method='post'>"; ?>
+
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="icon-user"></i>
+                            </span>
+                            </div>
+                            <?php echo "<input required class='form-control' type='text' name='username' value=".readAdmin($id).">"; ?>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="icon-lock"></i>
+                            </span>
+                            </div>
+                            <input required class="form-control" type="password" name="password" placeholder="Password">
+                        </div>
+                        <div class="input-group mb-4">
+                            <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="icon-lock"></i>
+                            </span>
+                            </div>
+                            <input required class="form-control" type="password" name="confirmPassword" placeholder="Repeat password">
+                        </div>
+                        <?php
+                        if(isset($_GET['error'])){
+                            if($_GET['error'] == "mismatch"){
+                                echo "<div class='alert alert-danger' role='alert'>Passwords do not match!</div>";
+                            }
+                            if($_GET['error'] == "identical"){
+                                echo "<div class='alert alert-danger' role='alert'>Username and password need to be different!</div>";
+                            }
+                            if($_GET['error'] == "name_used"){
+                                echo "<div class='alert alert-danger' role='alert'>Username already used!</div>";
+                            }
+                            if($_GET['error'] == "field_missing"){
+                                echo "<div class='alert alert-danger' role='alert'>A field is missing!</div>";
+                            }
+                        }?>
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="view-IndexSuperAdmin.php"><button class="btn btn-danger px-4" type="button"><i class="fa fa-arrow-left"></i> Cancel</button></a>
+                            </div>
+                            <div class="col-6 text-right">
+                                <input class="btn btn-primary px-4" type="submit" value="Update Admin"/>
+                            </div>
+                        </div>
+                    <?php echo "</form>"; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- CoreUI and necessary plugins-->
+<script src="../template/jquery/jquery.min.js"></script>
+<script src="../template/@coreui/coreui/coreui.min.js"></script>
+</body>
+</html>

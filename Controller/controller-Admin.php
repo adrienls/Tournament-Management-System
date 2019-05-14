@@ -50,13 +50,13 @@ function updateAdmin($id){
     $confirmPassword = $_POST['confirmPassword'];
     //Verification of all fields
     if(empty($username) || empty($password) || empty($confirmPassword)) {
-        redirect("../View/SuperAdmin/view-CreateAdmin.php?error=field_missing");
+        redirect("../View/SuperAdmin/view-UpdateAdmin.php?id=$id&error=field_missing");
     }
     if($password != $confirmPassword) {
-        redirect("../View/SuperAdmin/view-CreateAdmin.php?error=mismatch");
+        redirect("../View/SuperAdmin/view-UpdateAdmin.php?id=$id&error=mismatch");
     }
     if($username == $password) {
-        redirect("../View/SuperAdmin/view-CreateAdmin.php?error=identical");
+        redirect("../View/SuperAdmin/view-UpdateAdmin.php?id=$id&error=identical");
     }
     //Username verification
     if (readAdmin($id) != $username) {

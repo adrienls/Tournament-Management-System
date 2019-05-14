@@ -76,7 +76,7 @@ function editTeam($id_team){
     $id_tournament = $infoTeam->getTournamentId();
     $pathLogo= $infoTeam->getPathLogo();
 
-    if(empty($team_name) || empty($_FILES['logo']['name'])){
+    if(empty($team_name)){
         redirect("../View/Admin/Team/view-UpdateTeam.php?id=".$id_team."&name=".$_GET['name']."&tournament_id=".$id_tournament."&error=need_name");
     }
 
@@ -87,17 +87,22 @@ function editTeam($id_team){
         }
     }
 
-    $file = $_FILES['logo']['tmp_name'];
-    $nameNewFile=$_FILES['logo']['name'];
-    $extension=strrchr($nameNewFile,".");
-    $fileDestination = '../Images/'.time().$extension;
-    $fileSize = $_FILES['logo']['size'];
-    if($fileSize > 100000) {
-        redirect("../View/Admin/Team/view-CreateTeam.php?id=".$id_team."&name=".$_GET['name']."&tournament_id=".$id_tournament."&error=logo_invalid");
+    if (empty($_FILES['logo']['name'])) {
+        $fileDestination = $pathLogo;
     }
-    if(file_exists($pathLogo))
-        unlink($pathLogo);
-    move_uploaded_file($file,$fileDestination);
+    else {
+        $file = $_FILES['logo']['tmp_name'];
+        $nameNewFile=$_FILES['logo']['name'];
+        $extension=strrchr($nameNewFile,".");
+        $fileDestination = '../Images/'.time().$extension;
+        $fileSize = $_FILES['logo']['size'];
+        if($fileSize > 100000) {
+            redirect("../View/Admin/Team/view-CreateTeam.php?id=".$id_team."&name=".$_GET['name']."&tournament_id=".$id_tournament."&error=logo_invalid");
+        }
+        if(file_exists($pathLogo))
+            unlink($pathLogo);
+        move_uploaded_file($file,$fileDestination);
+    }
 
     //Informations sending
     $team = new Team();
