@@ -11,7 +11,6 @@ else {
     $team = getTeamById($id);
     $image = $team->getPathLogo();
     $image = "../../".$image;
-    $team->updateNbVisit($id,$team->getNbVisit());
     $listOfMatch = getMatchOfTeam($team->getName());
 }
 

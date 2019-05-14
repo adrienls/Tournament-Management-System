@@ -101,7 +101,7 @@ else{
                 </li>
                 <li class="nav-item">
                     <?php echo '<a class="nav-link" href="News.php?id='.$tournamentId.'">
-                    <i class="nav-icon fa fa-history fa-fw"></i> News</a>'; ?>'
+                    <i class="nav-icon fa fa-history fa-fw"></i> News</a>'; ?>
                 </li>
             </ul>
         </nav>

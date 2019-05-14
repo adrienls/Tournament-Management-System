@@ -19,7 +19,7 @@ if(isset($_GET['func'])) {
     }
 }
 
-//Round Robin Tournament Algorithm taken from : https://phpro.org/examples/Create-Round-Robin-Using-PHP.html
+//Round Robin Tournament Algorithm
 function generateMatches($teams) {
 
     if (count($teams)%2 != 0){

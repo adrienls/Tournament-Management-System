@@ -87,6 +87,7 @@ else {
                             echo "<p><a class='btn btn-primary btn-sm' href=\"../../../Controller/controller-Tournament.php?func=exportPlanning&id=".$_GET['id']."&name=".$_GET['name']."\" role='button'>ExportPlanning</a></p>";
                         }
                         else {
+                            echo "<p><a class='btn btn-primary btn-sm disabled' tabindex=\"-1\" href='#' role='button' aria-disabled='true'>ExportPlanning</a></p>";
                             echo "<p><a class=\"btn btn-primary btn-sm disabled\" tabindex=\"-1\" href='#' role=\"button\" aria-disabled='true'>Play Day</a></p>";
                         }
                         if (isset($_GET['success'])) {

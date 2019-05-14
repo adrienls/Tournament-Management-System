@@ -53,16 +53,8 @@ $tournaments = getTournamentList();
 <div class="app-body">
     <div class="sidebar">
         <nav class="sidebar-nav">
-            <ul class="nav">
-                <li class="nav-divider"></li>
-                <li class="nav-title">Dashboard</li>
-                <li class="nav-item">
-                    <?php echo '<a class="nav-link" href="../Admin/view-IndexAdmin.php">
-                        <i class="nav-icon fa fa-users fa-fw"></i> Tournaments</a>'; ?>
-                </li>
-            </ul>
         </nav>
-        <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+        <button  class="sidebar-minimizer brand-minimizer" type="button"></button>
     </div>
     <main class="main">
         <div class="container-fluid">
