@@ -84,6 +84,7 @@ else {
                         }
                         if(isGeneratedDays($_GET['id'])) {
                             echo "<p><a class=\"btn btn-primary btn-sm\" href=\"../../../Controller/controller-Days.php?func=playDay&id=".$_GET["id"]."&name=".$_GET['name']."\" role=\"button\">Play Day</a></p>";
+                            echo "<p><a class='btn btn-primary btn-sm' href=\"../../../Controller/controller-Tournament.php?func=exportPlanning&id=".$_GET['id']."&name=".$_GET['name']."\" role='button'>ExportPlanning</a></p>";
                         }
                         else {
                             echo "<p><a class=\"btn btn-primary btn-sm disabled\" tabindex=\"-1\" href='#' role=\"button\" aria-disabled='true'>Play Day</a></p>";
@@ -139,7 +140,6 @@ else {
                 if (isPlayedDays($_GET["id"])) {
                     echo "<p><h4>Ranking</h4></p>";
                     echo "<p><a class='btn btn-primary btn-sm' href=\"../../../Controller/controller-Tournament.php?func=exportRanking&id=".$_GET['id']."&name=".$_GET['name']."\" role='button'>ExportRanking</a></p>";
-                    echo "<p><a class='btn btn-primary btn-sm' href=\"../../../Controller/controller-Tournament.php?func=exportPlanning&id=".$_GET['id']."&name=".$_GET['name']."\" role='button'>ExportPlanning</a></p>";
                     echo "<table class='table' style='text-align: center'>
                     <thead>
                         <tr>
