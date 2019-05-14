@@ -109,7 +109,7 @@ else{
                     foreach ($teams as $team) {
                         echo '
                             <tr>
-                                  <td><img src="'.$team->getPathLogo().'"></td>
+                                  <td><img src="../'.$team->getPathLogo().'" width="100" height="100"></td>
                                   <td><a href="Team.php?teamId='.$team->getId().'&tournamentId='.$tournamentId.'">'.$team->getName().'</a></td>
                                   <td>'.$team->getNbVisit().'</td>
                             </tr>';

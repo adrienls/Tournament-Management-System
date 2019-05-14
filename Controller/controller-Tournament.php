@@ -107,3 +107,33 @@ function testNumberMaxTeam($tournament_id){
     $nbTeam = getNbTeam($tournament_id);
     return ($nbTeam<$nbTeamMax);
 }
+
+function export() {
+    require_once "controller-Planning.php";
+    require('../fpdf/fpdf.php');
+
+    $rankings = getRankingsTournament($_GET['id']);
+    $ranking = array_pop($rankings);
+
+    $largeur=38;
+    $i=0;
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial','B',16);
+    $pdf->Cell($largeur-15,20,"Ranking",1,0,"C");
+    $pdf->Cell($largeur,20,"Name",1,0,"C");
+    $pdf->Cell($largeur,20,"Score",1,0,"C");
+    $pdf->Cell($largeur,20,"GoalScored",1,0,"C");
+    $pdf->Cell($largeur,20,"GoalTaken",1,1,"C");
+
+    foreach ($ranking as $name => $team) {
+        $i=$i+1;
+        $pdf->Cell($largeur-15,20,$i,1,0,"C");
+        $pdf->Cell($largeur,20,$name,1,0,"C");
+        $pdf->Cell($largeur,20,$team['score'],1,0,"C");
+        $pdf->Cell($largeur,20,$team['goalScored'],1,0,"C");
+        $pdf->Cell($largeur,20,$team['goalTaken'],1,1,"C");
+    }
+    $pdf->Output();
+}
+

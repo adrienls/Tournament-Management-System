@@ -65,6 +65,7 @@ else {
             </tr>";
         }
         echo "</table>";
+        echo "<br><a href=\"../../../Controller/controller-Tournament.php?func=export&id=".$_GET['id']."&name=".$_GET['name']."\">Export</a>";
     }
 
     echo "<br><a href='../view-IndexAdmin.php'>Back</a>";
