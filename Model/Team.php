@@ -75,6 +75,13 @@ function getTeamList($id){
     $teamList = $teamList->fetchAll(PDO::FETCH_CLASS, "Team");
     return $teamList;
 }
+function getAllTeamList(){
+    $db = new Database();
+    $teamList = $db->getConnection()->prepare("SELECT * FROM Team ");
+    $teamList->execute();
+    $teamList = $teamList->fetchAll(PDO::FETCH_CLASS, "Team");
+    return $teamList;
+}
 function getNbTeam($tournament_id){
     $db = new Database();
     $nbTeam = $db->getConnection()->prepare("SELECT COUNT(id) FROM Team WHERE tournament_id='$tournament_id'");

@@ -28,7 +28,7 @@ function createTeam($tournament_id) {
     }
 
     //Name verification
-    $dbTeams = getTeamList($tournament_id);
+    $dbTeams = getAllTeamList();
     foreach ($dbTeams as $team) {
         if($name == $team->getName()){
             redirect("../View/Admin/Team/view-CreateTeam.php?id=".$tournament_id."&name=".$_GET['name']."&error=name_used");

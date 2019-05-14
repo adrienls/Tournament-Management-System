@@ -136,14 +136,10 @@ else {
                     </tbody>
                 </table>
                 <?php
-                if(isset($_GET['success'])){
-                    if($_GET['success'] == "new") {echo "<div class='alert alert-success' role='alert'>Admin created !</div>";}
-                    if($_GET['success'] == "update") {echo "<div class='alert alert-success' role='alert'>Admin updated !</div>";}
-                    if($_GET['success'] == "delete") {echo "<div class='alert alert-success' role='alert'>Admin erased !</div>";}
-                }
                 if (isPlayedDays($_GET["id"])) {
                     echo "<p><h4>Ranking</h4></p>";
-                    echo "<p><a class='btn btn-primary btn-sm' href=\"../../../Controller/controller-Tournament.php?func=export&id=".$_GET['id']."&name=".$_GET['name']."\" role='button'>Export</a></p>";
+                    echo "<p><a class='btn btn-primary btn-sm' href=\"../../../Controller/controller-Tournament.php?func=exportRanking&id=".$_GET['id']."&name=".$_GET['name']."\" role='button'>ExportRanking</a></p>";
+                    echo "<p><a class='btn btn-primary btn-sm' href=\"../../../Controller/controller-Tournament.php?func=exportPlanning&id=".$_GET['id']."&name=".$_GET['name']."\" role='button'>ExportPlanning</a></p>";
                     echo "<table class='table' style='text-align: center'>
                     <thead>
                         <tr>

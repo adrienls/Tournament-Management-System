@@ -107,7 +107,7 @@ else{
                 <?php
                 echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Team: '.$teamName.'</h3></p>';
                 echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Number of visit: '.$nbVisit.'</h3></p></div>';
-                echo '<div class="col"><img src='.$team->getPathLogo().' width="100" height="100"/>';
+                echo '<div class="col"><img src=../'.$team->getPathLogo().' width="100" height="100"/>';
                 ?>
                 </div>
                 </div>
