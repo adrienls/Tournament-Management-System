@@ -12,39 +12,11 @@ else {
     require_once "../../../Controller/controller-Tournament.php";
 
     $teams = getTeamList($_GET["id"]);
-
+    $rankings = getRankingsTournament($_GET['id']);
+    $ranking = array_pop($rankings);
     /*
-        $teams = getTeamList($_GET["id"]);
-        echo "<table style=\"text-align:center\"><tr><th>Name</th><th>NbOfVisit</th><th>Logo</th></tr>";
-        foreach($teams as $team) {
-            echo "<tr>
-            <td><a href=\"../Team/view-IndexTeam.php?id=".$team->getId()."&name=".$_GET['name']."\">".$team->getName()."</td>
-            <td>".$team->getNbVisit()."</td>
-            <td></td>
-            <td><a href=\"../Team/view-UpdateTeam.php?id=".$team->getId()."&name=".$_GET['name']."&tournament_id=".$_GET['id']."\">Edit</a></td>
-            <td><a href=\"../../../Controller/controller-Team.php?func=deleteTeam&id=".$team->getId()."&name=".$_GET['name']."\">Delete</a></td>
-            </tr>";
-        }
-        echo "</table>";
-
-        if (isPlayedDays($_GET["id"])) {
-            echo "<h3>Ranking</h3>";
-            $rankings = getRankingsTournament($_GET['id']);
-            $ranking = array_pop($rankings);
-            echo "<table style=\"text-align:center\"><tr><th>Team</th><th>Score</th><th>GoalScored</th><th>GoalTaken</th></tr>";
-            foreach($ranking as $name => $team) {
-                echo "<tr>
-                <td>".$name."</td>
-                <td>".$team['score']."</td>
-                <td>".$team['goalScored']."</td>
-                <td>".$team['goalTaken']."</td>
-                </tr>";
-            }
-            echo "</table>";
-        }
         echo "<br><a href=\"../../../Controller/controller-Tournament.php?func=export&id=".$_GET['id']."&name=".$_GET['name']."\">Export</a>";
-
-        echo "<br><a href='../view-IndexAdmin.php'>Back</a>";*/
+    */
 }
 
 ?>
@@ -105,16 +77,16 @@ else {
                         <?php
                         echo "<p><h3>".$_GET['name']." Management</h3></p>";
                         if(!testNumberMaxTeam($_GET['id']) && !isGeneratedDays($_GET['id'])){
-                            echo "<p><a class=\"btn btn-primary\" href=\"../../../Controller/controller-Days.php?func=generateDays&id=".$_GET["id"]."&name=".$_GET["name"]."\" role=\"button\">GenerateDays</a></p>";
+                            echo "<p><a class=\"btn btn-primary btn-sm\" href=\"../../../Controller/controller-Days.php?func=generateDays&id=".$_GET["id"]."&name=".$_GET["name"]."\" role=\"button\">Generate Days</a></p>";
                         }
                         else {
-                            echo "<p><a class=\"btn btn-primary disabled\" tabindex=\"-1\" href='#' role=\"button\" aria-disabled='true'>GenerateDays</a></p>";
+                            echo "<p><a class=\"btn btn-primary btn-sm disabled\" tabindex=\"-1\" href='#' role=\"button\" aria-disabled='true'>Generate Days</a></p>";
                         }
                         if(isGeneratedDays($_GET['id'])) {
-                            echo "<p><a class=\"btn btn-primary\" href=\"../../../Controller/controller-Days.php?func=playDay&id=".$_GET["id"]."&name=".$_GET['name']."\" role=\"button\">PlayDay</a></p>";
+                            echo "<p><a class=\"btn btn-primary btn-sm\" href=\"../../../Controller/controller-Days.php?func=playDay&id=".$_GET["id"]."&name=".$_GET['name']."\" role=\"button\">Play Day</a></p>";
                         }
                         else {
-                            echo "<p><a class=\"btn btn-primary disabled\" tabindex=\"-1\" href='#' role=\"button\" aria-disabled='true'>PlayDay</a></p>";
+                            echo "<p><a class=\"btn btn-primary btn-sm disabled\" tabindex=\"-1\" href='#' role=\"button\" aria-disabled='true'>Play Day</a></p>";
                         }
                         if (isset($_GET['success'])) {
                             if ($_GET['success'] == "generate") {echo "<div class='alert alert-success' role='alert'>Days & Matches generated !</div>";}
@@ -129,7 +101,7 @@ else {
                 <table class="table">
                     <?php
                     echo "<p><h4>Teams</h4></p>";
-                    echo "<p><a class='btn btn-primary' href=\"../Team/view-CreateTeam.php?id=".$_GET['id']."&name=".$_GET['name']."\" role='button'>New Team</a></p>";
+                    echo "<p><a class='btn btn-primary btn-sm' href=\"../Team/view-CreateTeam.php?id=".$_GET['id']."&name=".$_GET['name']."\" role='button'>New Team</a></p>";
                     if (isset($_GET['success'])) {
                         if($_GET['success'] == "new") {echo "<div class='alert alert-success' role='alert'>Team created !</div>";}
                         if($_GET['success'] == "update") {echo "<div class='alert alert-success' role='alert'>Team updated !</div>";}
@@ -142,22 +114,23 @@ else {
                     ?>
                     <thead>
                     <tr>
-                        <th scope="col">Username</th>
+                        <th scope="col">Logo</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Nb Of Visit</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                    foreach($admins as $admin) {
-                        if ($admin->getUsername() != "admin") {
-                            echo "
-                            <tr>
-                                <td>".$admin->getUsername()."</td>
-                                <td><a class=\"btn btn-ghost-primary\" href=\"view-UpdateAdmin.php?id=".$admin->getId()."\" role=\"button\">Edit</a></td>
-                                <td><a class=\"btn btn-ghost-danger\" href=\"../../Controller/controller-Admin.php?func=deleteAdmin&id=".$admin->getId()."\" role=\"button\">Delete</a></td>
-                            </tr>";
-                        }
+                    foreach($teams as $team) {
+                        echo "<tr>
+                            <td><img src=\"../../../Images/".$team->getPathLogo()."\" width=\"50\" height=\"50\"></td>
+                            <td><a class=\"btn btn-ghost-primary\" href=\"../Team/view-IndexTeam.php?id=".$team->getId()."&name=".$_GET['name']."&tournament_id=".$_GET['id']."\" role=\"button\">".$team->getName()."</a></td>
+                            <td>".$team->getNbVisit()."</td>
+                            <td><a class=\"btn btn-ghost-primary\" href=\"../Team/view-UpdateTeam.php?id=".$team->getId()."&name=".$_GET['name']."&tournament_id=".$_GET['id']."\" role=\"button\">Edit</a></td>
+                            <td><a class=\"btn btn-ghost-danger\" href=\"../../../Controller/controller-Team.php?func=deleteTeam&id=".$team->getId()."&name=".$_GET['name']."\" role=\"button\">Delete</a></td>
+                        </tr>";
                     }
                     ?>
                     </tbody>
@@ -167,6 +140,32 @@ else {
                     if($_GET['success'] == "new") {echo "<div class='alert alert-success' role='alert'>Admin created !</div>";}
                     if($_GET['success'] == "update") {echo "<div class='alert alert-success' role='alert'>Admin updated !</div>";}
                     if($_GET['success'] == "delete") {echo "<div class='alert alert-success' role='alert'>Admin erased !</div>";}
+                }
+                if (isPlayedDays($_GET["id"])) {
+                    echo "<p><h4>Ranking</h4></p>";
+                    echo "<p><a class='btn btn-primary btn-sm' href=\"../../../Controller/controller-Tournament.php?func=export&id=".$_GET['id']."&name=".$_GET['name']."\" role='button'>Export</a></p>";
+                    echo "<table class='table' style='text-align: center'>
+                    <thead>
+                        <tr>
+                            <th scope='col'>Rank</th>
+                            <th scope='col'>Team Name</th>
+                            <th scope='col'>Score Points</th>
+                            <th scope='col'>Goal Scored</th>
+                            <th scope='col'>Goal Taken</th>
+                        </tr>
+                    </thead>";
+                    $rank = 0;
+                    foreach($ranking as $name => $team) {
+                        $rank++;
+                        echo "<tr>
+                            <td>".$rank."</td>
+                            <td>".$name."</td>
+                            <td>".$team['score']."</td>
+                            <td>".$team['goalScored']."</td>
+                            <td>".$team['goalTaken']."</td>
+                        </tr>";
+                    }
+                    echo "</table>";
                 }
                 ?>
                 <a class="btn btn-dark" href="../view-IndexAdmin.php" role="button">Back</a>
