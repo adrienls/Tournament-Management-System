@@ -3,12 +3,20 @@ require_once "../../Model/Team.php";
 require_once "../../Model/Tournament.php";
 require_once "../../Controller/controller-Global.php";
 require_once "../../Controller/controller-Planning.php";
+require_once "../../Model/Day.php";
 
 if(isset($_GET["id"])) {
     $tournamentId = $_GET["id"];
     $rankings = getRankingsTournament($tournamentId);
     $tournament = getTournamentById($tournamentId);
+    $nbDays = getNbPlayedDays($tournamentId);
     $tournamentName = $tournament->getName();
+    if (isset($_GET["day"])){
+        $rankings = $rankings[$_GET["day"]];
+    }
+    else{
+        $rankings = $rankings[$nbDays];
+    }
 }
 else{
     redirect("../index.php");
@@ -68,9 +76,24 @@ else{
                     <?php echo '<a class="nav-link" href="Tournament.php?id='.$tournamentId.'">
                     <i class="nav-icon fa fa-users fa-fw"></i> Teams</a>'; ?>
                 </li>
-                <li class="nav-item">
-                    <?php echo '<a class="nav-link" href="Rankings.php?id='.$tournamentId.'">
-                    <i class="nav-icon fa fa-eye fa-fw"></i> Rankings</a>'; ?>
+                <li class="nav-item nav-dropdown">
+                    <?php echo '<a class="nav-link nav-dropdown-toggle" href="Rankings.php?id='.$tournamentId.'">
+                    <i class="nav-icon fa fa-eye fa-fw"></i> Rankings</a>';
+                    ?>
+                    <ul class="nav-dropdown-items">
+                        <?php
+                        echo '
+                            <li class="nav-item">
+                                <a class="nav-link" href="Rankings.php?id='.$tournamentId.'">Last Day</a>
+                            </li>';
+                        for ($i = $nbDays-1; $i >= 1; $i--){
+                            echo '
+                            <li class="nav-item">
+                                <a class="nav-link" href="Rankings.php?id='.$tournamentId.'&day='.$i.'">Day '.$i.'</a>
+                            </li>';
+                        }
+                        ?>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <?php echo '<a class="nav-link" href="Calendar.php?id='.$tournamentId.'">
@@ -93,7 +116,7 @@ else{
                 <?php echo "<a href='Tournament.php?id=$tournamentId'>$tournamentName</a>";?>
             </li>
             <li class="breadcrumb-item">
-                <?php echo "<a href='Team.php?teamId=$teamId&tournamentId=$tournamentId'>$teamName</a>";?>
+                <?php echo "<a href='Rankings.php?id=$tournamentId'>Rankings</a>";?>
             </li>
         </ol>
         <div class="container-fluid">
@@ -101,40 +124,53 @@ else{
                 <div class="row">
                     <div class="col">
                         <?php
-                        echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Team: '.$teamName.'</h3></p>';
-                        echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Number of visit: '.$nbVisit.'</h3></p>';
+                        echo '<h3 style="font-family: CoreUI-Icons-Linear-Free">Rankings from '.$tournamentName.'</h3>';
+                        if(isset($_GET["day"])){
+                            echo '<h4>Day '.$_GET["day"].' out of '.$nbDays.'</h4>';
+                        }
+                        else{
+                            echo '<h4>Last played day</h4>';
+                        }
                         ?>
                     </div>
                     <div class="col">
-                        <select id="selectId">
-                            <option value="1">A</option>
-                            <option value="2">B</option>
-                            <option value="3">C</option>
-                            <option value="4">D</option>
-                        </select>
-                        <button class="dropdown"></button>
-                    </div>
+                        <form method="post">
+                            <h5>Order by: </h5>
+                            <select>
+                                <option>Score</option>
+                                <option>Goal Scored</option>
+                                <option>Goal Taken</option>
+                                <option>Goal Difference</option>
+                            </select>
+                            <button type="submit">Validate</button>
+                        </form>
                     </div>
                 </div>
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Team A</th>
-                        <th scope="col">Team B</th>
-                        <th scope="col">Goal A</th>
-                        <th scope="col">Goal B</th>
+                        <th scope="col">Rank</th>
+                        <th scope="col">Team Name</th>
+                        <th scope="col">Score</th>
+                        <th scope="col">Goal scored</th>
+                        <th scope="col">Goal taken</th>
+                        <th scope="col">Goal difference</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                    $listOfMatch = getMatchOfTeam($teamName);
-                    foreach ($listOfMatch as $match) {
+                    $i = 1;
+                    foreach ($rankings as $team => $rank) {
+                        $difference = $rank["goalScored"] - $rank["goalTaken"];
                         echo "<tr>
-                                  <td>".$match->getTeamAName()."</td>
-                                  <td>".$match->getTeamBName()."</td>
-                                  <td>".$match->getTeamANbGoal()."</td>
-                                  <td>".$match->getTeamBNbGoal()."</td>
+                                  <td>".$i."</td>
+                                  <td>".$team."</td>
+                                  <td>".$rank["score"]."</td>
+                                  <td>".$rank["goalScored"]."</td>
+                                  <td>".$rank["goalTaken"]."</td>
+                                  <td>".$difference."</td>
                               </tr>";
+                        $i++;
                     }?>
                     </tbody>
                 </table>

@@ -1,6 +1,7 @@
 <?php
 require_once "controller-Global.php";
 require_once __DIR__."/../Model/Planning.php";
+require_once __DIR__."/../Model/Team.php";
 
 if(isset($_GET['func'])) {
     if(isset($_GET['id'])){
@@ -54,7 +55,6 @@ function getRankingsTournament($id_tournament){
                 $ranking[$teamA_name]["score"] += 1;
                 $ranking[$teamB_name]["score"] += 1;
             }
-            //team id ou team name? vote pour team name
             $ranking[$teamA_name]["goalScored"] += $match["teamA_nbGoal"];
             $ranking[$teamA_name]["goalTaken"] += $match["teamB_nbGoal"];
             $ranking[$teamB_name]["goalScored"] += $match["teamB_nbGoal"];
