@@ -135,7 +135,6 @@ else{
                     $listOfMatch = getMatchesList($day->getId());
                     foreach ($listOfMatch as $match) {
                         echo "<tr>
-                            <td>".$day->getDayNumber()."</td>
                             <td>".$match->getTeamAName()."</td>
                             <td>".$match->getTeamANbGoal()." - ".$match->getTeamBNbGoal()."</td>
                             <td>".$match->getTeamBName()."</td>
