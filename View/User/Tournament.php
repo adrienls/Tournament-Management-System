@@ -90,7 +90,7 @@ else{
                 <a href="../index.php">Tournament Selection</a>
             </li>
             <li class="breadcrumb-item">
-                <?php echo "<a href='Team.php?id=$tournamentId'>$tournamentName</a>";?>
+                <?php echo "<a href='Tournament.php?id=$tournamentId'>$tournamentName</a>";?>
             </li>
         </ol>
         <div class="container-fluid">
