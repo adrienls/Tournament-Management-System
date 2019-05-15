@@ -94,7 +94,7 @@ else{
                 <?php echo "<a href='Tournament.php?id=$tournamentId'>$tournamentName</a>";?>
             </li>
             <li class="breadcrumb-item">
-                <?php echo "<a href='Calendar.php?id=$tournamentId'>Calendar</a>";?>
+                <?php echo "<a href='News.php?id=$tournamentId'>News</a>";?>
             </li>
         </ol>
         <div class="container-fluid">
@@ -102,7 +102,7 @@ else{
                 <div class="row">
                     <div class="col">
                         <?php
-                        echo '<h3>Last played day results from '.$tournamentName.'</h3>';
+                        echo '<h3>Last results from '.$tournamentName.'</h3>';
                         if ($nbPlayedDays == 0){
                             echo "<p class='alert alert-danger'>No played day for the moment!</p>";
                         }?>
@@ -111,11 +111,9 @@ else{
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Day</th>
                         <th scope="col">Home</th>
                         <th scope="col">Score</th>
                         <th scope="col">Away</th>
-                        <th scope="col">Played</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -124,14 +122,11 @@ else{
                         if($day->getDayNumber() == $nbPlayedDays){
                             $listOfMatch = getMatchesList($day->getId());
                             foreach ($listOfMatch as $match) {
-                                $status = ($nbPlayedDays >= $day->getDayNumber())? "YES" : "NO";
                                 echo "<tr>
-                            <td>".$day->getDayNumber()."</td>
-                            <td>".$match->getTeamAName()."</td>
-                            <td>".$match->getTeamANbGoal()." - ".$match->getTeamBNbGoal()."</td>
-                            <td>".$match->getTeamBName()."</td>
-                            <td>".$status."</td>
-                        </tr>";
+                                    <td>".$match->getTeamAName()."</td>
+                                    <td>".$match->getTeamANbGoal()." - ".$match->getTeamBNbGoal()."</td>
+                                    <td>".$match->getTeamBName()."</td>
+                                </tr>";
                             }
                         }
                     }
