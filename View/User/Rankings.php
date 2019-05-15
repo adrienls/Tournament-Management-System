@@ -9,6 +9,9 @@ if(isset($_GET["id"])) {
     $tournamentId = $_GET["id"];
     $rankings = getRankingsTournament($tournamentId);
     $tournament = getTournamentById($tournamentId);
+    //if($tournament->getNbTeam == 0){
+        //redirect("../index.php");
+    //}
     $nbDays = getNbPlayedDays($tournamentId);
     $tournamentName = $tournament->getName();
     if (isset($_GET["day"])){
@@ -135,13 +138,13 @@ else{
                         ?>
                     </div>
                     <div class="col">
-                        <form method="post">
+                        <form method="post" action="../../Controller/controller-Planning.php">
                             <h5>Order by: </h5>
                             <select>
-                                <option>Score</option>
-                                <option>Goal Scored</option>
-                                <option>Goal Taken</option>
-                                <option>Goal Difference</option>
+                                <option name="score">Score</option>
+                                <option name="goalScored">Goal Scored</option>
+                                <option name="goalTaken">Goal Taken</option>
+                                <option name="goalDifference">Goal Difference</option>
                             </select>
                             <button type="submit">Validate</button>
                         </form>
