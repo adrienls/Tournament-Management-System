@@ -7,11 +7,12 @@ require_once "../../Model/Day.php";
 
 if(isset($_GET["id"])) {
     $tournamentId = $_GET["id"];
-    $rankings = getRankingsTournament($tournamentId);
+    $order = "Score";
+    if(isset($_POST["order"])){
+        $order = $_POST["order"];
+    }
+    $rankings = getRankingsTournament($tournamentId, $order);
     $tournament = getTournamentById($tournamentId);
-    //if($tournament->getNbTeam == 0){
-        //redirect("../index.php");
-    //}
     $nbDays = getNbPlayedDays($tournamentId);
     $tournamentName = $tournament->getName();
     if (isset($_GET["day"])){
@@ -129,22 +130,22 @@ else{
                         <?php
                         echo '<h3>Rankings from '.$tournamentName.'</h3>';
                         if(isset($_GET["day"])){
-                            echo '<h4>Day '.$_GET["day"].' out of '.$nbDays.'</h4>';
+                            echo '<h4 class="">Day '.$_GET["day"].' out of '.$nbDays.' ordered by '.$order.'</h4>';
                         }
                         else{
-                            echo '<h4>Last played day</h4>';
+                            echo '<h4>Last played day ordered by '.$order.'</h4>';
                             echo "<p><a class='btn btn-primary btn-sm' href=\"../../Controller/controller-Planning.php?func=exportRanking&id=".$tournamentId."&name=".$tournamentName."\" role='button'>Export</a></p>";
                         }
                         ?>
                     </div>
                     <div class="col">
-                        <form method="post" action="../../Controller/controller-Planning.php">
+                        <form method="post">
                             <h5>Order by: </h5>
-                            <select>
-                                <option name="score">Score</option>
-                                <option name="goalScored">Goal Scored</option>
-                                <option name="goalTaken">Goal Taken</option>
-                                <option name="goalDifference">Goal Difference</option>
+                            <select title="order" name="order">
+                                <option>Score</option>
+                                <option>Goal Scored</option>
+                                <option>Goal Taken</option>
+                                <option>Goal Difference</option>
                             </select>
                             <button type="submit">Validate</button>
                         </form>
