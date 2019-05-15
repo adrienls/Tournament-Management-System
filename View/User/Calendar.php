@@ -1,3 +1,20 @@
+<?php
+require_once "../../Model/Team.php";
+require_once "../../Model/Tournament.php";
+require_once "../../Controller/controller-Global.php";
+require_once "../../Controller/controller-Planning.php";
+require_once "../../Model/Day.php";
+
+if(isset($_GET["id"])) {
+    $tournamentId = $_GET["id"];
+    $tournament = getTournamentById($tournamentId);
+    $tournamentName = $tournament->getName();
+    $days = getDayList($tournamentId);
+}
+else{
+    redirect("../index.php");
+}
+?>
 <!DOCTYPE html>
 <!--
 * CoreUI - Free Bootstrap Admin Template
@@ -38,17 +55,6 @@
             <a class="nav-link" href="../Admin/view-Login.php" role="button">
                 <i class="cui-dashboard btn-lg"> Admin</i>
             </a>
-            <div class="dropdown-menu dropdown-menu-right">
-                <div class="dropdown-header text-center">
-                    <strong>Settings</strong>
-                </div>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-user"></i> Profile</a>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-wrench"></i> Settings</a>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-lock"></i> Logout</a>
-            </div>
         </li>
     </ul>
 </header>
@@ -59,38 +65,72 @@
                 <div class="nav-divider"></div>
                 <li class="nav-title">Dashboard</li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../index.php">
-                        <i class="nav-icon fa fa-dashboard fa-fw"></i> Overview</a>
+                    <?php echo '<a class="nav-link" href="Tournament.php?id='.$tournamentId.'">
+                    <i class="nav-icon fa fa-users fa-fw"></i> Teams</a>'; ?>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../User/Rankings.php">
-                        <i class="nav-icon fa fa-eye fa-fw"></i> Rankings</a>
+                    <?php echo '<a class="nav-link" href="Rankings.php?id='.$tournamentId.'">
+                    <i class="nav-icon fa fa-eye fa-fw"></i> Rankings</a>'; ?>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../User/Calendar.php">
-                        <i class="nav-icon fa fa-calendar fa-fw"></i> Calendar</a>
+                    <?php echo '<a class="nav-link" href="Calendar.php?id='.$tournamentId.'">
+                    <i class="nav-icon fa fa-calendar fa-fw"></i> Calendar</a>'; ?>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../User/Teams.php">
-                        <i class="nav-icon fa fa-users fa-fw"></i> Teams</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="nav-icon fa fa-history fa-fw"></i> News</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="nav-icon fa fa-cog fa-fw"></i> History</a>
+                    <?php echo '<a class="nav-link" href="News.php?id='.$tournamentId.'">
+                    <i class="nav-icon fa fa-history fa-fw"></i> News</a>'; ?>
                 </li>
             </ul>
         </nav>
         <button class="sidebar-minimizer brand-minimizer" type="button"></button>
     </div>
     <main class="main">
-        <br/>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="../index.php">Tournament Selection</a>
+            </li>
+            <li class="breadcrumb-item">
+                <?php echo "<a href='Tournament.php?id=$tournamentId'>$tournamentName</a>";?>
+            </li>
+            <li class="breadcrumb-item">
+                <?php echo "<a href='Calendar.php?id=$tournamentId'>Calendar</a>";?>
+            </li>
+        </ol>
         <div class="container-fluid">
             <div class="animated fadeIn">
-
+                <div class="row">
+                    <div class="col">
+                        <?php
+                        echo '<h3 style="font-family: CoreUI-Icons-Linear-Free">Calendar from '.$tournamentName.'</h3>';
+                        echo "<p><a class='btn btn-primary btn-sm' href=\"../../Controller/controller-Planning.php?func=exportPlanning&id=".$tournamentId."&name=".$tournamentName."\" role='button'>Export</a></p>";
+                        ?>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Day</th>
+                        <th scope="col">Home</th>
+                        <th scope="col">Score</th>
+                        <th scope="col">Away</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    foreach ($days as $day) {
+                        $listOfMatch = getMatchesList($day->getId());
+                        foreach ($listOfMatch as $match) {
+                            echo "<tr>
+                            <td>".$day->getDayNumber()."</td>
+                            <td>".$match->getTeamAName()."</td>
+                            <td>".$match->getTeamANbGoal()." - ".$match->getTeamBNbGoal()."</td>
+                            <td>".$match->getTeamBName()."</td>
+                        </tr>";
+                        }
+                    }
+                    ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>

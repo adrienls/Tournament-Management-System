@@ -66,3 +66,60 @@ function getRankingsTournament($id_tournament){
     }
     return $dailyRanking;
 }
+function exportRanking() {
+    require_once "controller-Planning.php";
+    require('../fpdf/fpdf.php');
+
+    $rankings = getRankingsTournament($_GET['id']);
+    $ranking = array_pop($rankings);
+
+    $largeur=38;
+    $hauteur=20;
+    $i=0;
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial','B',16);
+    $pdf->Cell($largeur-15,$hauteur,"Ranking",1,0,"C");
+    $pdf->Cell($largeur,$hauteur,"Name",1,0,"C");
+    $pdf->Cell($largeur,$hauteur,"Score",1,0,"C");
+    $pdf->Cell($largeur,$hauteur,"GoalScored",1,0,"C");
+    $pdf->Cell($largeur,$hauteur,"GoalTaken",1,1,"C");
+
+    foreach ($ranking as $name => $team) {
+        $i=$i+1;
+        $pdf->Cell($largeur-15,$hauteur,$i,1,0,"C");
+        $pdf->Cell($largeur,$hauteur,$name,1,0,"C");
+        $pdf->Cell($largeur,$hauteur,$team['score'],1,0,"C");
+        $pdf->Cell($largeur,$hauteur,$team['goalScored'],1,0,"C");
+        $pdf->Cell($largeur,$hauteur,$team['goalTaken'],1,1,"C");
+    }
+    $pdf->Output();
+}
+function exportPlanning() {
+    require_once "controller-Planning.php";
+    require('../fpdf/fpdf.php');
+
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial','B',16);
+
+    $daysPlanning=getDayPlanning($_GET['id']);
+    $largeur=50;
+    $hauteur=20;
+    $pdf->Cell($largeur,$hauteur,"Team A Name",1,0,"C");
+    $pdf->Cell($largeur/2,$hauteur,"Goal A",1,0,"C");
+    $pdf->Cell($largeur/2,$hauteur,"Goal B",1,0,"C");
+    $pdf->Cell($largeur,$hauteur,"Team B Name",1,0,"C");
+    $pdf->Cell($largeur/2,$hauteur,"Day",1,1,"C");
+
+    foreach ($daysPlanning as $dayPlanning){
+        $pdf->Cell($largeur,$hauteur,$dayPlanning['teamA_name'],1,0,"C");
+        $pdf->Cell($largeur/2,$hauteur,$dayPlanning['teamA_nbGoal'],1,0,"C");
+        $pdf->Cell($largeur/2,$hauteur,$dayPlanning['teamB_nbGoal'],1,0,"C");
+        $pdf->Cell($largeur,$hauteur,$dayPlanning['teamB_name'],1,0,"C");
+        $pdf->Cell($largeur/2,$hauteur,$dayPlanning['day_number'],1,1,"C");
+
+    }
+    $pdf->Output();
+
+}

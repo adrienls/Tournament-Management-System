@@ -13,21 +13,6 @@ else {
     $image = "../../".$image;
     $listOfMatch = getMatchOfTeam($team->getName());
 }
-
-
-/*
-else {
-    echo "<h3>Matchs</h3>";
-    echo "<table style=\"text-align:center\"><tr><th>Home</th><th>Score</th><th>Away</th></tr>";
-    foreach ($listOfMatch as $match){
-        echo "<tr>
-            <td>".$match->getTeamAName()."</td>
-            <td>".$match->getTeamANbGoal()." - ".$match->getTeamBNbGoal()."</td>
-            <td>".$match->getTeamBName()."</td>
-            </tr>";
-    }
-    echo "</table>";
-}*/
 ?>
 <!DOCTYPE html>
 <!--
