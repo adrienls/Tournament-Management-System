@@ -3,7 +3,7 @@
 require_once "../../../Controller/controller-Global.php";
 
 if(!isIdentified()){
-    redirect("../../index.php?error=bad_login");
+    redirect("../../index.php");
 }
 
 else {

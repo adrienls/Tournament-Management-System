@@ -9,7 +9,8 @@ if(isset($_GET["id"])) {
     $tournamentId = $_GET["id"];
     $tournament = getTournamentById($tournamentId);
     $tournamentName = $tournament->getName();
-    $tournaments = getTournamentList();
+    $nbPlayedDays = getNbPlayedDays($tournamentId);
+    $days = getDayList($tournamentId);
 }
 else{
     redirect("../index.php");
@@ -93,7 +94,7 @@ else{
                 <?php echo "<a href='Tournament.php?id=$tournamentId'>$tournamentName</a>";?>
             </li>
             <li class="breadcrumb-item">
-                <?php echo "<a href='Calendar.php?id=$tournamentId'>News</a>";?>
+                <?php echo "<a href='Calendar.php?id=$tournamentId'>Calendar</a>";?>
             </li>
         </ol>
         <div class="container-fluid">
@@ -101,49 +102,42 @@ else{
                 <div class="row">
                     <div class="col">
                         <?php
-                        echo '<h3>Last Results</h3>';
-                        ?>
-                    </div>
-                </div>
-                <?php
-                foreach ($tournaments as $tournament) {
-                    $days = getDayList($tournament->getId());
-                    $lastDayId = 0;
-                    foreach ($days as $day) {
-                        if($day->getDone()){
-                            $lastDayId = $day->getId();
-                        }
-                    }
-                ?>
-                <div class="row">
-                    <div class="col">
-                        <?php
-                            echo '<h4>'.$tournament->getName().'</h4>';
-                        ?>
+                        echo '<h3>Last played day results from '.$tournamentName.'</h3>';
+                        if ($nbPlayedDays == 0){
+                            echo "<p class='alert alert-danger'>No played day for the moment!</p>";
+                        }?>
                     </div>
                 </div>
                 <table class="table">
                     <thead>
                     <tr>
+                        <th scope="col">Day</th>
                         <th scope="col">Home</th>
                         <th scope="col">Score</th>
                         <th scope="col">Away</th>
+                        <th scope="col">Played</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                    $listOfMatch = getMatchesList($day->getId());
-                    foreach ($listOfMatch as $match) {
-                        echo "<tr>
+                    foreach ($days as $day) {
+                        if($day->getDayNumber() == $nbPlayedDays){
+                            $listOfMatch = getMatchesList($day->getId());
+                            foreach ($listOfMatch as $match) {
+                                $status = ($nbPlayedDays >= $day->getDayNumber())? "YES" : "NO";
+                                echo "<tr>
+                            <td>".$day->getDayNumber()."</td>
                             <td>".$match->getTeamAName()."</td>
                             <td>".$match->getTeamANbGoal()." - ".$match->getTeamBNbGoal()."</td>
                             <td>".$match->getTeamBName()."</td>
+                            <td>".$status."</td>
                         </tr>";
+                            }
+                        }
                     }
                     ?>
                     </tbody>
                 </table>
-                <?php } ?>
             </div>
         </div>
     </main>

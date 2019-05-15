@@ -60,8 +60,42 @@ function goalDifference($a, $b) {
     }//organize the ranking by descending order of each team's goal difference
     return ($aGoals < $bGoals) ? 1 : -1;
 }
+function win($a, $b) {
+    if ($a["win"] == $b["win"]) {
+        //if the score of two teams is the same
+        //the ranking is calculated based on goal difference
+        $aGoals = $a["goalScored"] - $a["goalTaken"];
+        $bGoals = $b["goalScored"] - $b["goalTaken"];
+        if($aGoals == $bGoals){
+            return 0;
+        }
+        return ($aGoals < $bGoals) ? 1 : -1;
+    }//organize the ranking by descending order of each team's score, or goal difference
+    return ($a["win"] < $b["win"]) ? 1 : -1;
+}
+function draw($a, $b) {
+    if ($a["draw"] == $b["draw"]) {
+        //if the goals took by two teams are the same
+        //the ranking is calculated based on score difference
+        if($a["score"] == $b["score"]){
+            return 0;
+        }
+        return ($a["score"] < $b["score"]) ? 1 : -1;
+    }//organize the ranking by descending order of each team's number of goal taken
+    return ($a["draw"] < $b["draw"]) ? 1 : -1;
+}
+function lost($a, $b) {
+    if ($a["lost"] == $b["lost"]) {
+        //if the goals took by two teams are the same
+        //the ranking is calculated based on score difference
+        if($a["score"] == $b["score"]){
+            return 0;
+        }
+        return ($a["score"] < $b["score"]) ? 1 : -1;
+    }//organize the ranking by descending order of each team's number of goal taken
+    return ($a["lost"] < $b["lost"]) ? 1 : -1;
+}
 function getRankingsTournament($id_tournament, $order = "Score"){
-    $compare = 'score';
     switch ($order){
         case "Score":
             $compare = 'score';
@@ -75,6 +109,15 @@ function getRankingsTournament($id_tournament, $order = "Score"){
         case "Goal Difference":
             $compare = 'goalDifference';
             break;
+        case "Win":
+            $compare = 'win';
+            break;
+        case "Lost":
+            $compare = 'lost';
+            break;
+        case "Draw":
+            $compare = 'draw';
+            break;
     }
 
     $teamList = getTeamList($id_tournament);
@@ -84,6 +127,9 @@ function getRankingsTournament($id_tournament, $order = "Score"){
             "score" => 0,
             "goalScored" => 0,
             "goalTaken" => 0,
+            "win" => 0,
+            "lost" => 0,
+            "draw" => 0,
         );
     }
     $dailyRanking = array();
@@ -98,13 +144,19 @@ function getRankingsTournament($id_tournament, $order = "Score"){
         if ($teamA_name != "exempt" && $teamB_name != "exempt") {
             if ($match["teamA_nbGoal"] > $match["teamB_nbGoal"]){
                 $ranking[$teamA_name]["score"] += 3;
+                $ranking[$teamA_name]["win"] += 1;
+                $ranking[$teamB_name]["lost"] += 1;
             }
             else if ($match["teamA_nbGoal"] < $match["teamB_nbGoal"]){
                 $ranking[$teamB_name]["score"] += 3;
+                $ranking[$teamA_name]["lost"] += 1;
+                $ranking[$teamB_name]["win"] += 1;
             }
             else if($match["teamA_nbGoal"] == $match["teamB_nbGoal"]){
                 $ranking[$teamA_name]["score"] += 1;
                 $ranking[$teamB_name]["score"] += 1;
+                $ranking[$teamA_name]["draw"] += 1;
+                $ranking[$teamB_name]["draw"] += 1;
             }
             $ranking[$teamA_name]["goalScored"] += $match["teamA_nbGoal"];
             $ranking[$teamA_name]["goalTaken"] += $match["teamB_nbGoal"];

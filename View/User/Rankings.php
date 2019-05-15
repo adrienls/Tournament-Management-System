@@ -146,6 +146,9 @@ else{
                                 <option>Goal Scored</option>
                                 <option>Goal Taken</option>
                                 <option>Goal Difference</option>
+                                <option>Win</option>
+                                <option>Draw</option>
+                                <option>Lost</option>
                             </select>
                             <button type="submit">Validate</button>
                         </form>
@@ -160,6 +163,9 @@ else{
                         <th scope="col">Goal scored</th>
                         <th scope="col">Goal taken</th>
                         <th scope="col">Goal difference</th>
+                        <th scope="col">Win</th>
+                        <th scope="col">Draw</th>
+                        <th scope="col">Lost</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -174,6 +180,9 @@ else{
                                   <td>".$rank["goalScored"]."</td>
                                   <td>".$rank["goalTaken"]."</td>
                                   <td>".$difference."</td>
+                                  <td>".$rank["win"]."</td>
+                                  <td>".$rank["draw"]."</td>
+                                  <td>".$rank["lost"]."</td>
                               </tr>";
                         $i++;
                     }?>

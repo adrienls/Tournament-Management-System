@@ -9,6 +9,7 @@ if(isset($_GET["id"])) {
     $tournamentId = $_GET["id"];
     $tournament = getTournamentById($tournamentId);
     $tournamentName = $tournament->getName();
+    $nbPlayedDays = getNbPlayedDays($tournamentId);
     $days = getDayList($tournamentId);
 }
 else{
@@ -113,6 +114,7 @@ else{
                         <th scope="col">Home</th>
                         <th scope="col">Score</th>
                         <th scope="col">Away</th>
+                        <th scope="col">Played</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -120,11 +122,13 @@ else{
                     foreach ($days as $day) {
                         $listOfMatch = getMatchesList($day->getId());
                         foreach ($listOfMatch as $match) {
+                            $status = ($nbPlayedDays >= $day->getDayNumber())? "YES" : "NO";
                             echo "<tr>
                             <td>".$day->getDayNumber()."</td>
                             <td>".$match->getTeamAName()."</td>
                             <td>".$match->getTeamANbGoal()." - ".$match->getTeamBNbGoal()."</td>
                             <td>".$match->getTeamBName()."</td>
+                            <td>".$status."</td>
                         </tr>";
                         }
                     }

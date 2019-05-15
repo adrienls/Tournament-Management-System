@@ -46,7 +46,7 @@ else {
     <link rel="stylesheet" href="../template/@coreui/icons/css/coreui-icons.min.css">
     <link rel="stylesheet" href="../template/font-awesome/css/font-awesome.min.css">
 </head>
-<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show sidebar-minimized brand-minimized">
 <header class="app-header navbar">
     <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
         <span class="navbar-toggler-icon"></span>
@@ -68,7 +68,6 @@ else {
     <div class="sidebar">
         <nav class="sidebar-nav">
         </nav>
-        <button class="sidebar-minimizer brand-minimizer" type="button"></button>
     </div>
     <main class="main">
         <div class="container-fluid">
