@@ -57,7 +57,7 @@ else{
         <img class="navbar-brand-full" src="../template/img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
         <img class="navbar-brand-minimized" src="../template/img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
     </a>
-    <h1 class="nav navbar-nav ml-auto" style="font-family: CoreUI-Icons-Linear-Free">Tournament Management System</h1>
+    <h1 class="nav navbar-nav ml-auto">Tournament Management System</h1>
     <ul class="nav navbar-nav ml-auto">
         <li class="nav-item dropdown">
             <a class="nav-link" href="../Admin/view-Login.php" role="button">
@@ -124,7 +124,7 @@ else{
                 <div class="row">
                     <div class="col">
                         <?php
-                        echo '<h3 style="font-family: CoreUI-Icons-Linear-Free">Rankings from '.$tournamentName.'</h3>';
+                        echo '<h3>Rankings from '.$tournamentName.'</h3>';
                         if(isset($_GET["day"])){
                             echo '<h4>Day '.$_GET["day"].' out of '.$nbDays.'</h4>';
                         }

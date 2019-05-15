@@ -32,7 +32,7 @@
         <img class="navbar-brand-full" src="template/img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
         <img class="navbar-brand-minimized" src="template/img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
     </a>
-    <h1 class="nav navbar-nav ml-auto" style="font-family: CoreUI-Icons-Linear-Free">Tournament Management System</h1>
+    <h1 class="nav navbar-nav ml-auto">Tournament Management System</h1>
     <ul class="nav navbar-nav ml-auto">
         <li class="nav-item dropdown">
             <a class="nav-link" href="Admin/view-Login.php" role="button">

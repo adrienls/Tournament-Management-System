@@ -48,7 +48,7 @@ else{
         <img class="navbar-brand-full" src="../template/img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
         <img class="navbar-brand-minimized" src="../template/img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
     </a>
-    <h1 class="nav navbar-nav ml-auto" style="font-family: CoreUI-Icons-Linear-Free">Tournament Management System</h1>
+    <h1 class="nav navbar-nav ml-auto">Tournament Management System</h1>
     <ul class="nav navbar-nav ml-auto">
         <li class="nav-item dropdown">
             <a class="nav-link" href="../Admin/view-Login.php" role="button">
@@ -90,13 +90,13 @@ else{
                 <a href="../index.php">Tournament Selection</a>
             </li>
             <li class="breadcrumb-item">
-                <?php echo "<a href='Teams.php?id=$tournamentId'>$tournamentName</a>";?>
+                <?php echo "<a href='Team.php?id=$tournamentId'>$tournamentName</a>";?>
             </li>
         </ol>
         <div class="container-fluid">
             <div class="animated fadeIn">
                 <table class="table">
-                    <?php echo '<p><h3 style="font-family: CoreUI-Icons-Linear-Free">Teams from '.$tournamentName.'</h3></p>';?>
+                    <?php echo '<p><h3>Teams from '.$tournamentName.'</h3></p>';?>
                     <thead>
                     <tr>
                         <th scope="col">Logo</th>
