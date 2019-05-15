@@ -130,6 +130,7 @@ else{
                         }
                         else{
                             echo '<h4>Last played day</h4>';
+                            echo "<p><a class='btn btn-primary btn-sm' href=\"../../Controller/controller-Planning.php?func=exportRanking&id=".$tournamentId."&name=".$tournamentName."\" role='button'>Export</a></p>";
                         }
                         ?>
                     </div>
