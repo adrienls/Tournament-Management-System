@@ -6,7 +6,6 @@
 * Copyright (c) 2018 creativeLabs Łukasz Holeczek
 * Licensed under MIT (https://coreui.io/license)
 -->
-
 <html lang="en">
 <head>
     <base href="./">
