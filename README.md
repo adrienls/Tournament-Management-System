@@ -1,5 +1,6 @@
 # Tournament-Management-System
 A project from Alexis Decamp, Arthur Guerineau and Adrien Le Saux
+Final PHP project of our second year of engineering school in France.
 
 ## Aim of the project
 The aim of the project is to create a website to dynamically manage different tournaments.
