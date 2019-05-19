@@ -37,10 +37,10 @@ else {
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <title>Tournament Management System</title>
     <!-- Main style and icons for this application-->
-    <link rel="shortcut icon" href="../../template/img/favicon.ico">
-    <link rel="stylesheet" href="../../template/css/style.css">
-    <link rel="stylesheet" href="../../template/@coreui/icons/css/coreui-icons.min.css">
-    <link rel="stylesheet" href="../../template/font-awesome/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="../../vendors/img/favicon.ico">
+    <link rel="stylesheet" href="../../vendors/css/style.css">
+    <link rel="stylesheet" href="../../vendors/@coreui/icons/css/coreui-icons.min.css">
+    <link rel="stylesheet" href="../../vendors/font-awesome/css/font-awesome.min.css">
 </head>
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show sidebar-minimized brand-minimized">
 <header class="app-header navbar">
@@ -48,8 +48,8 @@ else {
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="../../index.php">
-        <img class="navbar-brand-full" src="../../template/img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
-        <img class="navbar-brand-minimized" src="../../template/img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
+        <img class="navbar-brand-full" src="../../vendors/img/brand/logo.svg" width="89" height="25" alt="CoreUI Logo">
+        <img class="navbar-brand-minimized" src="../../vendors/img/brand/sygnet.svg" width="30" height="30" alt="CoreUI Logo">
     </a>
     <h1 class="nav navbar-nav ml-auto">Tournament Management System</h1>
     <ul class="nav navbar-nav ml-auto">
@@ -177,7 +177,7 @@ else {
     </div>
 </footer>
 <!-- CoreUI and necessary plugins-->
-<script src="../../template/jquery/jquery.min.js"></script>
-<script src="../../template/@coreui/coreui/coreui.min.js"></script>
+<script src="../../vendors/jquery/jquery.min.js"></script>
+<script src="../../vendors/@coreui/coreui/coreui.min.js"></script>
 </body>
 </html>

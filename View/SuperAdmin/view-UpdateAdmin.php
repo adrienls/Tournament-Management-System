@@ -28,11 +28,11 @@ $id = $_GET['id'];
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
     <title>New Admin</title>
     <!-- Main style and icons for this application-->
-    <link rel="shortcut icon" href="../template/img/favicon.ico">
-    <link rel="stylesheet" href="../template/css/style.css">
-    <link rel="stylesheet" href="../template/@coreui/icons/css/coreui-icons.min.css">
-    <link rel="stylesheet" href="../template/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../template/simple-line-icons/css/simple-line-icons.css">
+    <link rel="shortcut icon" href="../vendors/img/favicon.ico">
+    <link rel="stylesheet" href="../vendors/css/style.css">
+    <link rel="stylesheet" href="../vendors/@coreui/icons/css/coreui-icons.min.css">
+    <link rel="stylesheet" href="../vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../vendors/simple-line-icons/css/simple-line-icons.css">
 </head>
 <body class="app flex-row align-items-center">
 <div class="container">
@@ -98,7 +98,7 @@ $id = $_GET['id'];
     </div>
 </div>
 <!-- CoreUI and necessary plugins-->
-<script src="../template/jquery/jquery.min.js"></script>
-<script src="../template/@coreui/coreui/coreui.min.js"></script>
+<script src="../vendors/jquery/jquery.min.js"></script>
+<script src="../vendors/@coreui/coreui/coreui.min.js"></script>
 </body>
 </html>
